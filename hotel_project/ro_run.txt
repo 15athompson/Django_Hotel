@@ -1,0 +1,10 @@
+pipenv shell
+
+pipenv install django-filter
+pipenv install django-crispy-forms
+pipenv install crispy-bootstrap5
+
+python manage.py makemigrations
+python manage.py migrate
+
+python manage.py runserver 8007

@@ -1,0 +1,17 @@
+Here’s the latest version.
+
+ 
+
+The flow seems to work pretty well and matches the requirements (apart from a couple of tweaks I need to make to one of the activity diagrams in that document). 
+
+ 
+
+Two logins for the app:  recep1  Pa$$1234    and    manager1  Pa$$1234
+
+Admin control panel login:   admin   Pa$$1234
+
+ 
+
+For simplicity I’ve made the foreign key’s nullable in the forms but still marked the fields as required. That means you can delete a Guest without error (you just get a blank line where the guest should be in the Reservations list).  I reckon that’s fine for a version 1 delivery of an application. It can be mentioned in the essay or just skipped if we’re short on words.
+
+ 

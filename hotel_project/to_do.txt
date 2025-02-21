@@ -1,0 +1,38 @@
+
+[ask AI how else it can be improved]
+
+to do:
+
+- GIT COMMITS / GIT ISSUES AS YOU MAKE EACH IMPROVEMENT
+
+- continue with improving documentation in other files 
+- now add comments to all the code in each file
+- add testing (can follow process you did on your one)
+
+Things you could do to improve it:
+
+ 
+
+Add more comments
+Use the logger.info method to write more informational messages to the console. I’ve used it already in a few places in the views and in the forms.
+Add some uses of ValidationError in the code and maybe some RegEx stuff the limit the chars allowed in certain fields.
+Ideas for validation:
+Phone number currently isn’t restricted to numbers only
+Postcode doesn’t validate the format (perhaps ChatGPT can recommend a set of RegEx syntax to use?)
+When reserving a room, the number of guests can currently be negative or exceed the Maximum Guests of the room being booked
+The Amount Paid can be negative and can exceed the Total Price
+Create some tests
+Perhaps have a process that can prime the database with good data:
+create a set of meaningful room types (maybe 8 or 10)
+create 15-20 rooms in the hotel using those room types
+create 10-20 guests with decent names and addresses (I’m sure AI can help with that)
+Then that data can be used to write tests for the reservations
+Try to create a double booking for a room, make sure it prevents it
+Maybe some stress tests?
+Have a routine that creates 1000 guests (random names and details will be fine)
+Make sure the UI still works
+I have a feeling we may have to limit the List views to only show the first 100 results from a filter to keep it performant
+Same for Reservations
+I don’t think there’s any need to stress test Rooms or Room Types as they would never grow large with daily usage.
+ 
+
