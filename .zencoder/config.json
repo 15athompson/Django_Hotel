@@ -1,0 +1,32 @@
+{
+    // "buildTool": "",
+
+    // Terminal command to activate necessary environment state
+    // "env.activate": "",
+    // "test.cwd": "",
+
+    // Command to run tests
+    "test.command": "python -m unittest discover -p %test_path%",
+    "test.framework": "unittest",
+
+    // Folder where the test files are located.
+    // Relative paths are relative to the file being tested.
+    // Absolute paths are relative to the workspace root.
+    "test.folder": ".",
+
+    // Anchor is a root folder for source files.
+    // It is used to replicate the same folder structure in the test folder.
+    // Relative paths are relative to the file being tested.
+    // Absolute paths are relative to the workspace root.
+    // Example:
+    // "testFileFolder": "/tests",
+    // "testFileAnchor": "/src",
+    // If the source file is located at "src/foo/bar.py",
+    // the test file will be located at "tests/foo/bar_test.py".
+
+    "test.anchor": ".",
+    "test.suffix": "_test",
+    "test.filesPattern": "**/*_test.py",
+    "test.filesExcludePattern": "**/{.*,node_modules,out,build,target}/**",
+    "test.maxExamples": 5,
+}

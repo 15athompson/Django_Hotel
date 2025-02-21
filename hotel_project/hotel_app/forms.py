@@ -1,9 +1,15 @@
-# django forms for use on html pages to link to the data model
+"""
+Django forms for use on HTML pages to link to the data model.
 
+This module defines various forms used in the hotel management application,
+including forms for user authentication, guest management, room management,
+and reservation management.
+"""
+
+import logging
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm
 from .models import Guest, Room, RoomType, Reservation
-import logging
 
 # create a Logger for use anywhere in this code and configure it to write info messages (or higher) to the terminal
 logging.basicConfig(level=logging.INFO)
@@ -11,11 +17,22 @@ logger = logging.getLogger(__name__)
 
 # The form for the Login page
 class LoginForm(AuthenticationForm):
+    """
+    Form for the Login page.
+
+    This form handles user authentication by collecting the username and password.
+    """
     username = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))
     password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control'}))
 
 # The form for the Guest editor 
 class GuestForm(forms.ModelForm):
+    """
+    Form for the Guest editor.
+
+    This form allows for the creation and editing of guest information, including
+    personal details and contact information.
+    """
 
     # Define choices for the title field
     TITLE_CHOICES = [
@@ -86,7 +103,13 @@ class GuestForm(forms.ModelForm):
         }
 
 # The form for the Reservation editor 
-class ReservationForm(forms.ModelForm):  
+class ReservationForm(forms.ModelForm):
+    """
+    Form for the Reservation editor.
+
+    This form handles the creation and editing of reservations, including details
+    such as guest information, room details, stay duration, and payment status.
+    """
     # some fields need to be read-only and their values will be
     # preset by the view based on selections made on previous pages
     # e.g. the chosen guest for the reservation, the room, the  
@@ -160,10 +183,23 @@ class ReservationForm(forms.ModelForm):
     # Note: by default django doesn't save read-only/disabled values so this is necessary
     #       to populate the database table
     def save(self, commit=True):
+        """
+        Override save to ensure read-only values are also saved into the model.
+
+        By default, Django doesn't save read-only/disabled values, so this method
+        manually updates the instance values of non-editable fields if they are empty
+        and the initial data has been provided.
+
+        Args:
+            commit (bool): Whether to commit the save to the database.
+
+        Returns:
+            instance: The saved instance of the reservation.
+        """
         instance = super().save(commit=False)
         
         # Log all field values in the instance being saved
-        logger.info(f"Reservation Form save")
+        logger.info("Reservation Form save")
         for field in instance._meta.fields:
             field_name = field.name
             field_value = getattr(instance, field_name, None)  # Get field value safely
@@ -177,7 +213,7 @@ class ReservationForm(forms.ModelForm):
         instance.start_of_stay = getattr(instance, 'start_of_stay', None) or self.initial.get('start_of_stay')
         instance.length_of_stay = getattr(instance, 'length_of_stay', None) or self.initial.get('length_of_stay')
         instance.price = getattr(instance, 'price', None) or self.initial.get('price')
-        instance.status_code = getattr(instance, 'prstatus_codeice', None) or self.initial.get('status_code')
+        instance.status_code = getattr(instance, 'status_code', None) or self.initial.get('status_code')
 
         if commit:
             instance.save()
@@ -185,7 +221,17 @@ class ReservationForm(forms.ModelForm):
 
 
     # initialise
-    def __init__(self, *args, **kwargs):        
+    def __init__(self, *args, **kwargs):
+        """
+        Initialize the ReservationForm with initial data and instance data.
+
+        This method populates the 'display only' versions of the guest and room
+        fields based on the provided initial data or instance data.
+
+        Args:
+            *args: Variable length argument list.
+            **kwargs: Arbitrary keyword arguments.
+        """
         super().__init__(*args, **kwargs)
         
         # Check if initial data has been provided
@@ -219,6 +265,12 @@ class ReservationForm(forms.ModelForm):
 
 
 class RoomForm(forms.ModelForm):
+    """
+    Form for the Room editor.
+
+    This form allows for the creation and editing of room information, including
+    the room number and room type.
+    """
     room_number = forms.NumberInput()
     room_type = forms.ModelChoiceField(queryset=RoomType.objects.all(), label='Room Type', required=True)
     class Meta:
@@ -232,6 +284,12 @@ class RoomForm(forms.ModelForm):
         ]
 
 class RoomTypeForm(forms.ModelForm):
+    """
+    Form for the Room Type editor.
+
+    This form allows for the creation and editing of room type information, including
+    the room type code, name, pricing, and various amenities.
+    """
     room_type_code = forms.CharField(max_length=3)
     room_type_name = forms.CharField(max_length=50)
     price =  forms.NumberInput()
