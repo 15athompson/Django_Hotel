@@ -17,26 +17,77 @@ logger = logging.getLogger(__name__)
 # Filter for use by the Guest list
 class GuestFilter(django_filters.FilterSet):
     """
-    Filter for the Guest list.
+    Filter for the Guest list with validation.
 
-    This filter allows searching guests by last name and postcode.
+    This filter allows searching guests by last name and postcode with format validation.
     """
-    last_name = django_filters.CharFilter(label="Last name", field_name='last_name', lookup_expr='icontains')
-    postcode = django_filters.CharFilter(label="Postcode", method='filter_postcode')
+    last_name = django_filters.CharFilter(
+        label="Last name",
+        field_name='last_name',
+        lookup_expr='iexact',
+        widget=forms.TextInput(attrs={
+            'pattern': r'^[A-Za-z\-\' ]+$',
+            'title': 'Last name can only contain letters, hyphens, apostrophes and spaces'
+        })
+    )
+
+    postcode = django_filters.CharFilter(
+        label="Postcode",
+        method='filter_postcode',
+        widget=forms.TextInput(attrs={
+            'pattern': r'^[A-Za-z][A-Ha-hJ-Yj-y]?\d[A-Za-z\d]? ?\d[A-Za-z]{2}$',
+            'title': 'Please enter a valid UK postcode'
+        })
+    )
+
+    def validate_postcode(self, value):
+        """Validate postcode format before filtering."""
+        if value:
+            # Basic UK postcode validation
+            import re
+            pattern = r'^[A-Za-z][A-Ha-hJ-Yj-y]?\d[A-Za-z\d]? ?\d[A-Za-z]{2}$'
+            if not re.match(pattern, value.upper().strip()):
+                return False, "Please enter a valid UK postcode"
+        return True, None
+
+    def validate_last_name(self, value):
+        """Validate last name format before filtering."""
+        if value and not value.replace("'", "").replace("-", "").replace(" ", "").isalpha():
+            return False, "Last name can only contain letters, hyphens, apostrophes and spaces"
+        return True, None
 
     def filter_postcode(self, queryset, _, value):
         """
-        Custom filter method for postcode that handles both partial and exact matching.
-        If last_name is also provided, use exact matching for postcode.
-        Otherwise, use partial matching.
+        Custom filter method for postcode that handles validation and matching.
         """
         logger.info(f"Filtering guests by postcode: {value}")
-        if self.data.get('last_name'):  # If last_name filter is also applied
-            logger.info(f"Exact match for postcode as last_name is also provided: {self.data.get('last_name')}")
-            return queryset.filter(postcode=value)
-        else:  # If only postcode filter is applied
-            logger.info(f"Partial match for postcode: {value}")
-            return queryset.filter(postcode__icontains=value)
+
+        # Validate postcode format
+        is_valid, error = self.validate_postcode(value)
+        if not is_valid:
+            logger.warning(f"Invalid postcode format: {value}")
+            return queryset.none()  # Return empty queryset for invalid input
+
+        if value:
+            if self.data.get('last_name'):
+                # If last_name is also provided, do exact match
+                logger.info(f"Exact match for postcode as last_name is also provided: {value}")
+                return queryset.filter(postcode__iexact=value.upper().strip())
+            else:
+                # If only postcode filter is applied, do partial match
+                logger.info(f"Partial match for postcode: {value}")
+                return queryset.filter(postcode__icontains=value.upper().strip())
+
+    @property
+    def qs(self):
+        """Override queryset to add validation."""
+        qs = super().qs
+        if self.data.get('last_name'):
+            is_valid, error = self.validate_last_name(self.data['last_name'])
+            if not is_valid:
+                logger.warning(f"Invalid last name format: {self.data['last_name']}")
+                return self.queryset.none()  # Return empty queryset for invalid input
+        return qs
 
     class Meta:
         model = Guest
@@ -49,8 +100,19 @@ class ReservationFilter(django_filters.FilterSet):
 
     This filter allows searching reservations by guest name, room number, start date, and end date.
     """
-    last_name = django_filters.CharFilter(label="Guest name", field_name='guest__last_name', lookup_expr='icontains')
-    room_number = django_filters.CharFilter(label="Room", field_name='room_number', lookup_expr='exact')
+    last_name = django_filters.CharFilter(
+        label="Guest name",
+        field_name='guest__last_name',
+        lookup_expr='icontains',
+        method='validate_last_name'
+    )
+    room_number = django_filters.NumberFilter(
+        label="Room",
+        field_name='room_number',
+        lookup_expr='exact',
+        min_value=1,
+        max_value=9999  # Adjust based on your hotel's maximum room number
+    )
     start_date = django_filters.DateFilter(
         field_name="start_of_stay",
         label="Start Date",
@@ -104,6 +166,35 @@ class ReservationFilter(django_filters.FilterSet):
         logger.info(f"Filtered reservations count: {filtered_queryset.count()}")
         return filtered_queryset
 
+
+    def validate_last_name(self, queryset, name, value):
+        """
+        Validate and filter by last name.
+
+        Args:
+            queryset: The initial queryset
+            name: Field name being filtered
+            value: The value to filter by
+
+        Returns:
+            Filtered queryset or empty queryset if validation fails
+        """
+        if not value:
+            return queryset
+
+        # Remove any leading/trailing whitespace
+        value = value.strip()
+
+        # Check if value contains only letters, spaces, hyphens and apostrophes
+        if not all(c.isalpha() or c in [' ', '-', "'"] for c in value):
+            logger.warning(f"Invalid last name format: {value}")
+            # Store validation error message
+            if not hasattr(self, 'validation_messages'):
+                self.validation_messages = []
+            self.validation_messages.append(f"Invalid guest name format: '{value}'. Only letters, spaces, hyphens and apostrophes are allowed.")
+            return queryset.none()
+
+        return queryset.filter(guest__last_name__icontains=value)
 
     class Meta:
         model = Reservation
@@ -181,3 +272,4 @@ class AvailableRoomFilter(django_filters.FilterSet):
         return queryset
     
   
+

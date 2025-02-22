@@ -7,6 +7,7 @@ and reservation management.
 """
 
 import logging
+import re
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm
 from .models import Guest, Room, RoomType, Reservation
@@ -51,6 +52,36 @@ class GuestForm(forms.ModelForm):
     This form allows for the creation and editing of guest information, including
     personal details and contact information.
     """
+    def clean_phone_number(self):
+        """Validate phone number format."""
+        phone = self.cleaned_data.get('phone_number')
+        if not phone:
+            return phone
+
+        if not phone.isdigit():
+            raise forms.ValidationError("Phone number must contain only digits")
+        if not (phone.startswith('07') or phone.startswith('0')):
+            raise forms.ValidationError("Phone number must start with '07' for mobile or '0' for landline")
+        if len(phone) != 11:
+            raise forms.ValidationError("Phone number must be 11 digits long")
+        return phone
+
+    def clean_postcode(self):
+        """Validate UK postcode format."""
+        postcode = self.cleaned_data.get('postcode')
+        if not postcode:
+            return postcode
+
+        # Convert to uppercase and remove spaces for validation
+        postcode = postcode.upper().strip()
+
+        # UK postcode regex pattern
+        pattern = r'^([A-Z]{1,2}[0-9][A-Z0-9]? ?[0-9][A-Z]{2})$'
+
+        if not re.match(pattern, postcode):
+            raise forms.ValidationError("Please enter a valid UK postcode (e.g., 'SW1A 1AA' or 'M1 1AA')")
+        return postcode
+
     def clean(self):
         """
         Override clean method to add guest form validation logging.
@@ -215,6 +246,36 @@ class ReservationForm(forms.ModelForm):
     # override save to make sure the read-only values are also saved into the model
     # Note: by default django doesn't save read-only/disabled values so this is necessary
     #       to populate the database table
+    def clean(self):
+        """
+        Validate the reservation data.
+        """
+        cleaned_data = super().clean()
+
+        # Validate number of guests
+        number_of_guests = cleaned_data.get('number_of_guests')
+        room_number = self.initial.get('room_number') or (self.instance and self.instance.room_number)
+
+        if number_of_guests and room_number:
+            if number_of_guests < 1:
+                raise forms.ValidationError("Number of guests must be at least 1")
+            if number_of_guests > room_number.room_type.maximum_guests:
+                raise forms.ValidationError(
+                    f"Number of guests ({number_of_guests}) exceeds room capacity ({room_number.room_type.maximum_guests})"
+                )
+
+        # Validate payment amount
+        amount_paid = cleaned_data.get('amount_paid')
+        price = cleaned_data.get('price') or self.initial.get('price')
+
+        if amount_paid is not None and price is not None:
+            if amount_paid < 0:
+                raise forms.ValidationError("Amount paid cannot be negative")
+            if amount_paid > price:
+                raise forms.ValidationError("Amount paid cannot exceed total price")
+
+        return cleaned_data
+
     def save(self, commit=True):
         """
         Override save to ensure read-only values are also saved into the model.

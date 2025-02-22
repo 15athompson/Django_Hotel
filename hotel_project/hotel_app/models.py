@@ -3,7 +3,31 @@
 from datetime import timedelta
 import logging
 from django.core.validators import MinLengthValidator, RegexValidator
+from django.core.exceptions import ValidationError
 from django.db import models
+
+def validate_title(value):
+    valid_titles = ['Mr', 'Mrs', 'Ms', 'Dr', 'Prof', 'Rev', 'Sir', 'Lady']
+    if value not in valid_titles:
+        raise ValidationError(
+            f'{value} is not a valid title. Please use one of: {", ".join(valid_titles)}'
+        )
+
+def validate_guest_count(reservation, room):
+    """Validate that the number of guests doesn't exceed room capacity."""
+    if reservation.number_of_guests > room.room_type.maximum_guests:
+        raise ValidationError(
+            f'Number of guests ({reservation.number_of_guests}) exceeds room capacity ({room.room_type.maximum_guests})'
+        )
+    if reservation.number_of_guests < 1:
+        raise ValidationError('Number of guests must be at least 1')
+
+def validate_payment(amount_paid, total_price):
+    """Validate that the payment amount is valid."""
+    if amount_paid < 0:
+        raise ValidationError('Amount paid cannot be negative')
+    if amount_paid > total_price:
+        raise ValidationError('Amount paid cannot exceed total price')
 
 # Configure logging
 logger = logging.getLogger(__name__)
@@ -16,16 +40,93 @@ class Guest(models.Model):
     and full address for booking and communication purposes.
     """
     guest_id = models.AutoField(primary_key=True)  # Unique identifier for each guest
-    title = models.CharField(max_length=10)  # Guest's title (Mr., Mrs., Ms., etc.)
-    first_name = models.CharField(max_length=50)  # Guest's first name
-    last_name = models.CharField(max_length=50)  # Guest's last name
-    phone_number = models.CharField(max_length=11)  # Contact phone number
-    email = models.EmailField(max_length=320)  # Contact email address
-    address_line1 = models.CharField(max_length=80)  # Primary address line
-    address_line2 = models.CharField(max_length=80, blank=True, null=True)  # Secondary address line (optional)
-    city = models.CharField(max_length=80)  # City of residence
-    county = models.CharField(max_length=80)  # County/state/region
-    postcode = models.CharField(max_length=8)  # Postal/ZIP code
+    title = models.CharField(
+        max_length=10,
+        validators=[validate_title]
+    )  # Guest's title (Mr., Mrs., Ms., etc.)
+    first_name = models.CharField(
+        max_length=50,
+        validators=[
+            RegexValidator(
+                r'^[A-Za-z\-\' ]+$',
+                message="First name can only contain letters, hyphens, apostrophes and spaces"
+            )
+        ]
+    )  # Guest's first name
+    last_name = models.CharField(
+        max_length=50,
+        validators=[
+            RegexValidator(
+                r'^[A-Za-z\-\' ]+$',
+                message="Last name can only contain letters, hyphens, apostrophes and spaces"
+            )
+        ]
+    )  # Guest's last name
+    phone_number = models.CharField(
+        max_length=11,
+        validators=[
+            RegexValidator(
+                r'^(07\d{9}|0\d{10})$',
+                message="Phone number must be a valid UK number with only digits (e.g., '07123456789' or '02012345678')"
+            )
+        ]
+    )  # Contact phone number
+    email = models.EmailField(
+        max_length=320,
+        validators=[
+            RegexValidator(
+                r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$',
+                message="Please enter a valid email address"
+            )
+        ]
+    )  # Contact email address
+    address_line1 = models.CharField(
+        max_length=80,
+        validators=[
+            RegexValidator(
+                r'^[A-Za-z0-9\-\',\. ]+$',
+                message="Address can only contain letters, numbers, hyphens, apostrophes, commas, periods and spaces"
+            )
+        ]
+    )  # Primary address line
+    address_line2 = models.CharField(
+        max_length=80,
+        blank=True,
+        null=True,
+        validators=[
+            RegexValidator(
+                r'^[A-Za-z0-9\-\',\. ]+$',
+                message="Address can only contain letters, numbers, hyphens, apostrophes, commas, periods and spaces"
+            )
+        ]
+    )  # Secondary address line (optional)
+    city = models.CharField(
+        max_length=80,
+        validators=[
+            RegexValidator(
+                r'^[A-Za-z\-\' ]+$',
+                message="City can only contain letters, hyphens, apostrophes and spaces"
+            )
+        ]
+    )  # City of residence
+    county = models.CharField(
+        max_length=80,
+        validators=[
+            RegexValidator(
+                r'^[A-Za-z\-\' ]+$',
+                message="County can only contain letters, hyphens, apostrophes and spaces"
+            )
+        ]
+    )  # County/state/region
+    postcode = models.CharField(
+        max_length=8,
+        validators=[
+            RegexValidator(
+                r'^([A-Za-z][A-Ha-hJ-Yj-y]?\d[A-Za-z\d]? ?\d[A-Za-z]{2}|GIR ?0A{2})$',
+                message="Please enter a valid UK postcode (e.g., 'SW1A 1AA', 'M1 1AA' or 'B338TH')"
+            )
+        ]
+    )  # Postal/ZIP code
 
     def __str__(self):
         """
@@ -172,7 +273,10 @@ class Reservation(models.Model):
         help_text="Amount already paid by the guest"
     )
     number_of_guests = models.PositiveSmallIntegerField(
-        help_text="Number of guests staying in the room"
+        help_text="Number of guests staying in the room",
+        validators=[
+            MinLengthValidator(1)
+        ]
     )
     start_of_stay = models.DateField(
         help_text="Check-in date"
@@ -189,6 +293,12 @@ class Reservation(models.Model):
         max_length=500,
         blank=True,
         null=True,
+        validators=[
+            RegexValidator(
+                r'^[A-Za-z0-9\-\',\.\!\?\s]+$',
+                message="Notes can only contain letters, numbers, basic punctuation and spaces"
+            )
+        ],
         help_text="Additional notes or special requests for the reservation"
     )
 
@@ -204,6 +314,19 @@ class Reservation(models.Model):
         end_date = self.start_of_stay + timedelta(days=self.length_of_stay)
         logger.info(f"Reservation end_date property called: {end_date}")
         return end_date
+
+    def clean(self):
+        """
+        Validate the reservation data.
+        """
+        super().clean()
+
+        # Validate number of guests against room capacity
+        if self.room_number:
+            validate_guest_count(self, self.room_number)
+
+        # Validate payment amount
+        validate_payment(self.amount_paid, self.price)
 
     def __str__(self):
         """

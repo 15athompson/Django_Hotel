@@ -1,7 +1,16 @@
 
 [ask AI how else it can be improved]
 
+prompt:
+- now actually apply the changes like you did previously
+
 to do:
+- remove firecrawl-mcp-server
+
+- apply seperation of concerns to all aspects of the software and processes
+
+- include +44 to phone number
+- make it print suitable message format in the terminal as well
 
 - GIT COMMITS / GIT ISSUES AS YOU MAKE EACH IMPROVEMENT
 
@@ -21,14 +30,18 @@ Things you could do to improve it:
 
 // Add more comments (done for now, but in progress when rest of tasks are done)
 
-Use the logger.info method to write more informational messages to the console. I’ve used it already in a few places in the views and in the forms.
+// Use the logger.info method to write more informational messages to the console. I’ve used it already in a few places in the views and in the forms.
 
 Add some uses of ValidationError in the code and maybe some RegEx stuff the limit the chars allowed in certain fields.
+
 Ideas for validation:
 Phone number currently isn’t restricted to numbers only
 Postcode doesn’t validate the format (perhaps ChatGPT can recommend a set of RegEx syntax to use?)
 When reserving a room, the number of guests can currently be negative or exceed the Maximum Guests of the room being booked
 The Amount Paid can be negative and can exceed the Total Price
+
+--
+
 Create some tests
 Perhaps have a process that can prime the database with good data:
 create a set of meaningful room types (maybe 8 or 10)

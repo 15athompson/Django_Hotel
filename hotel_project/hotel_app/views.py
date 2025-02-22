@@ -173,21 +173,45 @@ def guest_create_view(request):
 @login_required
 def guest_list_view(request):
     """
-    Display a filterable list of all guests.
+    Display a filterable list of all guests with validation.
 
     This view shows all registered guests and provides filtering capabilities
     through the GuestFilter class. Users can search and filter guests based
-    on various criteria.
+    on various criteria with input validation.
 
     Args:
         request: HttpRequest object containing filter parameters
 
     Returns:
-        HttpResponse: Renders guest list with filter form
+        HttpResponse: Renders guest list with filter form and any validation messages
     """
-    guests = Guest.objects.all()
-    guest_filter = GuestFilter(request.GET, queryset=guests)
-    return render(request, 'guest_list.html', {'filter': guest_filter})
+    # Initialize filter
+    guest_filter = GuestFilter(request.GET, queryset=Guest.objects.all())
+
+    # Validate filter inputs if any filters are applied
+    validation_errors = []
+    if request.GET:
+        if 'postcode' in request.GET and request.GET['postcode']:
+            is_valid, error = guest_filter.validate_postcode(request.GET['postcode'])
+            if not is_valid:
+                validation_errors.append(f"Invalid postcode format: {error}")
+
+        if 'last_name' in request.GET and request.GET['last_name']:
+            is_valid, error = guest_filter.validate_last_name(request.GET['last_name'])
+            if not is_valid:
+                validation_errors.append(f"Invalid last name format: {error}")
+
+    # Add any validation errors to messages
+    if validation_errors:
+        from django.contrib import messages
+        for error in validation_errors:
+            messages.error(request, error)
+        # Reset filter if there are validation errors
+        guest_filter = GuestFilter(queryset=Guest.objects.all())
+
+    return render(request, 'guest_list.html', {
+        'filter': guest_filter
+    })
 
 
 @login_required
@@ -614,6 +638,21 @@ def reservation_list_view(request):
         },
         queryset=reservations
     )
+
+    # Check for validation messages from the filter
+    if hasattr(reservation_filter, 'validation_messages'):
+        from django.contrib import messages
+        for msg in reservation_filter.validation_messages:
+            messages.error(request, msg)
+
+    # Check for invalid room number
+    if 'room_number' in request.GET and request.GET['room_number']:
+        try:
+            room_num = int(request.GET['room_number'])
+            if room_num < 1 or room_num > 9999:
+                messages.error(request, f"Invalid room number: {room_num}. Room number must be between 1 and 9999.")
+        except ValueError:
+            messages.error(request, f"Invalid room number format: '{request.GET['room_number']}'. Room number must be a valid number.")
 
     return render(request, 'reservation_list.html',
                  {'filter': reservation_filter})
