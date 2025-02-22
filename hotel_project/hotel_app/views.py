@@ -51,20 +51,29 @@ def login_view(request):
     Returns:
         HttpResponse: Renders login form or redirects to home page on success
     """
+    logger.info(f"Login attempt from IP: {request.META.get('REMOTE_ADDR')}")
+
     if request.user.is_authenticated:
+        logger.info(f"Already authenticated user {request.user.username} redirected to home")
         return redirect('home')  # User already logged in, redirect to home page
 
     if request.method == "POST":
         form = LoginForm(request, data=request.POST)
         if form.is_valid():
             username = form.cleaned_data['username']
-            password = form.cleaned_data['password']
-            user = authenticate(request, username=username, password=password)
+            logger.info(f"Login form validation successful for user: {username}")
+            user = authenticate(request, username=username, password=form.cleaned_data['password'])
             if user is not None:
                 login(request, user)
+                logger.info(f"User {username} successfully logged in")
                 return redirect('home')  # Successful login, redirect to home page
+            else:
+                logger.warning(f"Failed login attempt for user: {username}")
+        else:
+            logger.warning("Login form validation failed")
     else:
         form = LoginForm()  # Create empty form for GET request
+        logger.info("Displaying empty login form")
 
     return render(request, "login.html", {"form": form})
 
@@ -83,7 +92,10 @@ def logout_view(request):
     Returns:
         HttpResponse: Redirects to login page after logging out
     """
+    username = request.user.username
+    logger.info(f"Logout initiated for user: {username}")
     logout(request)
+    logger.info(f"User {username} successfully logged out")
     return redirect('login')
 
 # Home Page View
@@ -131,18 +143,26 @@ def guest_create_view(request):
         HttpResponse: Renders guest form or redirects based on mode
     """
     mode = request.GET.get('mode', 'list')  # Get operation mode from query param
+    logger.info(f"Guest creation initiated in {mode} mode by user: {request.user.username}")
 
     if request.method == 'POST':
         form = GuestForm(request.POST)
         if form.is_valid():
-            form.save()
+            guest = form.save()
+            logger.info(f"New guest created - ID: {guest.guest_id}, Name: {guest.display_name}")
             # Redirect based on operation mode
             if mode == 'selection':
+                logger.info(f"Redirecting to guest selection after creating guest {guest.guest_id}")
                 return redirect('guest_selection')
             else:
+                logger.info(f"Redirecting to guest list after creating guest {guest.guest_id}")
                 return redirect('guest_list')
+        else:
+            logger.warning("Guest creation form validation failed")
+            logger.info(f"Form errors: {form.errors}")
     else:
         form = GuestForm()
+        logger.info("Displaying empty guest registration form")
 
     return render(request, 'guest_form.html', {
         'form': form,
@@ -188,19 +208,31 @@ def guest_update_view(request, guest_id):
     Raises:
         Guest.DoesNotExist: If guest_id is not found
     """
-    guest = Guest.objects.get(guest_id=guest_id)
-    if request.method == "POST":
-        form = GuestForm(request.POST, instance=guest)
-        if form.is_valid():
-            form.save()
-            return redirect('guest_list')
-    else:
-        form = GuestForm(instance=guest)
+    logger.info(f"Guest update initiated for guest_id: {guest_id} by user: {request.user.username}")
+    try:
+        guest = Guest.objects.get(guest_id=guest_id)
+        logger.info(f"Found guest to update: {guest.display_name}")
 
-    return render(request, 'guest_form.html', {
-        'form': form,
-        'title': 'Edit Guest Details'
-    })
+        if request.method == "POST":
+            form = GuestForm(request.POST, instance=guest)
+            if form.is_valid():
+                updated_guest = form.save()
+                logger.info(f"Successfully updated guest - ID: {updated_guest.guest_id}, Name: {updated_guest.display_name}")
+                return redirect('guest_list')
+            else:
+                logger.warning(f"Guest update form validation failed for guest_id: {guest_id}")
+                logger.info(f"Form errors: {form.errors}")
+        else:
+            form = GuestForm(instance=guest)
+            logger.info(f"Displaying edit form for guest: {guest.display_name}")
+
+        return render(request, 'guest_form.html', {
+            'form': form,
+            'title': 'Edit Guest Details'
+        })
+    except Guest.DoesNotExist:
+        logger.error(f"Attempted to update non-existent guest with ID: {guest_id}")
+        raise
 
 
 @login_required
@@ -222,11 +254,22 @@ def guest_delete_view(request, guest_id):
     Raises:
         Guest.DoesNotExist: If guest_id is not found
     """
-    guest = Guest.objects.get(guest_id=guest_id)
-    if request.method == 'POST':
-        guest.delete()
-        return redirect('guest_list')
-    return render(request, 'guest_confirm_delete.html', {'guest': guest})
+    logger.info(f"Guest deletion initiated for guest_id: {guest_id} by user: {request.user.username}")
+    try:
+        guest = Guest.objects.get(guest_id=guest_id)
+        logger.info(f"Found guest to delete: {guest.display_name}")
+
+        if request.method == 'POST':
+            guest_name = guest.display_name  # Store name before deletion for logging
+            guest.delete()
+            logger.info(f"Successfully deleted guest - ID: {guest_id}, Name: {guest_name}")
+            return redirect('guest_list')
+
+        logger.info(f"Displaying delete confirmation page for guest: {guest.display_name}")
+        return render(request, 'guest_confirm_delete.html', {'guest': guest})
+    except Guest.DoesNotExist:
+        logger.error(f"Attempted to delete non-existent guest with ID: {guest_id}")
+        raise
 
 # Room Availability Management Views
 
@@ -249,6 +292,8 @@ def available_rooms_list_view(request):
     Returns:
         HttpResponse: Renders available rooms list with filter form
     """
+    logger.info(f"Available rooms search initiated by user: {request.user.username}")
+
     # Process start date parameter with session fallback
     start_date = request.GET.get('start_date')
     if not start_date:
@@ -256,6 +301,9 @@ def available_rooms_list_view(request):
             'available_rooms_default_start_date',
             timezone.now().date().strftime('%Y-%m-%d')  # Default to today
         )
+        logger.info(f"Using default/session start date: {start_date}")
+    else:
+        logger.info(f"Using provided start date: {start_date}")
 
     # Process length of stay parameter with session fallback
     length_of_stay = request.GET.get('length_of_stay')
@@ -264,6 +312,9 @@ def available_rooms_list_view(request):
             'available_rooms_default_length_of_stay',
             1  # Default to 1 night
         )
+        logger.info(f"Using default/session length of stay: {length_of_stay}")
+    else:
+        logger.info(f"Using provided length of stay: {length_of_stay}")
 
     # Process room type parameter with session fallback
     room_type = request.GET.get('room_type')
@@ -272,14 +323,20 @@ def available_rooms_list_view(request):
             'available_rooms_default_room_type',
             ''  # Default to all room types
         )
+        logger.info("Using default/session room type: all types" if not room_type else f"Using default/session room type: {room_type}")
+    else:
+        logger.info(f"Using provided room type filter: {room_type}")
 
     # Persist search criteria in session for future use
     request.session['available_rooms_default_start_date'] = start_date
     request.session['available_rooms_default_length_of_stay'] = length_of_stay
     request.session['available_rooms_default_room_type'] = room_type
+    logger.info("Search criteria persisted to session")
 
     # Apply filters to room queryset
     rooms = Room.objects.all()
+    logger.info(f"Total rooms before filtering: {rooms.count()}")
+
     available_room_filter = AvailableRoomFilter(
         request.GET or {
             'start_date': start_date,
@@ -288,6 +345,9 @@ def available_rooms_list_view(request):
         },
         queryset=rooms
     )
+
+    filtered_rooms_count = len(available_room_filter.qs)
+    logger.info(f"Available rooms after filtering: {filtered_rooms_count}")
 
     return render(request, 'available_rooms_list.html', {
         'filter': available_room_filter
@@ -380,60 +440,79 @@ def reservation_create_view(request, guest_id):
         Guest.DoesNotExist: If guest_id is not found
         Room.DoesNotExist: If room_number from session is not found
     """
-    logger.info(f"reservation_create_view called guest_id: {guest_id}")
+    logger.info(f"Reservation creation initiated for guest_id: {guest_id} by user: {request.user.username}")
     request.session['selected_guest_id'] = guest_id
 
-    # Gather reservation details
-    guest = Guest.objects.get(guest_id=guest_id)
-    room_number = request.session.get('selected_room_number', -1)
-    room = Room.objects.get(room_number=room_number)
+    try:
+        # Gather reservation details
+        guest = Guest.objects.get(guest_id=guest_id)
+        logger.info(f"Found guest for reservation: {guest.display_name}")
 
-    # Process dates and calculate price
-    start_date = request.session.get('selected_start_date',
-                                   date.today().strftime('%Y-%m-%d'))
-    start_of_reservation = datetime.strptime(start_date, "%Y-%m-%d").date()
-    length_of_stay = request.session.get('selected_length_of_stay', 1)
-    price_for_stay = room.room_type.price * int(length_of_stay)
+        room_number = request.session.get('selected_room_number', -1)
+        logger.info(f"Retrieved room number from session: {room_number}")
 
-    # Log reservation details for debugging
-    logger.info(f"Selected guest = Guest Id: {guest_id}, Name: {guest.display_name}")
-    logger.info(f"Selected room = {room.room_number}")
-    logger.info(f"Selected start_date = {start_of_reservation}")
-    logger.info(f"Price per night: {room.room_type.price}")
-    logger.info(f"Length of stay: {length_of_stay}")
-    logger.info(f"Price for stay: {price_for_stay}")
+        room = Room.objects.get(room_number=room_number)
+        logger.info(f"Found room for reservation: Room {room.room_number} ({room.room_type.room_type_name})")
 
-    # Prepare initial form data
-    initial_data = {
-        'room_number': room,
-        'start_of_stay': start_of_reservation,
-        'guest': guest,
-        'number_of_guests': 1,
-        'length_of_stay': length_of_stay,
-        'status_code': "RE",
-        'reservation_date_time': datetime.now(),
-        'price': price_for_stay,
-        'amount_paid': 0,
-    }
+        # Process dates and calculate price
+        start_date = request.session.get('selected_start_date',
+                                       date.today().strftime('%Y-%m-%d'))
+        start_of_reservation = datetime.strptime(start_date, "%Y-%m-%d").date()
+        length_of_stay = request.session.get('selected_length_of_stay', 1)
+        price_for_stay = room.room_type.price * int(length_of_stay)
 
-    if request.method == 'POST':
-        logger.info(f"Post message = {request.POST}")
-        form = ReservationForm(request.POST, initial=initial_data)
-        if form.is_valid():
-            reservation = form.save()
-            return redirect('reservation_confirmed',
-                          reservation_id=reservation.reservation_id)
-        logger.info("Reservation form validation failed")
-    else:
-        form = ReservationForm(initial=initial_data)
+        logger.info("Reservation details:")
+        logger.info(f" - Guest: {guest.display_name} (ID: {guest_id})")
+        logger.info(f" - Room: {room.room_number} ({room.room_type.room_type_name})")
+        logger.info(f" - Check-in: {start_of_reservation}")
+        logger.info(f" - Length of stay: {length_of_stay} nights")
+        logger.info(f" - Price per night: £{room.room_type.price}")
+        logger.info(f" - Total price: £{price_for_stay}")
 
-    context = {
-        'form': form,
-        'title': 'Create Reservation',
-        'save_button_text': 'Create Reservation',
-    }
+        # Prepare initial form data
+        initial_data = {
+            'room_number': room,
+            'start_of_stay': start_of_reservation,
+            'guest': guest,
+            'number_of_guests': 1,
+            'length_of_stay': length_of_stay,
+            'status_code': "RE",
+            'reservation_date_time': datetime.now(),
+            'price': price_for_stay,
+            'amount_paid': 0,
+        }
 
-    return render(request, 'reservation_form.html', context)
+        if request.method == 'POST':
+            logger.info("Processing reservation form submission")
+            form = ReservationForm(request.POST, initial=initial_data)
+            if form.is_valid():
+                logger.info("Reservation form validation successful")
+                reservation = form.save()
+                logger.info(f"Created new reservation - ID: {reservation.reservation_id}")
+                logger.info(f"Redirecting to confirmation page for reservation {reservation.reservation_id}")
+                return redirect('reservation_confirmed',
+                              reservation_id=reservation.reservation_id)
+            else:
+                logger.warning("Reservation form validation failed")
+                logger.info(f"Form errors: {form.errors}")
+        else:
+            form = ReservationForm(initial=initial_data)
+            logger.info("Displaying new reservation form with initial data")
+
+        context = {
+            'form': form,
+            'title': 'Create Reservation',
+            'save_button_text': 'Create Reservation',
+        }
+
+        return render(request, 'reservation_form.html', context)
+
+    except Guest.DoesNotExist:
+        logger.error(f"Attempted to create reservation for non-existent guest with ID: {guest_id}")
+        raise
+    except Room.DoesNotExist:
+        logger.error(f"Attempted to create reservation with non-existent room number: {room_number}")
+        raise
 
 
 @login_required
@@ -451,9 +530,19 @@ def reservation_confirmed_view(request, reservation_id):
     Raises:
         Reservation.DoesNotExist: If reservation_id is not found
     """
-    reservation = Reservation.objects.get(reservation_id=reservation_id)
-    return render(request, 'reservation_confirmed.html',
-                 {'reservation': reservation})
+    logger.info(f"Accessing reservation confirmation for reservation_id: {reservation_id}")
+    try:
+        reservation = Reservation.objects.get(reservation_id=reservation_id)
+        logger.info(f"Found reservation for guest: {reservation.guest.display_name}, "
+                   f"Room: {reservation.room_number.room_number}, "
+                   f"Check-in: {reservation.start_of_stay}")
+
+        logger.info("Rendering reservation confirmation page")
+        return render(request, 'reservation_confirmed.html',
+                     {'reservation': reservation})
+    except Reservation.DoesNotExist:
+        logger.error(f"Attempted to access non-existent reservation ID: {reservation_id}")
+        raise
 
 
 @login_required
@@ -476,7 +565,8 @@ def reservation_list_view(request):
     Returns:
         HttpResponse: Renders reservation list with filter form
     """
-    logger.info(f"Reservation List View - GET request = {request.GET}")
+    logger.info(f"Reservation list view accessed by user: {request.user.username}")
+    logger.info(f"Filter parameters: {request.GET}")
 
     # Process start date with session fallback
     start_date = request.GET.get('start_date')
@@ -681,8 +771,23 @@ def room_list_view(request):
         - Requires login
         - Requires 'Manager' group membership
     """
-    rooms = Room.objects.all()
-    return render(request, 'room_list.html', {'rooms': rooms})
+    logger.info(f"Room list view accessed by user: {request.user.username}")
+
+    rooms = Room.objects.all().order_by('room_number')
+    room_filter = RoomFilter(
+        request.GET,
+        queryset=rooms
+    )
+    rooms = room_filter.qs
+
+    logger.info(f"Retrieved {rooms.count()} rooms after filtering")
+
+    context = {
+        'filter': room_filter,
+        'rooms': rooms,
+        'title': 'Room List'
+    }
+    return render(request, 'room_list.html', context)
 
 
 @login_required
@@ -710,16 +815,38 @@ def room_update_view(request, room_number):
         - Requires login
         - Requires 'Manager' group membership
     """
-    room = Room.objects.get(room_number=room_number)
-    if request.method == "POST":
-        form = RoomForm(request.POST, instance=room)
-        if form.is_valid():
-            form.save()
-            return redirect('room_list')
-    else:
-        form = RoomForm(instance=room)
+    logger.info(f"Room update initiated for number: {room_number} by user: {request.user.username}")
 
-    return render(request, 'room_form.html', {'form': form})
+    try:
+        room = Room.objects.get(room_number=room_number)
+        logger.info(f"Found room {room_number} of type: {room.room_type.room_type_name}")
+
+        if request.method == "POST":
+            logger.info("Processing room update form submission")
+            form = RoomForm(request.POST, instance=room)
+            if form.is_valid():
+                updated_room = form.save()
+                logger.info(f"Successfully updated room {room_number}")
+                logger.info(f"New room type: {updated_room.room_type.room_type_name}, "
+                          f"Status: {updated_room.status}")
+                return redirect('room_list')
+            else:
+                logger.warning(f"Room update form validation failed")
+                logger.info(f"Form errors: {form.errors}")
+        else:
+            form = RoomForm(instance=room)
+            logger.info("Displaying room update form")
+
+        context = {
+            'form': form,
+            'title': 'Update Room',
+            'save_button_text': 'Update Room',
+        }
+
+        return render(request, 'room_form.html', context)
+    except Room.DoesNotExist:
+        logger.error(f"Attempted to update non-existent room number: {room_number}")
+        raise Http404("Room not found")
 
 
 @login_required
@@ -747,11 +874,22 @@ def room_delete_view(request, room_number):
         - Requires 'Manager' group membership
         - Should be used with caution as it permanently removes the room
     """
-    room = Room.objects.get(room_number=room_number)
-    if request.method == 'POST':
-        room.delete()
-        return redirect('room_list')
-    return render(request, 'room_confirm_delete.html', {'room': room})
+    logger.info(f"Room deletion initiated for room_number: {room_number} by user: {request.user.username}")
+    try:
+        room = Room.objects.get(room_number=room_number)
+        logger.info(f"Found room to delete: {room.room_number} ({room.room_type.room_type_name})")
+
+        if request.method == 'POST':
+            room_info = f"Room {room.room_number} ({room.room_type.room_type_name})"  # Store info before deletion
+            room.delete()
+            logger.info(f"Successfully deleted {room_info}")
+            return redirect('room_list')
+
+        logger.info(f"Displaying delete confirmation page for room: {room.room_number}")
+        return render(request, 'room_confirm_delete.html', {'room': room})
+    except Room.DoesNotExist:
+        logger.error(f"Attempted to delete non-existent room number: {room_number}")
+        raise Http404("Room not found")
 
 # Room Type Management Views
 
@@ -779,18 +917,29 @@ def room_type_create_view(request):
         - Validates room type code format
         - Logs form validation errors for debugging
     """
+    logger.info(f"Room type creation initiated by user: {request.user.username}")
+
     if request.method == 'POST':
         form = RoomTypeForm(request.POST)
         if form.is_valid():
-            form.save()
+            room_type = form.save()
+            logger.info(f"Created new room type: {room_type.room_type_name}, "
+                       f"Price: {room_type.price}")
             return redirect('room_type_list')
         else:
-            logger.error("Room type creation failed")
-            logger.error(f"Form errors: {form.errors}")
+            logger.warning("Room type creation form validation failed")
+            logger.info(f"Form errors: {form.errors}")
     else:
         form = RoomTypeForm()
+        logger.info("Displaying empty room type creation form")
 
-    return render(request, 'room_type_form.html', {'form': form})
+    context = {
+        'form': form,
+        'title': 'Create Room Type',
+        'save_button_text': 'Create Room Type'
+    }
+
+    return render(request, 'room_type_form.html', context)
 
 
 @login_required
@@ -816,9 +965,16 @@ def room_type_list_view(request):
         - Requires 'Manager' group membership
         - Used for room type management and reference
     """
-    room_types = RoomType.objects.all()
-    return render(request, 'room_type_list.html',
-                 {'room_types': room_types})
+    logger.info(f"Room type list view accessed by user: {request.user.username}")
+
+    room_types = RoomType.objects.all().order_by('room_type_name')
+    logger.info(f"Retrieved {room_types.count()} room types")
+
+    context = {
+        'room_types': room_types,
+        'title': 'Room Types'
+    }
+    return render(request, 'room_type_list.html', context)
 
 @login_required
 @user_passes_test(lambda user: user.groups.filter(name='Manager').exists())
@@ -847,16 +1003,37 @@ def room_type_update_view(request, room_type_code):
         - Requires 'Manager' group membership
         - Changes affect all rooms of this type
     """
-    room_type = RoomType.objects.get(room_type_code=room_type_code)
-    if request.method == "POST":
-        form = RoomTypeForm(request.POST, instance=room_type)
-        if form.is_valid():
-            form.save()
-            return redirect('room_type_list')
-    else:
-        form = RoomTypeForm(instance=room_type)
+    logger.info(f"Room type update initiated for code: {room_type_code} by user: {request.user.username}")
 
-    return render(request, 'room_type_form.html', {'form': form})
+    try:
+        room_type = RoomType.objects.get(room_type_code=room_type_code)
+        logger.info(f"Found room type: {room_type.room_type_name}")
+
+        if request.method == "POST":
+            logger.info("Processing room type update form submission")
+            form = RoomTypeForm(request.POST, instance=room_type)
+            if form.is_valid():
+                updated_type = form.save()
+                logger.info(f"Successfully updated room type: {updated_type.room_type_name}")
+                logger.info(f"New price: {updated_type.price}, Max guests: {updated_type.maximum_guests}")
+                return redirect('room_type_list')
+            else:
+                logger.warning(f"Room type update form validation failed")
+                logger.info(f"Form errors: {form.errors}")
+        else:
+            form = RoomTypeForm(instance=room_type)
+            logger.info("Displaying room type update form")
+
+        context = {
+            'form': form,
+            'title': 'Update Room Type',
+            'save_button_text': 'Update Room Type'
+        }
+
+        return render(request, 'room_type_form.html', context)
+    except RoomType.DoesNotExist:
+        logger.error(f"Attempted to update non-existent room type code: {room_type_code}")
+        raise Http404("Room type not found")
 
 
 @login_required
@@ -885,9 +1062,20 @@ def room_type_delete_view(request, room_type_code):
         - Should be used with caution as it affects all rooms of this type
         - Consider impact on existing reservations before deletion
     """
-    room_type = RoomType.objects.get(room_type_code=room_type_code)
-    if request.method == 'POST':
-        room_type.delete()
-        return redirect('room_type_list')
-    return render(request, 'room_type_confirm_delete.html',
-                 {'room_type': room_type})
+    logger.info(f"Room type deletion initiated for code: {room_type_code} by user: {request.user.username}")
+    try:
+        room_type = RoomType.objects.get(room_type_code=room_type_code)
+        logger.info(f"Found room type to delete: {room_type.room_type_name}")
+
+        if request.method == 'POST':
+            type_info = f"Room type {room_type.room_type_code} ({room_type.room_type_name})"  # Store info before deletion
+            room_type.delete()
+            logger.info(f"Successfully deleted {type_info}")
+            return redirect('room_type_list')
+
+        logger.info(f"Displaying delete confirmation page for room type: {room_type.room_type_name}")
+        return render(request, 'room_type_confirm_delete.html',
+                     {'room_type': room_type})
+    except RoomType.DoesNotExist:
+        logger.error(f"Attempted to delete non-existent room type code: {room_type_code}")
+        raise Http404("Room type not found")
