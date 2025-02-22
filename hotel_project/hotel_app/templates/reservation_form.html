@@ -9,13 +9,25 @@
 <form method="POST" class="jumbotron">
     {% csrf_token %}
 
-    {% for field in form  %}
+    {% if form.non_field_errors %}
+    <div class="alert alert-danger">
+        {% for error in form.non_field_errors %}
+            {{ error }}
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    {% for field in form %}
         <div class="form-group row">
             <label for="{{ field.id_for_label }}" class="col-md-3 col-form-label text-left">{{ field.label }}</label>
             <div class="col-md-9">{{ field }}</div>
         </div>
-        {% if field.errors %} <!-- If the field has an error, display it underneath -->            
-            <span class="text-danger">{{ field.errors.0 }}</span>  
+        {% if field.errors %}
+            <div class="col-md-9 offset-md-3">
+                {% for error in field.errors %}
+                    <span class="text-danger">{{ error }}</span><br>
+                {% endfor %}
+            </div>
         {% endif %}
     {% endfor %}
     

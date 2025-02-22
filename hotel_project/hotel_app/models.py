@@ -13,7 +13,7 @@ def validate_title(value):
             f'{value} is not a valid title. Please use one of: {", ".join(valid_titles)}'
         )
 
-def validate_guest_count(reservation, room):
+def validate_guest_count(reservation, room):    
     """Validate that the number of guests doesn't exceed room capacity."""
     if reservation.number_of_guests > room.room_type.maximum_guests:
         raise ValidationError(
@@ -24,10 +24,12 @@ def validate_guest_count(reservation, room):
 
 def validate_payment(amount_paid, total_price):
     """Validate that the payment amount is valid."""
+    if amount_paid is None:
+        raise ValidationError('Payment amount is required')
     if amount_paid < 0:
-        raise ValidationError('Amount paid cannot be negative')
-    if amount_paid > total_price:
-        raise ValidationError('Amount paid cannot exceed total price')
+        raise ValidationError('Please enter a valid payment amount (must be 0 or greater)')
+    if total_price is not None and amount_paid > total_price:
+        raise ValidationError('Payment amount cannot exceed the total price')
 
 # Configure logging
 logger = logging.getLogger(__name__)
@@ -273,10 +275,7 @@ class Reservation(models.Model):
         help_text="Amount already paid by the guest"
     )
     number_of_guests = models.PositiveSmallIntegerField(
-        help_text="Number of guests staying in the room",
-        validators=[
-            MinLengthValidator(1)
-        ]
+        help_text="Number of guests staying in the room"
     )
     start_of_stay = models.DateField(
         help_text="Check-in date"

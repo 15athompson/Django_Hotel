@@ -222,13 +222,13 @@ class ReservationForm(forms.ModelForm):
         label="Total Price",
     )
     amount_paid = forms.DecimalField( # the amount paid by the guest so far (deposit etc)
-        widget=forms.NumberInput(attrs={'class': 'form-control'}),
+        widget=forms.NumberInput(attrs={'class': 'form-control', 'min': '0', 'step': '0.01', 'type': 'number'}),
         label="Amount Paid",
-        max_digits=6,  
+        max_digits=6,
         decimal_places=2,
     )
     number_of_guests = forms.IntegerField( # the number of guests staying in the room
-        widget=forms.NumberInput(attrs={'class': 'form-control'}),
+        widget=forms.NumberInput(attrs={'class': 'form-control', 'min': '1', 'type': 'number'}),
         label="Number of Guests"
     )
     status_code = forms.ChoiceField( # the status of the room (Reserved / Checked-in / Checked-out )
@@ -258,9 +258,9 @@ class ReservationForm(forms.ModelForm):
 
         if number_of_guests and room_number:
             if number_of_guests < 1:
-                raise forms.ValidationError("Number of guests must be at least 1")
+                self.add_error('number_of_guests', "Please enter a valid number of guests (must be 1 or greater)")
             if number_of_guests > room_number.room_type.maximum_guests:
-                raise forms.ValidationError(
+                self.add_error('number_of_guests',
                     f"Number of guests ({number_of_guests}) exceeds room capacity ({room_number.room_type.maximum_guests})"
                 )
 
@@ -270,9 +270,9 @@ class ReservationForm(forms.ModelForm):
 
         if amount_paid is not None and price is not None:
             if amount_paid < 0:
-                raise forms.ValidationError("Amount paid cannot be negative")
+                self.add_error('amount_paid', "Please enter a valid payment amount (must be 0 or greater)")
             if amount_paid > price:
-                raise forms.ValidationError("Amount paid cannot exceed total price")
+                self.add_error('amount_paid', "Payment amount cannot exceed the total price")
 
         return cleaned_data
 
