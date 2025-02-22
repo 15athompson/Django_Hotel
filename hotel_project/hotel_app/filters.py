@@ -161,9 +161,13 @@ class ReservationFilter(django_filters.FilterSet):
         #                 f"Days Between: {reservation['days_between']}")
 
         # if days_between >= 0 then the reservation will have ended before the filter start date and so the reservation can be excluded
-        logger.info(f"Filtered available rooms count: {queryset.count()}")
         filtered_queryset = queryset
+
+        # Log filtered counts
+        available_rooms = Room.objects.exclude(room_number__in=filtered_queryset.values_list('room_number', flat=True))
+        logger.info(f"Filtered available rooms count: {available_rooms.count()}")
         logger.info(f"Filtered reservations count: {filtered_queryset.count()}")
+
         return filtered_queryset
 
 

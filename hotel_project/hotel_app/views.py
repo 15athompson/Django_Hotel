@@ -21,6 +21,7 @@ Each view function is responsible for:
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib import messages
 from django.utils import timezone
 from datetime import datetime, date, timedelta
 from . models import Guest, Reservation, Room, RoomType
@@ -609,10 +610,35 @@ def reservation_list_view(request):
             today_plus_two_weeks.date().strftime('%Y-%m-%d')  # Default to 2 weeks ahead
         )
 
+    # Log access and filter parameters
+    logger.info(f"Reservation list view accessed by user: {request.user.username}")
+    logger.info(f"Filter parameters: {request.GET}")
+
     # Process guest name filter with session fallback
     last_name = request.GET.get('last_name')
+
     if last_name is None:
         last_name = request.session.get('reservations_default_last_name', '')
+    elif last_name and not last_name.replace("'", "").replace("-", "").replace(" ", "").isalpha():
+        logger.warning(f"Invalid last name format: {last_name}")
+        messages.error(request, "Please enter a valid last name (letters, hyphens and apostrophes only)")
+
+    # Validate dates
+    try:
+        if start_date:
+            datetime.strptime(start_date, '%Y-%m-%d')
+        if end_date:
+            datetime.strptime(end_date, '%Y-%m-%d')
+            if start_date and end_date and start_date > end_date:
+                logger.warning(f"Invalid date range: start_date {start_date} is after end_date {end_date}")
+                messages.error(request, "Please ensure the end date is after the start date")
+    except ValueError as e:
+        if start_date and not re.match(r'^\d{4}-\d{2}-\d{2}$', start_date):
+            logger.warning(f"Invalid start date format: {start_date}")
+            messages.error(request, "Please enter start date in YYYY-MM-DD format")
+        if end_date and not re.match(r'^\d{4}-\d{2}-\d{2}$', end_date):
+            logger.warning(f"Invalid end date format: {end_date}")
+            messages.error(request, "Please enter end date in YYYY-MM-DD format")
 
     # Process room number filter with session fallback
     room_number = request.GET.get('room_number')
@@ -639,23 +665,23 @@ def reservation_list_view(request):
         queryset=reservations
     )
 
-    # Check for validation messages from the filter
-    if hasattr(reservation_filter, 'validation_messages'):
-        from django.contrib import messages
-        for msg in reservation_filter.validation_messages:
-            messages.error(request, msg)
-
-    # Check for invalid room number
-    if 'room_number' in request.GET and request.GET['room_number']:
+    # Validate room number if provided
+    if room_number:
         try:
-            room_num = int(request.GET['room_number'])
-            if room_num < 1 or room_num > 9999:
-                messages.error(request, f"Invalid room number: {room_num}. Room number must be between 1 and 9999.")
+            room_num = int(room_number)
+            if room_num <= 0 or room_num > 9999:
+                logger.warning(f"Invalid room number value: {room_number}")
+                messages.error(request, "Please enter a valid room number (1-9999)")
         except ValueError:
-            messages.error(request, f"Invalid room number format: '{request.GET['room_number']}'. Room number must be a valid number.")
+            logger.warning(f"Invalid room number format: {room_number}")
+            messages.error(request, "Please enter a valid room number (numbers only)")
 
-    return render(request, 'reservation_list.html',
-                 {'filter': reservation_filter})
+    # Prepare context
+    context = {
+        'filter': reservation_filter
+    }
+
+    return render(request, 'reservation_list.html', context)
 
 
 @login_required
