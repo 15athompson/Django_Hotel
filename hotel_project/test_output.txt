@@ -1,0 +1,219 @@
+
+
+filters_test.py:
+
+python manage.py test hotel_app.filters_test
+
+--
+
+when it passed:
+
+PS C:\Users\aidan_1k98io6\OneDrive\Documents\Assignment\Software Engineering\hotel_project2\hotel_project> python manage.py test hotel_app.filters_test
+Found 6 test(s).
+Creating test database for alias 'default'...
+System check identified no issues (0 silenced).
+......
+----------------------------------------------------------------------
+Ran 6 tests in 0.014s
+
+OK
+Destroying test database for alias 'default'...
+
+
+
+--
+
+when it failed:
+
+PS C:\Users\aidan_1k98io6\OneDrive\Documents\Assignment\Software Engineering\hotel_project2\hotel_project> python manage.py test hotel_app.filters_test
+Found 6 test(s).
+Creating test database for alias 'default'...
+System check identified no issues (0 silenced).
+EEE...
+======================================================================
+ERROR: test_filter_guests_by_last_name_case_insensitive (hotel_app.filters_test.TestGuestFilter.test_filter_guests_by_last_name_case_insensitive)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\aidan_1k98io6\OneDrive\Documents\Assignment\Software Engineering\hotel_project2\hotel_project\hotel_app\filters_test.py", line 25, in test_filter_guests_by_last_name_case_insensitive
+    filter_instance = GuestFilter({'last_name': 'smith'}, queryset=Guest.objects.all())
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django_filters\filterset.py", line 196, in __init__
+    model = queryset.model
+            ^^^^^^^^^^^^^^
+AttributeError: 'list' object has no attribute 'model'
+
+======================================================================
+ERROR: test_filter_guests_by_postcode_partial_match (hotel_app.filters_test.TestGuestFilter.test_filter_guests_by_postcode_partial_match)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\aidan_1k98io6\OneDrive\Documents\Assignment\Software Engineering\hotel_project2\hotel_project\hotel_app\filters_test.py", line 33, in test_filter_guests_by_postcode_partial_match
+    filter_instance = GuestFilter({'postcode': '123'}, queryset=Guest.objects.all())
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django_filters\filterset.py", line 196, in __init__
+    model = queryset.model
+            ^^^^^^^^^^^^^^
+AttributeError: 'list' object has no attribute 'model'
+
+======================================================================
+ERROR: test_guest_filter_correctly_filters_by_last_name_and_postcode (hotel_app.filters_test.TestGuestFilter.test_guest_filter_correctly_filters_by_last_name_and_postcode)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\aidan_1k98io6\OneDrive\Documents\Assignment\Software Engineering\hotel_project2\hotel_project\hotel_app\filters_test.py", line 46, in test_guest_filter_correctly_filters_by_last_name_and_postcode
+    filter_instance = GuestFilter({'last_name': 'smith', 'postcode': '123'}, queryset=Guest.objects.all())
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django_filters\filterset.py", line 196, in __init__
+    model = queryset.model
+            ^^^^^^^^^^^^^^
+AttributeError: 'list' object has no attribute 'model'
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.043s
+
+FAILED (errors=3)
+Destroying test database for alias 'default'...
+PS C:\Users\aidan_1k98io6\OneDrive\Documents\Assignment\Software Engineering\hotel_project2\hotel_project> python manage.py test hotel_app.filters_test
+Found 6 test(s).
+Creating test database for alias 'default'...
+System check identified no issues (0 silenced).
+FFF...
+======================================================================
+FAIL: test_filter_guests_by_last_name_case_insensitive (hotel_app.filters_test.TestGuestFilter.test_filter_guests_by_last_name_case_insensitive)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\aidan_1k98io6\OneDrive\Documents\Assignment\Software Engineering\hotel_project2\hotel_project\hotel_app\filters_test.py", line 34, in test_filter_guests_by_last_name_case_insensitive
+    filtered_guests = filter_instance.qs
+                      ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django_filters\filterset.py", line 250, in qs
+    qs = self.filter_queryset(qs)
+         ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django_filters\filterset.py", line 234, in filter_queryset
+    assert isinstance(
+           ^^^^^^^^^^^
+AssertionError: Expected 'GuestFilter.last_name' to return a QuerySet, but got a MagicMock instead.
+
+======================================================================
+FAIL: test_filter_guests_by_postcode_partial_match (hotel_app.filters_test.TestGuestFilter.test_filter_guests_by_postcode_partial_match)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\aidan_1k98io6\OneDrive\Documents\Assignment\Software Engineering\hotel_project2\hotel_project\hotel_app\filters_test.py", line 42, in test_filter_guests_by_postcode_partial_match
+    filtered_guests = filter_instance.qs
+                      ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django_filters\filterset.py", line 250, in qs
+    qs = self.filter_queryset(qs)
+         ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django_filters\filterset.py", line 234, in filter_queryset
+    assert isinstance(
+           ^^^^^^^^^^^
+AssertionError: Expected 'GuestFilter.last_name' to return a QuerySet, but got a MagicMock instead.
+
+======================================================================
+FAIL: test_guest_filter_correctly_filters_by_last_name_and_postcode (hotel_app.filters_test.TestGuestFilter.test_guest_filter_correctly_filters_by_last_name_and_postcode)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\aidan_1k98io6\OneDrive\Documents\Assignment\Software Engineering\hotel_project2\hotel_project\hotel_app\filters_test.py", line 55, in test_guest_filter_correctly_filters_by_last_name_and_postcode
+    filtered_guests = filter_instance.qs
+                      ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django_filters\filterset.py", line 250, in qs
+    qs = self.filter_queryset(qs)
+         ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django_filters\filterset.py", line 234, in filter_queryset
+    assert isinstance(
+           ^^^^^^^^^^^
+AssertionError: Expected 'GuestFilter.last_name' to return a QuerySet, but got a MagicMock instead.
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.019s
+
+FAILED (failures=3)
+Destroying test database for alias 'default'...
+PS C:\Users\aidan_1k98io6\OneDrive\Documents\Assignment\Software Engineering\hotel_project2\hotel_project> python manage.py test hotel_app.filters_test
+Found 6 test(s).
+Creating test database for alias 'default'...
+System check identified no issues (0 silenced).
+FFF...
+======================================================================
+FAIL: test_filter_guests_by_last_name_case_insensitive (hotel_app.filters_test.TestGuestFilter.test_filter_guests_by_last_name_case_insensitive)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\aidan_1k98io6\OneDrive\Documents\Assignment\Software Engineering\hotel_project2\hotel_project\hotel_app\filters_test.py", line 51, in test_filter_guests_by_last_name_case_insensitive
+    filtered_guests = filter_instance.qs
+                      ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django_filters\filterset.py", line 250, in qs
+    qs = self.filter_queryset(qs)
+         ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django_filters\filterset.py", line 234, in filter_queryset
+    assert isinstance(
+           ^^^^^^^^^^^
+AssertionError: Expected 'GuestFilter.last_name' to return a QuerySet, but got a MagicMock instead.
+
+======================================================================
+FAIL: test_filter_guests_by_postcode_partial_match (hotel_app.filters_test.TestGuestFilter.test_filter_guests_by_postcode_partial_match)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\aidan_1k98io6\OneDrive\Documents\Assignment\Software Engineering\hotel_project2\hotel_project\hotel_app\filters_test.py", line 59, in test_filter_guests_by_postcode_partial_match
+    filtered_guests = filter_instance.qs
+                      ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django_filters\filterset.py", line 250, in qs
+    qs = self.filter_queryset(qs)
+         ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django_filters\filterset.py", line 234, in filter_queryset
+    assert isinstance(
+           ^^^^^^^^^^^
+AssertionError: Expected 'GuestFilter.last_name' to return a QuerySet, but got a MagicMock instead.
+
+======================================================================
+FAIL: test_guest_filter_correctly_filters_by_last_name_and_postcode (hotel_app.filters_test.TestGuestFilter.test_guest_filter_correctly_filters_by_last_name_and_postcode)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\aidan_1k98io6\OneDrive\Documents\Assignment\Software Engineering\hotel_project2\hotel_project\hotel_app\filters_test.py", line 72, in test_guest_filter_correctly_filters_by_last_name_and_postcode
+    filtered_guests = filter_instance.qs
+                      ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django_filters\filterset.py", line 250, in qs
+    qs = self.filter_queryset(qs)
+         ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django_filters\filterset.py", line 234, in filter_queryset
+    assert isinstance(
+           ^^^^^^^^^^^
+AssertionError: Expected 'GuestFilter.last_name' to return a QuerySet, but got a MagicMock instead.
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.016s
+
+FAILED (failures=3)
+Destroying test database for alias 'default'...
+PS C:\Users\aidan_1k98io6\OneDrive\Documents\Assignment\Software Engineering\hotel_project2\hotel_project> python manage.py test hotel_app.filters_test
+Found 6 test(s).
+Creating test database for alias 'default'...
+System check identified no issues (0 silenced).
+..F...
+======================================================================
+FAIL: test_guest_filter_correctly_filters_by_last_name_and_postcode (hotel_app.filters_test.TestGuestFilter.test_guest_filter_correctly_filters_by_last_name_and_postcode)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\aidan_1k98io6\OneDrive\Documents\Assignment\Software Engineering\hotel_project2\hotel_project\hotel_app\filters_test.py", line 64, in test_guest_filter_correctly_filters_by_last_name_and_postcode
+    self.assertEqual(len(filtered_guests), 1)
+AssertionError: 2 != 1
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.019s
+
+FAILED (failures=1)
+Destroying test database for alias 'default'...
+PS C:\Users\aidan_1k98io6\OneDrive\Documents\Assignment\Software Engineering\hotel_project2\hotel_project> python manage.py test hotel_app.filters_test
+Found 6 test(s).
+Creating test database for alias 'default'...
+System check identified no issues (0 silenced).
+.F....
+======================================================================
+FAIL: test_filter_guests_by_postcode_partial_match (hotel_app.filters_test.TestGuestFilter.test_filter_guests_by_postcode_partial_match)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\aidan_1k98io6\OneDrive\Documents\Assignment\Software Engineering\hotel_project2\hotel_project\hotel_app\filters_test.py", line 50, in test_filter_guests_by_postcode_partial_match
+    self.assertEqual(len(filtered_guests), 2)
+AssertionError: 1 != 2
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.020s
+
+FAILED (failures=1)
+Destroying test database for alias 'default'...

@@ -8,13 +8,21 @@ to do:
 - continue with improving documentation in other files 
 - now add comments to all the code in each file
 - add testing (can follow process you did on your one)
+--> test for the testing in filters_test.py (passed)
+
+- back button in approprioate places
+- add pagination to list pages
+- add search functionality to list pages
+- add sorting options to list pages
 
 Things you could do to improve it:
 
  
 
-Add more comments
+// Add more comments (done for now, but in progress when rest of tasks are done)
+
 Use the logger.info method to write more informational messages to the console. I’ve used it already in a few places in the views and in the forms.
+
 Add some uses of ValidationError in the code and maybe some RegEx stuff the limit the chars allowed in certain fields.
 Ideas for validation:
 Phone number currently isn’t restricted to numbers only

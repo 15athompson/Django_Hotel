@@ -1,8 +1,12 @@
 # django data models that will be used to create & maintain the database tables
 # to store data entered by the user
-from django.db import models
-from django.core.validators import MinLengthValidator, RegexValidator
 from datetime import timedelta
+import logging
+from django.core.validators import MinLengthValidator, RegexValidator
+from django.db import models
+
+# Configure logging
+logger = logging.getLogger(__name__)
 
 class Guest(models.Model):
     """
@@ -31,7 +35,9 @@ class Guest(models.Model):
             str: A string in the format 'ID:{id}: Full name:{title first_name last_name}'
                 e.g., 'ID:123: Full name:Mr John Smith'
         """
-        return f"ID:{self.guest_id}: Full name:{self.title} {self.first_name} {self.last_name}"
+        guest_str = f"ID:{self.guest_id}: Full name:{self.title} {self.first_name} {self.last_name}"
+        logger.info(f"Guest __str__ called: {guest_str}")
+        return guest_str
 
     @property
     def display_name(self):
@@ -42,7 +48,9 @@ class Guest(models.Model):
             str: A string in the format '{title} {first_initial}. {last_name}'
                 e.g., 'Mr J. Smith'
         """
-        return f"{self.title} {self.first_name[0]}. {self.last_name}"
+        display_name = f"{self.title} {self.first_name[0]}. {self.last_name}"
+        logger.info(f"Guest display_name property called: {display_name}")
+        return display_name
 
 
 class RoomType(models.Model):
@@ -86,7 +94,9 @@ class RoomType(models.Model):
     )
 
     def __str__(self):
-        return self.room_type_name
+        room_type_str = self.room_type_name
+        logger.info(f"RoomType __str__ called: {room_type_str}")
+        return room_type_str
 
 
 class Room(models.Model):
@@ -111,7 +121,9 @@ class Room(models.Model):
     )
 
     def __str__(self):
-        return f"{self.room_number}"
+        room_str = f"{self.room_number}"
+        logger.info(f"Room __str__ called: {room_str}")
+        return room_str
 
 
 class Reservation(models.Model):
@@ -189,7 +201,9 @@ class Reservation(models.Model):
             datetime.date: The date when the guest is expected to check out,
                          calculated as start_of_stay + length_of_stay days
         """
-        return self.start_of_stay + timedelta(days=self.length_of_stay)
+        end_date = self.start_of_stay + timedelta(days=self.length_of_stay)
+        logger.info(f"Reservation end_date property called: {end_date}")
+        return end_date
 
     def __str__(self):
         """
@@ -199,4 +213,6 @@ class Reservation(models.Model):
             str: A string in the format 'Reservation {id} - {status}'
                 e.g., 'Reservation 123 - IN' for a checked-in reservation
         """
-        return f"Reservation {self.reservation_id} - {self.status_code}"
+        reservation_str = f"Reservation {self.reservation_id} - {self.status_code}"
+        logger.info(f"Reservation __str__ called: {reservation_str}")
+        return reservation_str

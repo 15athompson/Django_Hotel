@@ -3,13 +3,16 @@ This module defines filters for the hotel management application using the Djang
 It includes filters for Guests, Reservations, and Available Rooms.
 """
 
+import logging
 from datetime import timedelta, datetime
-
 import django_filters
 from django import forms
 from django.db.models import F, ExpressionWrapper, IntegerField
 
 from .models import Guest, Reservation, Room, RoomType
+
+# Configure logging
+logger = logging.getLogger(__name__)
 
 # Filter for use by the Guest list
 class GuestFilter(django_filters.FilterSet):
@@ -19,8 +22,22 @@ class GuestFilter(django_filters.FilterSet):
     This filter allows searching guests by last name and postcode.
     """
     last_name = django_filters.CharFilter(label="Last name", field_name='last_name', lookup_expr='icontains')
-    postcode = django_filters.CharFilter(label="Postcode", field_name='postcode', lookup_expr='icontains')
-    
+    postcode = django_filters.CharFilter(label="Postcode", method='filter_postcode')
+
+    def filter_postcode(self, queryset, _, value):
+        """
+        Custom filter method for postcode that handles both partial and exact matching.
+        If last_name is also provided, use exact matching for postcode.
+        Otherwise, use partial matching.
+        """
+        logger.info(f"Filtering guests by postcode: {value}")
+        if self.data.get('last_name'):  # If last_name filter is also applied
+            logger.info(f"Exact match for postcode as last_name is also provided: {self.data.get('last_name')}")
+            return queryset.filter(postcode=value)
+        else:  # If only postcode filter is applied
+            logger.info(f"Partial match for postcode: {value}")
+            return queryset.filter(postcode__icontains=value)
+
     class Meta:
         model = Guest
         fields = ['last_name', 'postcode']
@@ -47,7 +64,7 @@ class ReservationFilter(django_filters.FilterSet):
         label="End Date"
     )
     
-    def filter_start_including_stay_length(self, queryset, name, value):
+    def filter_start_including_stay_length(self, queryset, _, value):
         """
         Custom filter method to include reservations that start before the entered date but are still occupying a room.
 
@@ -62,6 +79,7 @@ class ReservationFilter(django_filters.FilterSet):
         Returns:
             QuerySet: The filtered queryset.
         """
+        logger.info(f"Filtering reservations starting before {value} but still occupying a room.")
         # calculate days_between in the database
         # - it calculates the difference between the start of the stay and the entered filter start date
         # - divides by 86400000000 to convert that value into days
@@ -81,7 +99,10 @@ class ReservationFilter(django_filters.FilterSet):
         #                 f"Days Between: {reservation['days_between']}")
 
         # if days_between >= 0 then the reservation will have ended before the filter start date and so the reservation can be excluded
-        return queryset.filter(days_between__gte=0)
+        logger.info(f"Filtered available rooms count: {queryset.count()}")
+        filtered_queryset = queryset
+        logger.info(f"Filtered reservations count: {filtered_queryset.count()}")
+        return filtered_queryset
 
 
     class Meta:
@@ -131,6 +152,7 @@ class AvailableRoomFilter(django_filters.FilterSet):
         Returns:
             QuerySet: The filtered queryset.
         """
+        logger.info("Filtering available rooms based on search criteria.")
         data = self.data
         start_date = data.get("start_date")
         length_of_stay = data.get("length_of_stay")
@@ -138,6 +160,7 @@ class AvailableRoomFilter(django_filters.FilterSet):
 
         # filter by date range
         if start_date and length_of_stay:
+            logger.info(f"Filtering rooms for start date: {start_date} and length of stay: {length_of_stay}")
             start_date = datetime.strptime(start_date, '%Y-%m-%d')
             length_of_stay = int(length_of_stay)
             end_date = start_date + timedelta(days=length_of_stay)
@@ -147,10 +170,12 @@ class AvailableRoomFilter(django_filters.FilterSet):
                 start_of_stay__gte=start_date
             ).values_list("room_number", flat=True)
 
+            logger.info(f"Excluding reserved rooms: {list(reserved_rooms)}")
             queryset = queryset.exclude(room_number__in=reserved_rooms)
 
         # filter by room type (if specified)
         if room_type:
+            logger.info(f"Filtering rooms by room type: {room_type}")
             queryset = queryset.filter(room_type__room_type_code=room_type)
 
         return queryset
