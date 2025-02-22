@@ -10,6 +10,8 @@ import logging
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm
 from .models import Guest, Room, RoomType, Reservation
+from django.contrib.auth import authenticate
+
 
 # create a Logger for use anywhere in this code and configure it to write info messages (or higher) to the terminal
 logging.basicConfig(level=logging.INFO)
@@ -25,6 +27,22 @@ class LoginForm(AuthenticationForm):
     username = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))
     password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control'}))
 
+    def clean(self):
+        """
+        Override clean method to add authentication logging.
+        """
+        username = self.cleaned_data.get('username')
+        password = self.cleaned_data.get('password')
+
+        if username and password:
+            logger.info(f"Authenticating user: {username}")
+            self.user_cache = authenticate(self.request, username=username, password=password)
+            if self.user_cache is None:
+                logger.warning(f"Invalid login attempt for user: {username}")
+                raise ValidationError('Invalid username or password', code='invalid_login')
+            logger.info(f"User {username} authenticated successfully")
+        return self.cleaned_data
+
 # The form for the Guest editor 
 class GuestForm(forms.ModelForm):
     """
@@ -33,6 +51,21 @@ class GuestForm(forms.ModelForm):
     This form allows for the creation and editing of guest information, including
     personal details and contact information.
     """
+    def clean(self):
+        """
+        Override clean method to add guest form validation logging.
+        """
+        cleaned_data = super().clean()
+        if not self.errors:
+            logger.info(f"Validating guest form data for {cleaned_data.get('first_name')} {cleaned_data.get('last_name')}")
+            # Combine names for display_name
+            cleaned_data['display_name'] = (
+                f"{cleaned_data['first_name']} {cleaned_data['last_name']}"
+            )
+        else:
+            logger.warning("Guest form validation failed")
+            logger.info(f"Form errors: {self.errors}")
+        return cleaned_data
 
     # Define choices for the title field
     TITLE_CHOICES = [
@@ -271,6 +304,23 @@ class RoomForm(forms.ModelForm):
     This form allows for the creation and editing of room information, including
     the room number and room type.
     """
+    def clean(self):
+        """
+        Override clean method to add room form validation logging.
+        """
+        cleaned_data = super().clean()
+        if not self.errors:
+            room_number = cleaned_data.get('room_number')
+            room_type = cleaned_data.get('room_type')
+            logger.info(f"Validating room form - Number: {room_number}, Type: {room_type}")
+
+            if not self.instance.pk and Room.objects.filter(room_number=room_number).exists():
+                logger.warning(f"Attempted to create room with existing number: {room_number}")
+                raise ValidationError('Room number already exists')
+        else:
+            logger.warning("Room form validation failed")
+            logger.info(f"Form errors: {self.errors}")
+        return cleaned_data
     room_number = forms.NumberInput()
     room_type = forms.ModelChoiceField(queryset=RoomType.objects.all(), label='Room Type', required=True)
     class Meta:
@@ -290,6 +340,21 @@ class RoomTypeForm(forms.ModelForm):
     This form allows for the creation and editing of room type information, including
     the room type code, name, pricing, and various amenities.
     """
+    def clean(self):
+        """
+        Override clean method to add room type form validation logging.
+        """
+        cleaned_data = super().clean()
+        if not self.errors:
+            room_type_code = cleaned_data.get('room_type_code')
+            room_type_name = cleaned_data.get('room_type_name')
+            price = cleaned_data.get('price')
+            logger.info(f"Validating room type form - Code: {room_type_code}, "
+                       f"Name: {room_type_name}, Price: {price}")
+        else:
+            logger.warning("Room type form validation failed")
+            logger.info(f"Form errors: {self.errors}")
+        return cleaned_data
     room_type_code = forms.CharField(max_length=3)
     room_type_name = forms.CharField(max_length=50)
     price =  forms.NumberInput()
@@ -321,3 +386,14 @@ class RoomTypeForm(forms.ModelForm):
             'separate_shower': 'Separate Shower',
             'maximum_guests': 'Maximum Guests',
         }
+
+    # # helper function to validate the room type code
+    # def clean_room_type_code(self):
+    #     """Validate the room type code."""
+    #     room_type_code = self.cleaned_data['room_type_code']
+    #     if len(room_type_code) != 2:
+    #         raise forms.ValidationError("Room Type Code must contain exactly two characters.")
+    #     return room_type_code.upper()
+
+    # # helper function to validate the room type name    
+    
