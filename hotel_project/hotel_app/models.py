@@ -2,6 +2,7 @@
 # to store data entered by the user
 from datetime import timedelta
 import logging
+from django.db.models import F, ExpressionWrapper, IntegerField
 from django.core.validators import MinLengthValidator, RegexValidator
 from django.core.exceptions import ValidationError
 from django.db import models
@@ -318,7 +319,7 @@ class Reservation(models.Model):
         """
         Validate the reservation data.
         """
-        super().clean()
+        cleaned_data = super().clean()
 
         # Validate number of guests against room capacity
         if self.room_number:
@@ -326,6 +327,32 @@ class Reservation(models.Model):
 
         # Validate payment amount
         validate_payment(self.amount_paid, self.price)
+
+        # Validate booking time to check for an overlapping reservation
+        if self.length_of_stay is None:
+            self.length_of_stay = getattr(self, 'length_of_stay', None) 
+
+        """ Prevent overlapping reservations for the same room. """
+        overlapping_reservations = Reservation.objects.filter(
+            room_number=self.room_number # find other reservations using the same room
+        ).annotate(
+            # Calculate if the other reservation's end date is before or after this one's start date
+            # (uses /86400000000 to convert date to whole days as sqlite3 doesn't like the date+int arithmetic )
+            # if days_between < 0 then the other reservation will ended after this one starts and so is considered a
+            # potential overlapping reservation (other filters will need to be checked)
+            days_between=ExpressionWrapper(
+                ((F('start_of_stay') -self.start_of_stay)/86400000000)+ F('length_of_stay'), output_field=IntegerField() # convert to whole days
+            )
+        ).filter(
+            start_of_stay__lt=(self.start_of_stay + timedelta(days=self.length_of_stay)),  # Existing booking starts before this one ends
+            days_between__gt=0  # Existing booking ends after this one starts
+        ).exclude(pk=self.pk)  # Exclude our own record in case we're updating our existing reservation
+
+        if overlapping_reservations.exists():
+            raise ValidationError("This room is already booked for the entered dates.")
+    def save(self, *args, **kwargs):
+        self.full_clean()  # Call full_clean before saving to force validation
+        super().save(*args, **kwargs)
 
     def __str__(self):
         """

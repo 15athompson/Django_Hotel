@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_filters',
+    'rest_framework',
     'hotel_app.apps.HotelAppConfig',
     'crispy_forms',
     'crispy_bootstrap5',

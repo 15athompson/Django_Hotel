@@ -24,6 +24,8 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib import messages
 from django.utils import timezone
 from datetime import datetime, date, timedelta
+from rest_framework import generics
+from .serialisers import GuestSerialiser, ReservationSerialiser, RoomSerialiser, RoomTypeSerialiser
 from . models import Guest, Reservation, Room, RoomType
 from . filters import AvailableRoomFilter, GuestFilter, ReservationFilter, RoomFilter
 from . forms import LoginForm, GuestForm, ReservationForm, RoomForm, RoomTypeForm
@@ -154,7 +156,7 @@ def guest_create_view(request):
             # Redirect based on operation mode
             if mode == 'selection':
                 logger.info(f"Redirecting to guest selection after creating guest {guest.guest_id}")
-                return redirect('guest_selection')
+                return redirect('available_rooms_guest_selection')
             else:
                 logger.info(f"Redirecting to guest list after creating guest {guest.guest_id}")
                 return redirect('guest_list')
@@ -1163,3 +1165,51 @@ def room_type_delete_view(request, room_type_code):
     except RoomType.DoesNotExist:
         logger.error(f"Attempted to delete non-existent room type code: {room_type_code}")
         raise Http404("Room type not found")
+
+#
+# Rest API suppport for each of the models
+#
+
+# Guest - list & create
+class GuestListCreate(generics.ListCreateAPIView):
+    queryset = Guest.objects.all()
+    serializer_class = GuestSerialiser
+
+# Guest - retrieve, update, destroy
+class GuestRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Room.objects.all()
+    serializer_class = GuestSerialiser
+    lookup_field = 'pk' # accessed via primary key
+
+# Reservation - list & create
+class ReservationListCreate(generics.ListCreateAPIView):
+    queryset = Reservation.objects.all()
+    serializer_class = ReservationSerialiser
+
+# Reservation - retrieve, update, destroy
+class ReservationRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Reservation.objects.all()
+    serializer_class = ReservationSerialiser
+    lookup_field = 'pk' # accessed via primary key
+
+# Room - list & create
+class RoomListCreate(generics.ListCreateAPIView):
+    queryset = Room.objects.all()
+    serializer_class = RoomSerialiser
+
+# Room - retrieve, update, destroy
+class RoomRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Room.objects.all()
+    serializer_class = RoomSerialiser
+    lookup_field = 'pk' # accessed via primary key
+
+# Room type - list & create
+class RoomTypeListCreate(generics.ListCreateAPIView):
+    queryset = RoomType.objects.all()
+    serializer_class = RoomTypeSerialiser
+
+# Room type - retrieve, update, destroy
+class RoomTypeRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
+    queryset = RoomType.objects.all()
+    serializer_class = RoomTypeSerialiser
+    lookup_field = 'pk' # accessed via primary key
