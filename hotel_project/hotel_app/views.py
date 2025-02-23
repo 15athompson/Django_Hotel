@@ -25,7 +25,7 @@ from django.contrib import messages
 from django.utils import timezone
 from datetime import datetime, date, timedelta
 from . models import Guest, Reservation, Room, RoomType
-from . filters import AvailableRoomFilter, GuestFilter, ReservationFilter
+from . filters import AvailableRoomFilter, GuestFilter, ReservationFilter, RoomFilter
 from . forms import LoginForm, GuestForm, ReservationForm, RoomForm, RoomTypeForm
 import logging
 

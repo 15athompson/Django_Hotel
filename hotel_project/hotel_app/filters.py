@@ -210,6 +210,30 @@ class ReservationFilter(django_filters.FilterSet):
 # Filter for use by the Available Rooms list when searching for availability
 # for a specific booking request (start date and number of nights)
 # Also supports filtering by room type
+class RoomFilter(django_filters.FilterSet):
+    """
+    Filter for the Room list.
+
+    This filter allows searching rooms by room number and room type.
+    """
+    room_number = django_filters.NumberFilter(
+        label="Room Number",
+        field_name='room_number',
+        lookup_expr='exact',
+        min_value=1,
+        max_value=9999
+    )
+    room_type = django_filters.ModelChoiceFilter(
+        queryset=RoomType.objects.all(),
+        field_name="room_type",
+        empty_label="All Room Types"
+    )
+
+    class Meta:
+        model = Room
+        fields = ['room_number', 'room_type']
+
+
 class AvailableRoomFilter(django_filters.FilterSet):
     """
     Filter for the Available Rooms list.

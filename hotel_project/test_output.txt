@@ -1,4 +1,8 @@
+ALL TESTS:
 
+python manage.py test hotel_app   
+
+------------------
 
 filters_test.py:
 
@@ -338,4 +342,354 @@ AssertionError: 1 != 2
 Ran 6 tests in 0.022s
 
 FAILED (failures=1)
+Destroying test database for alias 'default'...
+
+
+
+
+
+-------------------------------------------------------------
+
+tests.py:
+
+python manage.py test hotel_app.tests
+
+PS C:\Users\aidan_1k98io6\OneDrive\Documents\Assignment\Software Engineering\hotel_project2\hotel_project>
+                                                                                                           python manage.py test hotel_app -v 2
+Found 15 test(s).
+Creating test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...
+Operations to perform:
+  Synchronize unmigrated apps: crispy_bootstrap5, crispy_forms, django_filters, messages, staticfiles, widget_tweaks
+  Apply all migrations: admin, auth, contenttypes, hotel_app, sessions
+Synchronizing apps without migrations:
+  Creating tables...
+    Running deferred SQL...
+Running migrations:
+  Applying contenttypes.0001_initial... OK
+  Applying auth.0001_initial... OK
+  Applying admin.0001_initial... OK
+  Applying admin.0002_logentry_remove_auto_add... OK
+  Applying admin.0003_logentry_add_action_flag_choices... OK
+  Applying contenttypes.0002_remove_content_type_name... OK
+  Applying auth.0002_alter_permission_name_max_length... OK
+  Applying auth.0003_alter_user_email_max_length... OK
+  Applying auth.0004_alter_user_username_opts... OK
+  Applying auth.0005_alter_user_last_login_null... OK
+  Applying auth.0006_require_contenttypes_0002... OK
+  Applying auth.0007_alter_validators_add_error_messages... OK
+  Applying auth.0008_alter_user_username_max_length... OK
+  Applying auth.0009_alter_user_last_name_max_length... OK
+  Applying auth.0010_alter_group_name_max_length... OK
+  Applying auth.0011_update_proxy_permissions... OK
+  Applying auth.0012_alter_user_first_name_max_length... OK
+  Applying hotel_app.0001_initial... OK
+  Applying hotel_app.0002_alter_reservation_guest_and_more... OK
+  Applying hotel_app.0003_alter_guest_address_line1_alter_guest_address_line2_and_more... OK
+  Applying hotel_app.0004_alter_guest_phone_number_alter_guest_postcode_and_more... OK
+  Applying sessions.0001_initial... OK
+System check identified no issues (0 silenced).
+test_guest_creation (hotel_app.tests.GuestModelTest.test_guest_creation) ... ok
+test_guest_display_name (hotel_app.tests.GuestModelTest.test_guest_display_name) ... INFO:hotel_app.models:Guest display_name property called: Mr J. Smith
+ok
+test_guest_str_method (hotel_app.tests.GuestModelTest.test_guest_str_method) ... INFO:hotel_app.models:Guest __str__ called: ID:1: Full name:Mr John Smith
+ok
+test_invalid_phone_number (hotel_app.tests.GuestModelTest.test_invalid_phone_number) ... ok
+test_invalid_title (hotel_app.tests.GuestModelTest.test_invalid_title) ... ok
+test_end_date_calculation (hotel_app.tests.ReservationModelTest.test_end_date_calculation) ... C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\fields\__init__.py:1665: RuntimeWarning: DateTimeField Reservation.reservation_date_time received a naive datetime (2025-02-23 16:56:39.560151) while time zone support is active.       
+  warnings.warn(
+INFO:hotel_app.models:Reservation end_date property called: 2025-02-25
+ok
+test_invalid_guest_count (hotel_app.tests.ReservationModelTest.test_invalid_guest_count) ... C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\fields\__init__.py:1665: RuntimeWarning: DateTimeField Reservation.reservation_date_time received a naive datetime (2025-02-23 16:56:39.650477) while time zone support is active.
+  warnings.warn(
+ok
+test_invalid_payment_amount (hotel_app.tests.ReservationModelTest.test_invalid_payment_amount) ... C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\fields\__init__.py:1665: RuntimeWarning: DateTimeField Reservation.reservation_date_time received a naive datetime (2025-02-23 16:56:39.654965) while time zone support is active.   
+  warnings.warn(
+ok
+test_reservation_creation (hotel_app.tests.ReservationModelTest.test_reservation_creation) ... C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\fields\__init__.py:1665: RuntimeWarning: DateTimeField Reservation.reservation_date_time received a naive datetime (2025-02-23 16:56:39.662330) while time zone support is active.       
+  warnings.warn(
+ok
+test_reservation_str_method (hotel_app.tests.ReservationModelTest.test_reservation_str_method) ... C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\fields\__init__.py:1665: RuntimeWarning: DateTimeField Reservation.reservation_date_time received a naive datetime (2025-02-23 16:56:39.666072) while time zone support is active.   
+  warnings.warn(
+INFO:hotel_app.models:Reservation __str__ called: Reservation 1 - RE
+ok
+test_room_creation (hotel_app.tests.RoomModelTest.test_room_creation) ... ok
+test_room_str_method (hotel_app.tests.RoomModelTest.test_room_str_method) ... INFO:hotel_app.models:Room __str__ called: 101 
+ok
+test_invalid_room_type_code (hotel_app.tests.RoomTypeModelTest.test_invalid_room_type_code) ... ok
+test_room_type_creation (hotel_app.tests.RoomTypeModelTest.test_room_type_creation) ... ok
+test_room_type_str_method (hotel_app.tests.RoomTypeModelTest.test_room_type_str_method) ... INFO:hotel_app.models:RoomType __str__ called: Standard Room
+ok
+
+----------------------------------------------------------------------
+Ran 15 tests in 0.152s
+
+OK
+
+
+
+-----------------------
+
+
+test_unit.py:
+
+ python manage.py test hotel_app.test_unit
+
+PS C:\Users\aidan_1k98io6\OneDrive\Documents\Assignment\Software Engineering\hotel_project2\hotel_project> python manage.py test hotel_app.test_unit
+Found 11 test(s).
+Creating test database for alias 'default'...
+System check identified no issues (0 silenced).
+.INFO:hotel_app.views:Room list view accessed by user: staffuser
+INFO:hotel_app.views:Retrieved 0 rooms after filtering
+.INFO:hotel_app.forms:Validating guest form data for John Smith
+.INFO:hotel_app.forms:Validating guest form data for John Smith
+..INFO:hotel_app.models:Room __str__ called: 101
+.INFO:hotel_app.models:RoomType __str__ called: Standard Room
+....INFO:hotel_app.views:Room list view accessed by user: testuser
+INFO:hotel_app.views:Retrieved 1 rooms after filtering
+.
+----------------------------------------------------------------------
+Ran 11 tests in 11.938s
+
+OK
+Destroying test database for alias 'default'...
+
+
+PS C:\Users\aidan_1k98io6\OneDrive\Documents\Assignment\Software Engineering\hotel_project2\hotel_project> python manage.py test hotel_app.test_unit      
+Found 11 test(s).
+Creating test database for alias 'default'...
+System check identified no issues (0 silenced).
+.FINFO:hotel_app.forms:Validating guest form data for John Smith
+.INFO:hotel_app.forms:Validating guest form data for John Smith
+..INFO:hotel_app.models:Room __str__ called: 101
+.INFO:hotel_app.models:RoomType __str__ called: Standard Room
+....F
+======================================================================
+FAIL: test_staff_permissions (hotel_app.test_unit.AuthenticationTestCase.test_staff_permissions)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\aidan_1k98io6\OneDrive\Documents\Assignment\Software Engineering\hotel_project2\hotel_project\hotel_app\test_unit.py", line 177, in test_staff_permissions
+    self.assertEqual(response.status_code, 200)  # Should have access
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 302 != 200
+
+======================================================================
+FAIL: test_room_list_view (hotel_app.test_unit.ViewsTestCase.test_room_list_view)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\aidan_1k98io6\OneDrive\Documents\Assignment\Software Engineering\hotel_project2\hotel_project\hotel_app\test_unit.py", line 83, in test_room_list_view
+    self.assertEqual(response.status_code, 200)
+AssertionError: 302 != 200
+
+----------------------------------------------------------------------
+Ran 11 tests in 13.567s
+
+FAILED (failures=2)
+Destroying test database for alias 'default'...
+
+
+PS C:\Users\aidan_1k98io6\OneDrive\Documents\Assignment\Software Engineering\hotel_project2\hotel_project> python manage.py test hotel_app.tests.test_unit
+Found 8 test(s).
+Creating test database for alias 'default'...
+System check identified no issues (0 silenced).
+INFO:hotel_app.forms:Validating guest form data for John Smith
+.INFO:hotel_app.forms:Validating guest form data for John Smith
+..INFO:hotel_app.models:Room __str__ called: 101
+.INFO:hotel_app.models:RoomType __str__ called: Standard Room
+.EFE
+======================================================================
+ERROR: test_guest_list_view (hotel_app.tests.test_unit.ViewsTestCase.test_guest_list_view)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\aidan_1k98io6\OneDrive\Documents\Assignment\Software Engineering\hotel_project2\hotel_project\hotel_app\tests\test_unit.py", line 55, in test_guest_list_view
+    response = self.client.get(reverse('guest-list'))
+                               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\urls\base.py", line 88, in reverse
+    return resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\urls\resolvers.py", line 831, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'guest-list' not found. 'guest-list' is not a valid view function or pattern name.
+
+======================================================================
+ERROR: test_room_list_view (hotel_app.tests.test_unit.ViewsTestCase.test_room_list_view)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\aidan_1k98io6\OneDrive\Documents\Assignment\Software Engineering\hotel_project2\hotel_project\hotel_app\tests\test_unit.py", line 62, in test_room_list_view
+    response = self.client.get(reverse('room-list'))
+                               ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\urls\base.py", line 88, in reverse
+    return resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\urls\resolvers.py", line 831, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'room-list' not found. 'room-list' is not a valid view function or pattern name.
+
+======================================================================
+FAIL: test_home_view (hotel_app.tests.test_unit.ViewsTestCase.test_home_view)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\aidan_1k98io6\OneDrive\Documents\Assignment\Software Engineering\hotel_project2\hotel_project\hotel_app\tests\test_unit.py", line 50, in test_home_view
+    self.assertEqual(response.status_code, 200)
+AssertionError: 302 != 200
+
+----------------------------------------------------------------------
+Ran 8 tests in 6.593s
+
+FAILED (failures=1, errors=2)
+Destroying test database for alias 'default'...
+
+
+
+
+
+------------------------------------
+
+test_data.py:
+
+python manage.py test hotel_app.test_data
+
+Ran 7 tests in 0.194s
+
+OK
+Destroying test database for alias 'default'...
+
+PS C:\Users\aidan_1k98io6\OneDrive\Documents\Assignment\Software Engineering\hotel_project2\hotel_project> python manage.py test hotel_app.test_data
+Found 7 test(s).
+Creating test database for alias 'default'...
+System check identified no issues (0 silenced).
+C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\fields\__init__.py:1665: RuntimeWarning: DateTimeField Reservation.reservation_date_time received a naive datetime (2025-02-16 18:02:38.982092) while time zone support is active.
+  warnings.warn(
+C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\fields\__init__.py:1665: RuntimeWarning: DateTimeField Reservation.reservation_date_time received a naive datetime (2025-02-09 18:02:38.996429) while time zone support is active.
+  warnings.warn(
+C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\fields\__init__.py:1665: RuntimeWarning: DateTimeField Reservation.reservation_date_time received a naive datetime (2025-01-24 18:02:38.997680) while time zone support is active.
+  warnings.warn(
+.C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\fields\__init__.py:1665: RuntimeWarning: DateTimeField Reservation.reservation_date_time received a naive datetime (2025-02-16 18:02:39.021324) while time zone support is active.
+  warnings.warn(
+C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\fields\__init__.py:1665: RuntimeWarning: DateTimeField Reservation.reservation_date_time received a naive datetime (2025-02-09 18:02:39.023173) while time zone support is active.
+  warnings.warn(
+C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\fields\__init__.py:1665: RuntimeWarning: DateTimeField Reservation.reservation_date_time received a naive datetime (2025-01-24 18:02:39.024395) while time zone support is active.
+  warnings.warn(
+FC:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\fields\__init__.py:1665: RuntimeWarning: DateTimeField Reservation.reservation_date_time received a naive datetime (2025-02-16 18:02:39.053341) while time zone support is active.
+  warnings.warn(
+C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\fields\__init__.py:1665: RuntimeWarning: DateTimeField Reservation.reservation_date_time received a naive datetime (2025-02-09 18:02:39.055639) while time zone support is active.
+  warnings.warn(
+C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\fields\__init__.py:1665: RuntimeWarning: DateTimeField Reservation.reservation_date_time received a naive datetime (2025-01-24 18:02:39.057545) while time zone support is active.
+  warnings.warn(
+.C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\fields\__init__.py:1665: RuntimeWarning: DateTimeField Reservation.reservation_date_time received a naive datetime (2025-02-16 18:02:39.086846) while time zone support is active.
+  warnings.warn(
+C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\fields\__init__.py:1665: RuntimeWarning: DateTimeField Reservation.reservation_date_time received a naive datetime (2025-02-09 18:02:39.088774) while time zone support is active.
+  warnings.warn(
+C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\fields\__init__.py:1665: RuntimeWarning: DateTimeField Reservation.reservation_date_time received a naive datetime (2025-01-24 18:02:39.090011) while time zone support is active.
+  warnings.warn(
+C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\fields\__init__.py:1665: RuntimeWarning: DateTimeField Reservation.reservation_date_time received a naive datetime (2025-02-23 18:02:39.091681) while time zone support is active.
+  warnings.warn(
+FC:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\fields\__init__.py:1665: RuntimeWarning: DateTimeField Reservation.reservation_date_time received a naive datetime (2025-02-16 18:02:39.120431) while time zone support is active.
+  warnings.warn(
+C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\fields\__init__.py:1665: RuntimeWarning: DateTimeField Reservation.reservation_date_time received a naive datetime (2025-02-09 18:02:39.122326) while time zone support is active.
+  warnings.warn(
+C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\fields\__init__.py:1665: RuntimeWarning: DateTimeField Reservation.reservation_date_time received a naive datetime (2025-01-24 18:02:39.125169) while time zone support is active.
+  warnings.warn(
+EC:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\fields\__init__.py:1665: RuntimeWarning: DateTimeField Reservation.reservation_date_time received a naive datetime (2025-02-16 18:02:39.269842) while time zone support is active.
+  warnings.warn(
+C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\fields\__init__.py:1665: RuntimeWarning: DateTimeField Reservation.reservation_date_time received a naive datetime (2025-02-09 18:02:39.272459) while time zone support is active.
+  warnings.warn(
+C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\fields\__init__.py:1665: RuntimeWarning: DateTimeField Reservation.reservation_date_time received a naive datetime (2025-01-24 18:02:39.274376) while time zone support is active.
+  warnings.warn(
+FC:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\fields\__init__.py:1665: RuntimeWarning: DateTimeField Reservation.reservation_date_time received a naive datetime (2025-02-16 18:02:39.320271) while time zone support is active.
+  warnings.warn(
+C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\fields\__init__.py:1665: RuntimeWarning: DateTimeField Reservation.reservation_date_time received a naive datetime (2025-02-09 18:02:39.322510) while time zone support is active.
+  warnings.warn(
+C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\fields\__init__.py:1665: RuntimeWarning: DateTimeField Reservation.reservation_date_time received a naive datetime (2025-01-24 18:02:39.325241) while time zone support is active.
+  warnings.warn(
+.
+======================================================================
+ERROR: test_room_availability (hotel_app.test_data.TestDataGenerator.test_room_availability)
+Test room availability checking.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\sql\query.py", line 1517, in build_filter
+    join_info = self.setup_joins(
+                ^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\sql\query.py", line 1863, in setup_joins
+    path, final_field, targets, rest = self.names_to_path(
+                                       ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\sql\query.py", line 1792, in names_to_path
+    raise MultiJoin(pos + 1, names_with_path)
+django.db.models.sql.datastructures.MultiJoin: (1, [('reservations', [PathInfo(from_opts=<Options for Room>, to_opts=<Options for Reservation>, target_fields=(<django.db.models.fields.AutoField: reservation_id>,), join_field=<ManyToOneRel: hotel_app.reservation>, m2m=True, direct=False, filtered_relation=None)])])
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\aidan_1k98io6\OneDrive\Documents\Assignment\Software Engineering\hotel_project2\hotel_project\hotel_app\test_data.py", line 343, in test_room_availability
+    ).exclude(
+      ^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\query.py", line 1484, in exclude
+    return self._filter_or_exclude(True, args, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\query.py", line 1494, in _filter_or_exclude
+    clone._filter_or_exclude_inplace(negate, args, kwargs)
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\query.py", line 1499, in _filter_or_exclude_inplace
+    self._query.add_q(~Q(*args, **kwargs))
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\sql\query.py", line 1609, in add_q
+    clause, _ = self._add_q(q_object, self.used_aliases)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\sql\query.py", line 1641, in _add_q
+    child_clause, needed_inner = self.build_filter(
+                                 ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\sql\query.py", line 1534, in build_filter
+    return self.split_exclude(filter_expr, can_reuse, e.names_with_path)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\sql\query.py", line 2058, in split_exclude
+    query.add_filter(filter_lhs, filter_rhs)
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\sql\query.py", line 1593, in add_filter
+    self.add_q(Q((filter_lhs, filter_rhs)))
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\sql\query.py", line 1609, in add_q
+    clause, _ = self._add_q(q_object, self.used_aliases)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\sql\query.py", line 1641, in _add_q
+    child_clause, needed_inner = self.build_filter(
+                                 ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\sql\query.py", line 1555, in build_filter
+    condition = self.build_lookup(lookups, col, value)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\sql\query.py", line 1372, in build_lookup
+    lhs = self.try_transform(lhs, name)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\sql\query.py", line 1423, in try_transform
+    raise FieldError(
+django.core.exceptions.FieldError: Unsupported lookup 'end_date' for ManyToOneRel or join on the field not permitted.        
+
+======================================================================
+FAIL: test_guest_validation (hotel_app.test_data.TestDataGenerator.test_guest_validation)
+Test guest data validation.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\aidan_1k98io6\OneDrive\Documents\Assignment\Software Engineering\hotel_project2\hotel_project\hotel_app\test_data.py", line 352, in test_guest_validation
+    with self.assertRaises(ValidationError):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValidationError not raised
+
+======================================================================
+FAIL: test_reservation_validation (hotel_app.test_data.TestDataGenerator.test_reservation_validation)
+Test reservation validation rules.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\aidan_1k98io6\OneDrive\Documents\Assignment\Software Engineering\hotel_project2\hotel_project\hotel_app\test_data.py", line 369, in test_reservation_validation
+    with self.assertRaises(ValidationError):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValidationError not raised
+
+======================================================================
+FAIL: test_room_creation (hotel_app.test_data.TestDataGenerator.test_room_creation)
+Test that all rooms were created correctly.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\aidan_1k98io6\OneDrive\Documents\Assignment\Software Engineering\hotel_project2\hotel_project\hotel_app\test_data.py", line 316, in test_room_creation
+    self.assertEqual(Room.objects.count(), 18)
+AssertionError: 19 != 18
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.381s
+
+FAILED (failures=3, errors=1)
 Destroying test database for alias 'default'...
