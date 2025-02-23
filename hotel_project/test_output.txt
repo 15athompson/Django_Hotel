@@ -217,3 +217,125 @@ Ran 6 tests in 0.020s
 
 FAILED (failures=1)
 Destroying test database for alias 'default'...
+
+
+
+
+
+
+PS C:\Users\aidan_1k98io6\OneDrive\Documents\Assignment\Software Engineering\hotel_project2> python manage.py test hotel_app.filters_test
+>> 
+C:\Python311\python.exe: can't open file 'C:\\Users\\aidan_1k98io6\\OneDrive\\Documents\\Assignment\\Software Engineering\\hotel_project2\\manage.py': [Errno 2] No such file or directory
+PS C:\Users\aidan_1k98io6\OneDrive\Documents\Assignment\Software Engineering\hotel_project2> cd hotel_project
+PS C:\Users\aidan_1k98io6\OneDrive\Documents\Assignment\Software Engineering\hotel_project2\hotel_project> python manage.py test hotel_app.filters_test
+>>
+Traceback (most recent call last):
+  File "C:\Users\aidan_1k98io6\OneDrive\Documents\Assignment\Software Engineering\hotel_project2\hotel_project\manage.py", line 22, in <module>
+    main()
+  File "C:\Users\aidan_1k98io6\OneDrive\Documents\Assignment\Software Engineering\hotel_project2\hotel_project\manage.py", line 18, in main
+    execute_from_command_line(sys.argv)
+  File "C:\Users\aidan_1k98io6\AppData\Roaming\Python\Python311\site-packages\django\core\management\__init__.py", line 442, in execute_from_command_line
+    utility.execute()
+  File "C:\Users\aidan_1k98io6\AppData\Roaming\Python\Python311\site-packages\django\core\management\__init__.py", line 416, in execute
+    django.setup()
+  File "C:\Users\aidan_1k98io6\AppData\Roaming\Python\Python311\site-packages\django\__init__.py", line 24, in setup
+    apps.populate(settings.INSTALLED_APPS)
+  File "C:\Users\aidan_1k98io6\AppData\Roaming\Python\Python311\site-packages\django\apps\registry.py", line 91, in populate 
+    app_config = AppConfig.create(entry)
+                 ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\AppData\Roaming\Python\Python311\site-packages\django\apps\config.py", line 193, in create    
+    import_module(entry)
+  File "C:\Python311\Lib\importlib\__init__.py", line 126, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1206, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1178, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1142, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'django_filters'
+PS C:\Users\aidan_1k98io6\OneDrive\Documents\Assignment\Software Engineering\hotel_project2\hotel_project> pipenv shell
+Launching subshell in virtual environment...
+Windows PowerShell
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+Install the latest PowerShell for new features and improvements! https://aka.ms/PSWindows
+
+PS C:\Users\aidan_1k98io6\OneDrive\Documents\Assignment\Software Engineering\hotel_project2> python manage.py test hotel_app.filters_test
+>>
+C:\Users\aidan_1k98io6\AppData\Local\Programs\Python\Python312\python.exe: can't open file 'C:\\Users\\aidan_1k98io6\\OneDrive\\Documents\\Assignment\\Software Engineering\\hotel_project2\\manage.py': [Errno 2] No such file or directory
+PS C:\Users\aidan_1k98io6\OneDrive\Documents\Assignment\Software Engineering\hotel_project2> cd hotel_project
+PS C:\Users\aidan_1k98io6\OneDrive\Documents\Assignment\Software Engineering\hotel_project2\hotel_project> python manage.py test hotel_app.filters_test
+>>
+Found 6 test(s).
+Creating test database for alias 'default'...
+System check identified no issues (0 silenced).
+.INFO:hotel_app.filters:Filtering guests by postcode: 123
+WARNING:hotel_app.filters:Invalid postcode format: 123
+FINFO:hotel_app.filters:Filtering guests by postcode: 123
+WARNING:hotel_app.filters:Invalid postcode format: 123
+F...
+======================================================================
+FAIL: test_filter_guests_by_postcode_partial_match (hotel_app.filters_test.TestGuestFilter.test_filter_guests_by_postcode_partial_match)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\aidan_1k98io6\OneDrive\Documents\Assignment\Software Engineering\hotel_project2\hotel_project\hotel_app\filters_test.py", line 50, in test_filter_guests_by_postcode_partial_match
+    self.assertEqual(len(filtered_guests), 2)
+AssertionError: 0 != 2
+
+======================================================================
+FAIL: test_guest_filter_correctly_filters_by_last_name_and_postcode (hotel_app.filters_test.TestGuestFilter.test_guest_filter_correctly_filters_by_last_name_and_postcode)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\aidan_1k98io6\OneDrive\Documents\Assignment\Software Engineering\hotel_project2\hotel_project\hotel_app\filters_test.py", line 64, in test_guest_filter_correctly_filters_by_last_name_and_postcode
+    self.assertEqual(len(filtered_guests), 1)
+AssertionError: 0 != 1
+
+Ran 6 tests in 0.027s
+
+FAILED (failures=2)
+Destroying test database for alias 'default'...
+PS C:\Users\aidan_1k98io6\OneDrive\Documents\Assignment\Software Engineering\hotel_project2\hotel_project>
+                                                                                                           python manage.py test hotel_app.filters_test
+>>
+Found 6 test(s).
+Creating test database for alias 'default'...
+System check identified no issues (0 silenced).
+.INFO:hotel_app.filters:Filtering guests by postcode: SW1A
+WARNING:hotel_app.filters:Invalid postcode format: SW1A
+FINFO:hotel_app.filters:Filtering guests by postcode: SW1A 2AA
+INFO:hotel_app.filters:Exact match for postcode as last_name is also provided: SW1A 2AA
+....
+======================================================================
+FAIL: test_filter_guests_by_postcode_partial_match (hotel_app.filters_test.TestGuestFilter.test_filter_guests_by_postcode_partial_match)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\aidan_1k98io6\OneDrive\Documents\Assignment\Software Engineering\hotel_project2\hotel_project\hotel_app\filters_test.py", line 50, in test_filter_guests_by_postcode_partial_match
+    self.assertEqual(len(filtered_guests), 2)
+AssertionError: 0 != 2
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.020s
+
+FAILED (failures=1)
+Destroying test database for alias 'default'...
+PS C:\Users\aidan_1k98io6\OneDrive\Documents\Assignment\Software Engineering\hotel_project2\hotel_project> python manage.py test hotel_app.filters_test
+Found 6 test(s).
+Creating test database for alias 'default'...
+System check identified no issues (0 silenced).
+.INFO:hotel_app.filters:Filtering guests by postcode: SW1A 1AA
+INFO:hotel_app.filters:Partial match for postcode: SW1A 1AA
+FINFO:hotel_app.filters:Filtering guests by postcode: SW1A 2AA
+INFO:hotel_app.filters:Exact match for postcode as last_name is also provided: SW1A 2AA
+....
+======================================================================
+FAIL: test_filter_guests_by_postcode_partial_match (hotel_app.filters_test.TestGuestFilter.test_filter_guests_by_postcode_partial_match)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\aidan_1k98io6\OneDrive\Documents\Assignment\Software Engineering\hotel_project2\hotel_project\hotel_app\filters_test.py", line 50, in test_filter_guests_by_postcode_partial_match
+    self.assertEqual(len(filtered_guests), 2)
+AssertionError: 1 != 2
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.022s
+
+FAILED (failures=1)
+Destroying test database for alias 'default'...

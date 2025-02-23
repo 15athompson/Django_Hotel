@@ -1,3 +1,59 @@
+.field-error {
+    position: relative;
+    display: none;
+    margin-top: 5px;
+    padding: 8px 12px;
+    background-color: #fff;
+    border: 1px solid #dc3545;
+    border-radius: 4px;
+    color: #dc3545;
+    font-size: 0.875rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    animation: slideDown 0.3s ease-out;
+}
+
+.field-error.show {
+    display: block;
+}
+
+.field-error .close-error {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #6c757d;
+    font-size: 1.2rem;
+    line-height: 1;
+    padding: 0 4px;
+}
+
+.field-error .close-error:hover {
+    color: #343a40;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 /* Message styling */
 .messages {
     margin: 1em 0;
@@ -111,20 +167,14 @@
     border-left: 3px solid #dc3545;
 }
 
-.errorlist li {
+.error--list {
     margin: 0.25rem 0;
 }
 
-.errorlist ul {
+.error-list ul {
     list-style: none;
     padding: 0;
     margin: 0;
-}
-
-.field-error {
-    margin-top: 0.25rem;
-    font-size: 0.875rem;
-    color: #dc3545;
 }
 
 /* Input validation styling */

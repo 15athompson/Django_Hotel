@@ -74,9 +74,11 @@ class GuestFilter(django_filters.FilterSet):
                 logger.info(f"Exact match for postcode as last_name is also provided: {value}")
                 return queryset.filter(postcode__iexact=value.upper().strip())
             else:
-                # If only postcode filter is applied, do partial match
-                logger.info(f"Partial match for postcode: {value}")
-                return queryset.filter(postcode__icontains=value.upper().strip())
+                # If only postcode filter is applied, do partial match on outward code
+                postcode = value.upper().strip()
+                outward_code = postcode.split()[0]  # Get the outward code (e.g., 'SW1A')
+                logger.info(f"Partial match for postcode outward code: {outward_code}")
+                return queryset.filter(postcode__istartswith=outward_code)
 
     @property
     def qs(self):

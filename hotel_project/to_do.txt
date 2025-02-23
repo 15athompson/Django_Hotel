@@ -1,8 +1,11 @@
 
+{(rest of code on latest chat and reservation_form.txt) ; yes (to prompt) }
+
 [ask AI how else it can be improved]
 
 prompt:
 - now actually apply the changes like you did previously
+- make sure form validation is consistent across the codebase
 
 to do:
 - remove firecrawl-mcp-server
@@ -32,7 +35,7 @@ Things you could do to improve it:
 
 // Use the logger.info method to write more informational messages to the console. I’ve used it already in a few places in the views and in the forms.
 
-Add some uses of ValidationError in the code and maybe some RegEx stuff the limit the chars allowed in certain fields.
+// Add some uses of ValidationError in the code and maybe some RegEx stuff the limit the chars allowed in certain fields.
 
 Ideas for validation:
 Phone number currently isn’t restricted to numbers only
@@ -43,6 +46,7 @@ The Amount Paid can be negative and can exceed the Total Price
 --
 
 Create some tests
+
 Perhaps have a process that can prime the database with good data:
 create a set of meaningful room types (maybe 8 or 10)
 create 15-20 rooms in the hotel using those room types

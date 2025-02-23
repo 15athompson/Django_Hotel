@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'django_filters',
     'hotel_app.apps.HotelAppConfig',
     'crispy_forms',
-    'crispy_bootstrap5',    
+    'crispy_bootstrap5',
+    'widget_tweaks',
 ]
 
 MIDDLEWARE = [

@@ -738,9 +738,12 @@ def reservation_update_view(request, reservation_id):
         form = ReservationForm(request.POST, instance=reservation)
         if form.is_valid():
             form.save()
+            logger.info("Reservation updated successfully")
             return redirect('reservation_list')
         else:
-            logger.info("Reservation update form validation failed")
+            logger.warning("Reservation update form validation failed")
+            logger.info(f"Form errors: {form.errors}")
+            messages.error(request, "Please correct the errors below.")
     else:
         # Display form for GET request
         form = ReservationForm(instance=reservation)
@@ -809,12 +812,22 @@ def room_create_view(request):
     if request.method == 'POST':
         form = RoomForm(request.POST)
         if form.is_valid():
-            form.save()
+            room = form.save()
+            logger.info(f"New room created - Number: {room.room_number}")
+            messages.success(request, "Room created successfully.")
             return redirect('room_list')
+        else:
+            logger.warning("Room creation form validation failed")
+            logger.info(f"Form errors: {form.errors}")
+            messages.error(request, "Please correct the errors below.")
     else:
         form = RoomForm()
+        logger.info("Displaying empty room creation form")
 
-    return render(request, 'room_form.html', {'form': form})
+    return render(request, 'room_form.html', {
+        'form': form,
+        'title': 'Create New Room'
+    })
 
 
 @login_required
@@ -894,10 +907,12 @@ def room_update_view(request, room_number):
                 logger.info(f"Successfully updated room {room_number}")
                 logger.info(f"New room type: {updated_room.room_type.room_type_name}, "
                           f"Status: {updated_room.status}")
+                messages.success(request, "Room updated successfully.")
                 return redirect('room_list')
             else:
                 logger.warning(f"Room update form validation failed")
                 logger.info(f"Form errors: {form.errors}")
+                messages.error(request, "Please correct the errors below.")
         else:
             form = RoomForm(instance=room)
             logger.info("Displaying room update form")
@@ -990,10 +1005,12 @@ def room_type_create_view(request):
             room_type = form.save()
             logger.info(f"Created new room type: {room_type.room_type_name}, "
                        f"Price: {room_type.price}")
+            messages.success(request, "Room type created successfully.")
             return redirect('room_type_list')
         else:
             logger.warning("Room type creation form validation failed")
             logger.info(f"Form errors: {form.errors}")
+            messages.error(request, "Please correct the errors below.")
     else:
         form = RoomTypeForm()
         logger.info("Displaying empty room type creation form")
@@ -1081,10 +1098,12 @@ def room_type_update_view(request, room_type_code):
                 updated_type = form.save()
                 logger.info(f"Successfully updated room type: {updated_type.room_type_name}")
                 logger.info(f"New price: {updated_type.price}, Max guests: {updated_type.maximum_guests}")
+                messages.success(request, "Room type updated successfully.")
                 return redirect('room_type_list')
             else:
                 logger.warning(f"Room type update form validation failed")
                 logger.info(f"Form errors: {form.errors}")
+                messages.error(request, "Please correct the errors below.")
         else:
             form = RoomTypeForm(instance=room_type)
             logger.info("Displaying room type update form")

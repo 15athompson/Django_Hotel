@@ -258,10 +258,10 @@ class ReservationForm(forms.ModelForm):
 
         if number_of_guests and room_number:
             if number_of_guests < 1:
-                self.add_error('number_of_guests', "Please enter a valid number of guests (must be 1 or greater)")
+                self.add_error('number_of_guests', "Number of guests must be at least 1")
             if number_of_guests > room_number.room_type.maximum_guests:
                 self.add_error('number_of_guests',
-                    f"Number of guests ({number_of_guests}) exceeds room capacity ({room_number.room_type.maximum_guests})"
+                    f"Maximum number of guests for this room is {room_number.room_type.maximum_guests}"
                 )
 
         # Validate payment amount
@@ -270,9 +270,9 @@ class ReservationForm(forms.ModelForm):
 
         if amount_paid is not None and price is not None:
             if amount_paid < 0:
-                self.add_error('amount_paid', "Please enter a valid payment amount (must be 0 or greater)")
+                self.add_error('amount_paid', "Payment amount must be 0 or greater")
             if amount_paid > price:
-                self.add_error('amount_paid', "Payment amount cannot exceed the total price")
+                self.add_error('amount_paid', f"Payment amount cannot exceed the total price of {price}")
 
         return cleaned_data
 
