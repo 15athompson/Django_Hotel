@@ -1,6 +1,7 @@
 from django.test import TestCase
 from django.core.exceptions import ValidationError
-from datetime import datetime, date, timedelta
+from django.utils import timezone
+from datetime import date, timedelta
 from decimal import Decimal
 from .models import Guest, RoomType, Room, Reservation
 
@@ -133,7 +134,7 @@ class ReservationModelTest(TestCase):
         self.reservation = Reservation.objects.create(
             guest=self.guest,
             room_number=self.room,
-            reservation_date_time=datetime.now(),
+            reservation_date_time=timezone.now(),
             price=Decimal('200.00'),
             amount_paid=Decimal('100.00'),
             number_of_guests=2,
@@ -161,7 +162,7 @@ class ReservationModelTest(TestCase):
             reservation = Reservation(
                 guest=self.guest,
                 room_number=self.room,
-                reservation_date_time=datetime.now(),
+                reservation_date_time=timezone.now(),
                 price=Decimal('200.00'),
                 amount_paid=Decimal('100.00'),
                 number_of_guests=5,  # More than maximum_guests
@@ -176,7 +177,7 @@ class ReservationModelTest(TestCase):
             reservation = Reservation(
                 guest=self.guest,
                 room_number=self.room,
-                reservation_date_time=datetime.now(),
+                reservation_date_time=timezone.now(),
                 price=Decimal('200.00'),
                 amount_paid=Decimal('300.00'),  # More than total price
                 number_of_guests=2,
