@@ -1234,3 +1234,610 @@ Ran 3 tests in 4.911s
 
 FAILED (failures=3)
 Destroying test database for alias 'default'...
+
+
+
+
+
+
+
+-------------------------------------------------------
+
+
+test_system.py:
+
+python manage.py test hotel_app.test_system  
+
+
+
+PS C:\Users\aidan_1k98io6\OneDrive\Documents\Assignment\Software Engineering\hotel_project2\hotel_project> python manage.py test hotel_app.test_system
+Found 3 test(s).
+Creating test database for alias 'default'...
+System check identified no issues (0 silenced).
+INFO:hotel_app.views:Guest creation initiated in list mode by user: manager
+INFO:hotel_app.forms:Validating guest form data for James Wilson
+INFO:hotel_app.models:Guest display_name property called: Mr J. Wilson
+INFO:hotel_app.views:New guest created - ID: 1, Name: Mr J. Wilson
+INFO:hotel_app.views:Redirecting to guest list after creating guest 1
+INFO:hotel_app.views:Guest creation initiated in list mode by user: manager
+INFO:hotel_app.forms:Validating guest form data for Sarah Brown
+INFO:hotel_app.models:Guest display_name property called: Mrs S. Brown
+INFO:hotel_app.views:New guest created - ID: 2, Name: Mrs S. Brown
+INFO:hotel_app.views:Redirecting to guest list after creating guest 2
+INFO:hotel_app.views:Reservation creation initiated for guest_id: 1 by user: manager
+INFO:hotel_app.models:Guest display_name property called: Mr J. Wilson
+INFO:hotel_app.views:Found guest for reservation: Mr J. Wilson
+INFO:hotel_app.views:Retrieved room number from session: 101
+INFO:hotel_app.views:Found room for reservation: Room 101 (Standard Room)
+INFO:hotel_app.views:Reservation details:
+INFO:hotel_app.models:Guest display_name property called: Mr J. Wilson
+INFO:hotel_app.views: - Guest: Mr J. Wilson (ID: 1)
+INFO:hotel_app.views: - Room: 101 (Standard Room)
+INFO:hotel_app.views: - Check-in: 2025-04-11
+INFO:hotel_app.views: - Length of stay: 4 nights
+INFO:hotel_app.views: - Price per night: £100.00
+INFO:hotel_app.views: - Total price: £400.00
+INFO:hotel_app.views:Processing reservation form submission
+INFO:hotel_app.models:Guest display_name property called: Mr J. Wilson
+INFO:hotel_app.views:Reservation form validation successful
+INFO:hotel_app.forms:Reservation Form save
+INFO:hotel_app.forms: - reservation_id: None
+INFO:hotel_app.forms: - guest: None
+INFO:hotel_app.forms: - room_number: None
+INFO:hotel_app.forms: - reservation_date_time: datetime.datetime(2025, 2, 25, 17, 46, 48, tzinfo=zoneinfo.ZoneInfo(key='UTC'))
+INFO:hotel_app.forms: - price: Decimal('400.00')
+INFO:hotel_app.forms: - amount_paid: Decimal('400.00')
+INFO:hotel_app.forms: - number_of_guests: 2
+INFO:hotel_app.forms: - start_of_stay: datetime.date(2025, 4, 11)
+INFO:hotel_app.forms: - length_of_stay: 4
+INFO:hotel_app.forms: - status_code: 'RE'
+INFO:hotel_app.forms: - notes: 'First concurrent reservation'
+INFO:hotel_app.views:Created new reservation - ID: 1
+INFO:hotel_app.views:Redirecting to confirmation page for reservation 1
+INFO:hotel_app.views:Accessing reservation confirmation for reservation_id: 1
+INFO:hotel_app.models:Guest display_name property called: Mr J. Wilson
+INFO:hotel_app.views:Found reservation for guest: Mr J. Wilson, Room: 101, Check-in: 2025-04-11
+INFO:hotel_app.views:Rendering reservation confirmation page
+INFO:hotel_app.models:Room __str__ called: 101
+INFO:hotel_app.models:Guest display_name property called: Mr J. Wilson
+INFO:hotel_app.views:Reservation creation initiated for guest_id: 2 by user: manager
+INFO:hotel_app.models:Guest display_name property called: Mrs S. Brown
+INFO:hotel_app.views:Found guest for reservation: Mrs S. Brown
+INFO:hotel_app.views:Retrieved room number from session: 201
+INFO:hotel_app.views:Found room for reservation: Room 201 (Deluxe Room)
+INFO:hotel_app.views:Reservation details:
+INFO:hotel_app.models:Guest display_name property called: Mrs S. Brown
+INFO:hotel_app.views: - Guest: Mrs S. Brown (ID: 2)
+INFO:hotel_app.views: - Room: 201 (Deluxe Room)
+INFO:hotel_app.views: - Check-in: 2025-04-13
+INFO:hotel_app.views: - Length of stay: 3 nights
+INFO:hotel_app.views: - Price per night: £200.00
+INFO:hotel_app.views: - Total price: £600.00
+INFO:hotel_app.views:Processing reservation form submission
+INFO:hotel_app.models:Guest display_name property called: Mrs S. Brown
+INFO:hotel_app.views:Reservation form validation successful
+INFO:hotel_app.forms:Reservation Form save
+INFO:hotel_app.forms: - reservation_id: None
+INFO:hotel_app.forms: - guest: None
+INFO:hotel_app.forms: - room_number: None
+INFO:hotel_app.forms: - reservation_date_time: datetime.datetime(2025, 2, 25, 17, 46, 48, tzinfo=zoneinfo.ZoneInfo(key='UTC'))
+INFO:hotel_app.forms: - price: Decimal('600.00')
+INFO:hotel_app.forms: - amount_paid: Decimal('600.00')
+INFO:hotel_app.forms: - number_of_guests: 2
+INFO:hotel_app.forms: - start_of_stay: datetime.date(2025, 4, 13)
+INFO:hotel_app.forms: - length_of_stay: 3
+INFO:hotel_app.forms: - status_code: 'RE'
+INFO:hotel_app.forms: - notes: 'Second concurrent reservation'
+INFO:hotel_app.views:Created new reservation - ID: 2
+INFO:hotel_app.views:Redirecting to confirmation page for reservation 2
+INFO:hotel_app.views:Accessing reservation confirmation for reservation_id: 2
+INFO:hotel_app.models:Guest display_name property called: Mrs S. Brown
+INFO:hotel_app.views:Found reservation for guest: Mrs S. Brown, Room: 201, Check-in: 2025-04-13
+INFO:hotel_app.views:Rendering reservation confirmation page
+INFO:hotel_app.models:Room __str__ called: 201
+INFO:hotel_app.models:Guest display_name property called: Mrs S. Brown
+INFO:hotel_app.views:Reservation creation initiated for guest_id: 2 by user: manager
+INFO:hotel_app.models:Guest display_name property called: Mrs S. Brown
+INFO:hotel_app.views:Found guest for reservation: Mrs S. Brown
+INFO:hotel_app.views:Retrieved room number from session: 101
+INFO:hotel_app.views:Found room for reservation: Room 101 (Standard Room)
+INFO:hotel_app.views:Reservation details:
+INFO:hotel_app.models:Guest display_name property called: Mrs S. Brown
+INFO:hotel_app.views: - Guest: Mrs S. Brown (ID: 2)
+INFO:hotel_app.views: - Room: 101 (Standard Room)
+INFO:hotel_app.views: - Check-in: 2025-04-12
+INFO:hotel_app.views: - Length of stay: 2 nights
+INFO:hotel_app.views: - Price per night: £100.00
+INFO:hotel_app.views: - Total price: £200.00
+INFO:hotel_app.views:Processing reservation form submission
+INFO:hotel_app.models:Guest display_name property called: Mrs S. Brown
+INFO:hotel_app.views:Reservation form validation successful
+INFO:hotel_app.forms:Reservation Form save
+INFO:hotel_app.forms: - reservation_id: None
+INFO:hotel_app.forms: - guest: None
+INFO:hotel_app.forms: - room_number: None
+INFO:hotel_app.forms: - reservation_date_time: datetime.datetime(2025, 2, 25, 17, 46, 48, tzinfo=zoneinfo.ZoneInfo(key='UTC'))
+INFO:hotel_app.forms: - price: Decimal('200.00')
+INFO:hotel_app.forms: - amount_paid: Decimal('200.00')
+INFO:hotel_app.forms: - number_of_guests: 1
+INFO:hotel_app.forms: - start_of_stay: datetime.date(2025, 4, 12)
+INFO:hotel_app.forms: - length_of_stay: 2
+INFO:hotel_app.forms: - status_code: 'RE'
+INFO:hotel_app.forms: - notes: 'Conflicting reservation attempt'
+ERROR:django.request:Internal Server Error: /reservation/create/2
+Traceback (most recent call last):
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\contrib\auth\decorators.py", line 60, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\OneDrive\Documents\Assignment\Software Engineering\hotel_project2\hotel_project\hotel_app\views.py", line 517, in reservation_create_view
+    reservation = form.save()
+                  ^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\OneDrive\Documents\Assignment\Software Engineering\hotel_project2\hotel_project\hotel_app\forms.py", line 329, in save
+    instance.save()
+  File "C:\Users\aidan_1k98io6\OneDrive\Documents\Assignment\Software Engineering\hotel_project2\hotel_project\hotel_app\models.py", line 354, in save
+    self.full_clean()  # Call full_clean before saving to force validation
+    ^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\base.py", line 1651, in full_clean
+    raise ValidationError(errors)
+django.core.exceptions.ValidationError: {'__all__': ['This room is already booked for the entered dates.']}
+.INFO:hotel_app.views:Guest creation initiated in list mode by user: manager
+INFO:hotel_app.forms:Validating guest form data for John Smith
+INFO:hotel_app.models:Guest display_name property called: Mr J. Smith
+INFO:hotel_app.views:New guest created - ID: 1, Name: Mr J. Smith
+INFO:hotel_app.views:Redirecting to guest list after creating guest 1
+INFO:hotel_app.views:Available rooms search initiated by user: manager
+INFO:hotel_app.views:Using provided start date: 2025-03-27
+INFO:hotel_app.views:Using provided length of stay: 3
+INFO:hotel_app.views:Using provided room type filter: STD
+INFO:hotel_app.views:Search criteria persisted to session
+INFO:hotel_app.views:Total rooms before filtering: 5
+INFO:hotel_app.filters:Filtering available rooms based on search criteria.
+INFO:hotel_app.filters:Filtering rooms for start date: 2025-03-27 and length of stay: 3
+INFO:hotel_app.filters:Excluding reserved rooms: []
+INFO:hotel_app.filters:Filtering rooms by room type: STD
+INFO:hotel_app.views:Available rooms after filtering: 3
+INFO:hotel_app.models:RoomType __str__ called: Standard Room
+INFO:hotel_app.models:RoomType __str__ called: Deluxe Room
+INFO:hotel_app.views:Reservation creation initiated for guest_id: 1 by user: manager
+INFO:hotel_app.models:Guest display_name property called: Mr J. Smith
+INFO:hotel_app.views:Found guest for reservation: Mr J. Smith
+INFO:hotel_app.views:Retrieved room number from session: 101
+INFO:hotel_app.views:Found room for reservation: Room 101 (Standard Room)
+INFO:hotel_app.views:Reservation details:
+INFO:hotel_app.models:Guest display_name property called: Mr J. Smith
+INFO:hotel_app.views: - Guest: Mr J. Smith (ID: 1)
+INFO:hotel_app.views: - Room: 101 (Standard Room)
+INFO:hotel_app.views: - Check-in: 2025-03-27
+INFO:hotel_app.views: - Length of stay: 3 nights
+INFO:hotel_app.views: - Price per night: £100.00
+INFO:hotel_app.views: - Total price: £300.00
+INFO:hotel_app.views:Processing reservation form submission
+INFO:hotel_app.models:Guest display_name property called: Mr J. Smith
+INFO:hotel_app.views:Reservation form validation successful
+INFO:hotel_app.forms:Reservation Form save
+INFO:hotel_app.forms: - reservation_id: None
+INFO:hotel_app.forms: - guest: None
+INFO:hotel_app.forms: - room_number: None
+INFO:hotel_app.forms: - reservation_date_time: datetime.datetime(2025, 2, 25, 17, 46, 50, tzinfo=zoneinfo.ZoneInfo(key='UTC'))
+INFO:hotel_app.forms: - price: Decimal('300.00')
+INFO:hotel_app.forms: - amount_paid: Decimal('300.00')
+INFO:hotel_app.forms: - number_of_guests: 2
+INFO:hotel_app.forms: - start_of_stay: datetime.date(2025, 3, 27)
+INFO:hotel_app.forms: - length_of_stay: 3
+INFO:hotel_app.forms: - status_code: 'RE'
+INFO:hotel_app.forms: - notes: 'Test reservation'
+INFO:hotel_app.views:Created new reservation - ID: 1
+INFO:hotel_app.views:Redirecting to confirmation page for reservation 1
+INFO:hotel_app.views:Accessing reservation confirmation for reservation_id: 1
+INFO:hotel_app.models:Guest display_name property called: Mr J. Smith
+INFO:hotel_app.views:Found reservation for guest: Mr J. Smith, Room: 101, Check-in: 2025-03-27
+INFO:hotel_app.views:Rendering reservation confirmation page
+INFO:hotel_app.models:Room __str__ called: 101
+INFO:hotel_app.models:Guest display_name property called: Mr J. Smith
+INFO:hotel_app.views:Processing reservation update: <QueryDict: {'guest': ['1'], 'room_number': ['101'], 'guest_display': ['Mr John Smith'], 'room_number_display': ['101 - Standard Room'], 'reservation_date_time': ['2025-02-25 17:46:50'], 'price': ['300.00'], 'amount_paid': ['300.00'], 'number_of_guests': ['2'], 'start_of_stay': ['2025-03-27'], 'length_of_stay': ['3'], 'status_code': ['IN'], 'notes': ['Test reservation']}>
+INFO:hotel_app.models:Guest display_name property called: Mr J. Smith
+INFO:hotel_app.forms:Reservation Form save
+INFO:hotel_app.forms: - reservation_id: 1
+INFO:hotel_app.models:Guest __str__ called: ID:1: Full name:Mr John Smith
+INFO:hotel_app.forms: - guest: <Guest: ID:1: Full name:Mr John Smith>
+INFO:hotel_app.models:Room __str__ called: 101
+INFO:hotel_app.forms: - room_number: <Room: 101>
+INFO:hotel_app.forms: - reservation_date_time: datetime.datetime(2025, 2, 25, 17, 46, 50, tzinfo=zoneinfo.ZoneInfo(key='UTC'))
+INFO:hotel_app.forms: - price: Decimal('300.00')
+INFO:hotel_app.forms: - amount_paid: Decimal('300.00')
+INFO:hotel_app.forms: - number_of_guests: 2
+INFO:hotel_app.forms: - start_of_stay: datetime.date(2025, 3, 27)
+INFO:hotel_app.forms: - length_of_stay: 3
+INFO:hotel_app.forms: - status_code: 'IN'
+INFO:hotel_app.forms: - notes: 'Test reservation'
+INFO:hotel_app.views:Reservation updated successfully
+INFO:hotel_app.views:Reservation list view accessed by user: manager
+INFO:hotel_app.views:Filter parameters: <QueryDict: {}>
+INFO:hotel_app.views:Reservation list view accessed by user: manager
+INFO:hotel_app.views:Filter parameters: <QueryDict: {}>
+INFO:hotel_app.filters:Filtering reservations starting before 2025-02-25 but still occupying a room.
+INFO:hotel_app.filters:Filtered available rooms count: 4
+INFO:hotel_app.filters:Filtered reservations count: 1
+INFO:hotel_app.views:Processing reservation update: <QueryDict: {'guest': ['1'], 'room_number': ['101'], 'guest_display': ['Mr John Smith'], 'room_number_display': ['101 - Standard Room'], 'reservation_date_time': ['2025-02-25 17:46:50'], 'price': ['300.00'], 'amount_paid': ['300.00'], 'number_of_guests': ['2'], 'start_of_stay': ['2025-03-27'], 'length_of_stay': ['3'], 'status_code': ['OT'], 'notes': ['Test reservation']}>
+INFO:hotel_app.models:Guest display_name property called: Mr J. Smith
+INFO:hotel_app.forms:Reservation Form save
+INFO:hotel_app.forms: - reservation_id: 1
+INFO:hotel_app.models:Guest __str__ called: ID:1: Full name:Mr John Smith
+INFO:hotel_app.forms: - guest: <Guest: ID:1: Full name:Mr John Smith>
+INFO:hotel_app.models:Room __str__ called: 101
+INFO:hotel_app.forms: - room_number: <Room: 101>
+INFO:hotel_app.forms: - reservation_date_time: datetime.datetime(2025, 2, 25, 17, 46, 50, tzinfo=zoneinfo.ZoneInfo(key='UTC'))
+INFO:hotel_app.forms: - price: Decimal('300.00')
+INFO:hotel_app.forms: - amount_paid: Decimal('300.00')
+INFO:hotel_app.forms: - number_of_guests: 2
+INFO:hotel_app.forms: - start_of_stay: datetime.date(2025, 3, 27)
+INFO:hotel_app.forms: - length_of_stay: 3
+INFO:hotel_app.forms: - status_code: 'OT'
+INFO:hotel_app.forms: - notes: 'Test reservation'
+INFO:hotel_app.views:Reservation updated successfully
+INFO:hotel_app.views:Reservation list view accessed by user: manager
+INFO:hotel_app.views:Filter parameters: <QueryDict: {}>
+INFO:hotel_app.views:Reservation list view accessed by user: manager
+INFO:hotel_app.views:Filter parameters: <QueryDict: {}>
+INFO:hotel_app.filters:Filtering reservations starting before 2025-02-25 but still occupying a room.
+INFO:hotel_app.filters:Filtered available rooms count: 4
+INFO:hotel_app.filters:Filtered reservations count: 1
+.INFO:hotel_app.views:Guest creation initiated in list mode by user: manager
+INFO:hotel_app.forms:Validating guest form data for Emma Taylor
+INFO:hotel_app.models:Guest display_name property called: Dr E. Taylor
+INFO:hotel_app.views:New guest created - ID: 1, Name: Dr E. Taylor
+INFO:hotel_app.views:Redirecting to guest list after creating guest 1
+INFO:hotel_app.views:Reservation creation initiated for guest_id: 1 by user: manager
+INFO:hotel_app.models:Guest display_name property called: Dr E. Taylor
+INFO:hotel_app.views:Found guest for reservation: Dr E. Taylor
+INFO:hotel_app.views:Retrieved room number from session: 201
+INFO:hotel_app.views:Found room for reservation: Room 201 (Deluxe Room)
+INFO:hotel_app.views:Reservation details:
+INFO:hotel_app.models:Guest display_name property called: Dr E. Taylor
+INFO:hotel_app.views: - Guest: Dr E. Taylor (ID: 1)
+INFO:hotel_app.views: - Room: 201 (Deluxe Room)
+INFO:hotel_app.views: - Check-in: 2025-04-26
+INFO:hotel_app.views: - Length of stay: 2 nights
+INFO:hotel_app.views: - Price per night: £200.00
+INFO:hotel_app.views: - Total price: £400.00
+INFO:hotel_app.views:Processing reservation form submission
+INFO:hotel_app.models:Guest display_name property called: Dr E. Taylor
+WARNING:hotel_app.views:Reservation form validation failed
+INFO:hotel_app.views:Form errors: <ul class="errorlist"><li>amount_paid<ul class="errorlist"><li>Payment amount cannot exceed the total price of 400.00</li></ul></li><li>__all__<ul class="errorlist nonfield"><li>Payment amount is required</li></ul></li></ul>
+INFO:hotel_app.views:Reservation creation initiated for guest_id: 1 by user: manager
+INFO:hotel_app.models:Guest display_name property called: Dr E. Taylor
+INFO:hotel_app.views:Found guest for reservation: Dr E. Taylor
+INFO:hotel_app.views:Retrieved room number from session: 201
+INFO:hotel_app.views:Found room for reservation: Room 201 (Deluxe Room)
+INFO:hotel_app.views:Reservation details:
+INFO:hotel_app.models:Guest display_name property called: Dr E. Taylor
+INFO:hotel_app.views: - Guest: Dr E. Taylor (ID: 1)
+INFO:hotel_app.views: - Room: 201 (Deluxe Room)
+INFO:hotel_app.views: - Check-in: 2025-04-26
+INFO:hotel_app.views: - Length of stay: 2 nights
+INFO:hotel_app.views: - Price per night: £200.00
+INFO:hotel_app.views: - Total price: £400.00
+INFO:hotel_app.views:Processing reservation form submission
+INFO:hotel_app.models:Guest display_name property called: Dr E. Taylor
+INFO:hotel_app.views:Reservation form validation successful
+INFO:hotel_app.forms:Reservation Form save
+INFO:hotel_app.forms: - reservation_id: None
+INFO:hotel_app.forms: - guest: None
+INFO:hotel_app.forms: - room_number: None
+INFO:hotel_app.forms: - reservation_date_time: datetime.datetime(2025, 2, 25, 17, 46, 52, tzinfo=zoneinfo.ZoneInfo(key='UTC'))
+INFO:hotel_app.forms: - price: Decimal('400.00')
+INFO:hotel_app.forms: - amount_paid: Decimal('400.00')
+INFO:hotel_app.forms: - number_of_guests: 2
+INFO:hotel_app.forms: - start_of_stay: datetime.date(2025, 4, 26)
+INFO:hotel_app.forms: - length_of_stay: 2
+INFO:hotel_app.forms: - status_code: 'RE'
+INFO:hotel_app.forms: - notes: 'Invalid payment test'
+INFO:hotel_app.views:Created new reservation - ID: 1
+INFO:hotel_app.views:Redirecting to confirmation page for reservation 1
+INFO:hotel_app.views:Accessing reservation confirmation for reservation_id: 1
+INFO:hotel_app.models:Guest display_name property called: Dr E. Taylor
+INFO:hotel_app.views:Found reservation for guest: Dr E. Taylor, Room: 201, Check-in: 2025-04-26
+INFO:hotel_app.views:Rendering reservation confirmation page
+INFO:hotel_app.models:Room __str__ called: 201
+INFO:hotel_app.models:Guest display_name property called: Dr E. Taylor
+INFO:hotel_app.views:Processing reservation update: <QueryDict: {'guest': ['1'], 'room_number': ['201'], 'guest_display': ['Dr Emma Taylor'], 'room_number_display': ['201 - Deluxe Room'], 'reservation_date_time': ['2025-02-25 17:46:52'], 'price': ['400.00'], 'amount_paid': ['400.00'], 'number_of_guests': ['2'], 'start_of_stay': ['2025-04-26'], 'length_of_stay': ['2'], 'status_code': ['IN'], 'notes': ['Invalid payment test']}>
+INFO:hotel_app.models:Guest display_name property called: Dr E. Taylor
+INFO:hotel_app.forms:Reservation Form save
+INFO:hotel_app.forms: - reservation_id: 1
+INFO:hotel_app.models:Guest __str__ called: ID:1: Full name:Dr Emma Taylor
+INFO:hotel_app.forms: - guest: <Guest: ID:1: Full name:Dr Emma Taylor>
+INFO:hotel_app.models:Room __str__ called: 201
+INFO:hotel_app.forms: - room_number: <Room: 201>
+INFO:hotel_app.forms: - reservation_date_time: datetime.datetime(2025, 2, 25, 17, 46, 52, tzinfo=zoneinfo.ZoneInfo(key='UTC'))
+INFO:hotel_app.forms: - price: Decimal('400.00')
+INFO:hotel_app.forms: - amount_paid: Decimal('400.00')
+INFO:hotel_app.forms: - number_of_guests: 2
+INFO:hotel_app.forms: - start_of_stay: datetime.date(2025, 4, 26)
+INFO:hotel_app.forms: - length_of_stay: 2
+INFO:hotel_app.forms: - status_code: 'IN'
+INFO:hotel_app.forms: - notes: 'Invalid payment test'
+INFO:hotel_app.views:Reservation updated successfully
+INFO:hotel_app.views:Reservation list view accessed by user: manager
+INFO:hotel_app.views:Filter parameters: <QueryDict: {}>
+INFO:hotel_app.views:Reservation list view accessed by user: manager
+INFO:hotel_app.views:Filter parameters: <QueryDict: {}>
+INFO:hotel_app.filters:Filtering reservations starting before 2025-02-25 but still occupying a room.
+INFO:hotel_app.filters:Filtered available rooms count: 4
+INFO:hotel_app.filters:Filtered reservations count: 1
+INFO:hotel_app.views:Processing reservation update: <QueryDict: {'guest': ['1'], 'room_number': ['201'], 'guest_display': ['Dr Emma Taylor'], 'room_number_display': ['201 - Deluxe Room'], 'reservation_date_time': ['2025-02-25 17:46:52'], 'price': ['400.00'], 'amount_paid': ['400.00'], 'number_of_guests': ['2'], 'start_of_stay': ['2025-04-26'], 'length_of_stay': ['2'], 'status_code': ['OT'], 'notes': ['Invalid payment test']}>
+INFO:hotel_app.models:Guest display_name property called: Dr E. Taylor
+INFO:hotel_app.forms:Reservation Form save
+INFO:hotel_app.forms: - reservation_id: 1
+INFO:hotel_app.models:Guest __str__ called: ID:1: Full name:Dr Emma Taylor
+INFO:hotel_app.forms: - guest: <Guest: ID:1: Full name:Dr Emma Taylor>
+INFO:hotel_app.models:Room __str__ called: 201
+INFO:hotel_app.forms: - room_number: <Room: 201>
+INFO:hotel_app.forms: - reservation_date_time: datetime.datetime(2025, 2, 25, 17, 46, 52, tzinfo=zoneinfo.ZoneInfo(key='UTC'))
+INFO:hotel_app.forms: - price: Decimal('400.00')
+INFO:hotel_app.forms: - amount_paid: Decimal('400.00')
+INFO:hotel_app.forms: - number_of_guests: 2
+INFO:hotel_app.forms: - start_of_stay: datetime.date(2025, 4, 26)
+INFO:hotel_app.forms: - length_of_stay: 2
+INFO:hotel_app.forms: - status_code: 'OT'
+INFO:hotel_app.forms: - notes: 'Invalid payment test'
+INFO:hotel_app.views:Reservation updated successfully
+INFO:hotel_app.views:Reservation list view accessed by user: manager
+INFO:hotel_app.views:Filter parameters: <QueryDict: {}>
+INFO:hotel_app.views:Reservation list view accessed by user: manager
+INFO:hotel_app.views:Filter parameters: <QueryDict: {}>
+INFO:hotel_app.filters:Filtering reservations starting before 2025-02-25 but still occupying a room.
+INFO:hotel_app.filters:Filtered available rooms count: 4
+INFO:hotel_app.filters:Filtered reservations count: 1
+.
+Ran 3 tests in 6.273s
+
+OK
+Destroying test database for alias 'default'...
+
+PS C:\Users\aidan_1k98io6\OneDrive\Documents\Assignment\Software Engineering\hotel_project2\hotel_project>
+                                                                                                           python manage.py test hotel_app.test_system     
+Found 3 test(s).
+Creating test database for alias 'default'...
+System check identified no issues (0 silenced).
+INFO:hotel_app.views:Guest creation initiated in list mode by user: manager
+INFO:hotel_app.forms:Validating guest form data for Alice Johnson
+INFO:hotel_app.models:Guest display_name property called: Dr A. Johnson
+INFO:hotel_app.views:New guest created - ID: 3, Name: Dr A. Johnson
+INFO:hotel_app.views:Redirecting to guest list after creating guest 3
+INFO:hotel_app.views:Reservation creation initiated for guest_id: 3 by user: manager
+INFO:hotel_app.models:Guest display_name property called: Dr A. Johnson
+INFO:hotel_app.views:Found guest for reservation: Dr A. Johnson
+INFO:hotel_app.views:Retrieved room number from session: 101
+INFO:hotel_app.views:Found room for reservation: Room 101 (Standard Room)
+INFO:hotel_app.views:Reservation details:
+INFO:hotel_app.models:Guest display_name property called: Dr A. Johnson
+INFO:hotel_app.views: - Guest: Dr A. Johnson (ID: 3)
+INFO:hotel_app.views: - Room: 101 (Standard Room)
+INFO:hotel_app.views: - Check-in: 2025-03-27
+INFO:hotel_app.views: - Length of stay: 2 nights
+INFO:hotel_app.views: - Price per night: £100.00
+INFO:hotel_app.views: - Total price: £200.00
+INFO:hotel_app.views:Processing reservation form submission
+INFO:hotel_app.models:Guest display_name property called: Dr A. Johnson
+INFO:hotel_app.views:Reservation form validation successful
+INFO:hotel_app.forms:Reservation Form save
+INFO:hotel_app.forms: - reservation_id: None
+INFO:hotel_app.forms: - guest: None
+INFO:hotel_app.forms: - room_number: None
+INFO:hotel_app.forms: - reservation_date_time: datetime.datetime(2025, 2, 25, 17, 1, 29, tzinfo=zoneinfo.ZoneInfo(key='UTC'))
+INFO:hotel_app.forms: - price: Decimal('200.00')
+INFO:hotel_app.forms: - amount_paid: Decimal('200.00')
+INFO:hotel_app.forms: - number_of_guests: 1
+INFO:hotel_app.forms: - start_of_stay: datetime.date(2025, 3, 27)
+INFO:hotel_app.forms: - length_of_stay: 2
+INFO:hotel_app.forms: - status_code: 'RE'
+INFO:hotel_app.forms: - notes: 'First stay'
+INFO:hotel_app.views:Created new reservation - ID: 1
+INFO:hotel_app.views:Redirecting to confirmation page for reservation 1
+INFO:hotel_app.views:Accessing reservation confirmation for reservation_id: 1
+INFO:hotel_app.models:Guest display_name property called: Dr A. Johnson
+INFO:hotel_app.views:Found reservation for guest: Dr A. Johnson, Room: 101, Check-in: 2025-03-27
+INFO:hotel_app.views:Rendering reservation confirmation page
+INFO:hotel_app.models:Room __str__ called: 101
+INFO:hotel_app.models:Guest display_name property called: Dr A. Johnson
+INFO:hotel_app.views:Reservation creation initiated for guest_id: 3 by user: manager
+INFO:hotel_app.models:Guest display_name property called: Dr A. Johnson
+INFO:hotel_app.views:Found guest for reservation: Dr A. Johnson
+INFO:hotel_app.views:Retrieved room number from session: 201
+INFO:hotel_app.views:Found room for reservation: Room 201 (Deluxe Room)
+INFO:hotel_app.views:Reservation details:
+INFO:hotel_app.models:Guest display_name property called: Dr A. Johnson
+INFO:hotel_app.views: - Guest: Dr A. Johnson (ID: 3)
+INFO:hotel_app.views: - Room: 201 (Deluxe Room)
+INFO:hotel_app.views: - Check-in: 2025-04-26
+INFO:hotel_app.views: - Length of stay: 3 nights
+INFO:hotel_app.views: - Price per night: £200.00
+INFO:hotel_app.views: - Total price: £600.00
+INFO:hotel_app.views:Processing reservation form submission
+INFO:hotel_app.models:Guest display_name property called: Dr A. Johnson
+INFO:hotel_app.views:Reservation form validation successful
+INFO:hotel_app.forms:Reservation Form save
+INFO:hotel_app.forms: - reservation_id: None
+INFO:hotel_app.forms: - guest: None
+INFO:hotel_app.forms: - room_number: None
+INFO:hotel_app.forms: - reservation_date_time: datetime.datetime(2025, 2, 25, 17, 1, 29, tzinfo=zoneinfo.ZoneInfo(key='UTC'))
+INFO:hotel_app.forms: - price: Decimal('600.00')
+INFO:hotel_app.forms: - amount_paid: Decimal('600.00')
+INFO:hotel_app.forms: - number_of_guests: 2
+INFO:hotel_app.forms: - start_of_stay: datetime.date(2025, 4, 26)
+INFO:hotel_app.forms: - length_of_stay: 3
+INFO:hotel_app.forms: - status_code: 'RE'
+INFO:hotel_app.forms: - notes: 'Second stay'
+INFO:hotel_app.views:Created new reservation - ID: 2
+INFO:hotel_app.views:Redirecting to confirmation page for reservation 2
+INFO:hotel_app.views:Accessing reservation confirmation for reservation_id: 2
+INFO:hotel_app.models:Guest display_name property called: Dr A. Johnson
+INFO:hotel_app.views:Found reservation for guest: Dr A. Johnson, Room: 201, Check-in: 2025-04-26
+INFO:hotel_app.views:Rendering reservation confirmation page
+INFO:hotel_app.models:Room __str__ called: 201
+INFO:hotel_app.models:Guest display_name property called: Dr A. Johnson
+INFO:hotel_app.views:Guest update initiated for guest_id: 3 by user: manager
+INFO:hotel_app.models:Guest display_name property called: Dr A. Johnson
+INFO:hotel_app.views:Found guest to update: Dr A. Johnson
+INFO:hotel_app.forms:Validating guest form data for Alice Johnson
+INFO:hotel_app.models:Guest display_name property called: Dr A. Johnson
+INFO:hotel_app.views:Successfully updated guest - ID: 3, Name: Dr A. Johnson
+EINFO:hotel_app.views:Reservation creation initiated for guest_id: 1 by user: manager
+INFO:hotel_app.models:Guest display_name property called: Mr J. Smith
+INFO:hotel_app.views:Found guest for reservation: Mr J. Smith
+INFO:hotel_app.views:Retrieved room number from session: 101
+INFO:hotel_app.views:Found room for reservation: Room 101 (Standard Room)
+INFO:hotel_app.views:Reservation details:
+INFO:hotel_app.models:Guest display_name property called: Mr J. Smith
+INFO:hotel_app.views: - Guest: Mr J. Smith (ID: 1)
+INFO:hotel_app.views: - Room: 101 (Standard Room)
+INFO:hotel_app.views: - Check-in: 2025-03-27
+INFO:hotel_app.views: - Length of stay: 3 nights
+INFO:hotel_app.views: - Price per night: £100.00
+INFO:hotel_app.views: - Total price: £300.00
+INFO:hotel_app.views:Processing reservation form submission
+INFO:hotel_app.models:Guest display_name property called: Mr J. Smith
+INFO:hotel_app.views:Reservation form validation successful
+INFO:hotel_app.forms:Reservation Form save
+INFO:hotel_app.forms: - reservation_id: None
+INFO:hotel_app.forms: - guest: None
+INFO:hotel_app.forms: - room_number: None
+INFO:hotel_app.forms: - reservation_date_time: datetime.datetime(2025, 2, 25, 17, 1, 31, tzinfo=zoneinfo.ZoneInfo(key='UTC'))
+INFO:hotel_app.forms: - price: Decimal('300.00')
+INFO:hotel_app.forms: - amount_paid: Decimal('300.00')
+INFO:hotel_app.forms: - number_of_guests: 2
+INFO:hotel_app.forms: - start_of_stay: datetime.date(2025, 3, 27)
+INFO:hotel_app.forms: - length_of_stay: 3
+INFO:hotel_app.forms: - status_code: 'RE'
+INFO:hotel_app.forms: - notes: 'First reservation'
+INFO:hotel_app.views:Created new reservation - ID: 1
+INFO:hotel_app.views:Redirecting to confirmation page for reservation 1
+INFO:hotel_app.views:Accessing reservation confirmation for reservation_id: 1
+INFO:hotel_app.models:Guest display_name property called: Mr J. Smith
+INFO:hotel_app.views:Found reservation for guest: Mr J. Smith, Room: 101, Check-in: 2025-03-27
+INFO:hotel_app.views:Rendering reservation confirmation page
+INFO:hotel_app.models:Room __str__ called: 101
+INFO:hotel_app.models:Guest display_name property called: Mr J. Smith
+INFO:hotel_app.views:Reservation creation initiated for guest_id: 2 by user: manager
+INFO:hotel_app.models:Guest display_name property called: Mrs J. Doe
+INFO:hotel_app.views:Found guest for reservation: Mrs J. Doe
+INFO:hotel_app.views:Retrieved room number from session: 201
+INFO:hotel_app.views:Found room for reservation: Room 201 (Deluxe Room)
+INFO:hotel_app.views:Reservation details:
+INFO:hotel_app.models:Guest display_name property called: Mrs J. Doe
+INFO:hotel_app.views: - Guest: Mrs J. Doe (ID: 2)
+INFO:hotel_app.views: - Room: 201 (Deluxe Room)
+INFO:hotel_app.views: - Check-in: 2025-03-28
+INFO:hotel_app.views: - Length of stay: 4 nights
+INFO:hotel_app.views: - Price per night: £200.00
+INFO:hotel_app.views: - Total price: £800.00
+INFO:hotel_app.views:Processing reservation form submission
+INFO:hotel_app.models:Guest display_name property called: Mrs J. Doe
+INFO:hotel_app.views:Reservation form validation successful
+INFO:hotel_app.forms:Reservation Form save
+INFO:hotel_app.forms: - reservation_id: None
+INFO:hotel_app.forms: - guest: None
+INFO:hotel_app.forms: - room_number: None
+INFO:hotel_app.forms: - reservation_date_time: datetime.datetime(2025, 2, 25, 17, 1, 31, tzinfo=zoneinfo.ZoneInfo(key='UTC'))
+INFO:hotel_app.forms: - price: Decimal('800.00')
+INFO:hotel_app.forms: - amount_paid: Decimal('800.00')
+INFO:hotel_app.forms: - number_of_guests: 2
+INFO:hotel_app.forms: - start_of_stay: datetime.date(2025, 3, 28)
+INFO:hotel_app.forms: - length_of_stay: 4
+INFO:hotel_app.forms: - status_code: 'RE'
+INFO:hotel_app.forms: - notes: 'Second reservation'
+INFO:hotel_app.views:Created new reservation - ID: 2
+INFO:hotel_app.views:Redirecting to confirmation page for reservation 2
+INFO:hotel_app.views:Accessing reservation confirmation for reservation_id: 2
+INFO:hotel_app.models:Guest display_name property called: Mrs J. Doe
+INFO:hotel_app.views:Found reservation for guest: Mrs J. Doe, Room: 201, Check-in: 2025-03-28
+INFO:hotel_app.views:Rendering reservation confirmation page
+INFO:hotel_app.models:Room __str__ called: 201
+INFO:hotel_app.models:Guest display_name property called: Mrs J. Doe
+INFO:hotel_app.views:Reservation creation initiated for guest_id: 2 by user: manager
+INFO:hotel_app.models:Guest display_name property called: Mrs J. Doe
+INFO:hotel_app.views:Found guest for reservation: Mrs J. Doe
+INFO:hotel_app.views:Retrieved room number from session: 101
+INFO:hotel_app.views:Found room for reservation: Room 101 (Standard Room)
+INFO:hotel_app.views:Reservation details:
+INFO:hotel_app.models:Guest display_name property called: Mrs J. Doe
+INFO:hotel_app.views: - Guest: Mrs J. Doe (ID: 2)
+INFO:hotel_app.views: - Room: 101 (Standard Room)
+INFO:hotel_app.views: - Check-in: 2025-03-28
+INFO:hotel_app.views: - Length of stay: 2 nights
+INFO:hotel_app.views: - Price per night: £100.00
+INFO:hotel_app.views: - Total price: £200.00
+INFO:hotel_app.views:Processing reservation form submission
+INFO:hotel_app.models:Guest display_name property called: Mrs J. Doe
+INFO:hotel_app.views:Reservation form validation successful
+INFO:hotel_app.forms:Reservation Form save
+INFO:hotel_app.forms: - reservation_id: None
+INFO:hotel_app.forms: - guest: None
+INFO:hotel_app.forms: - room_number: None
+INFO:hotel_app.forms: - reservation_date_time: datetime.datetime(2025, 2, 25, 17, 1, 31, tzinfo=zoneinfo.ZoneInfo(key='UTC'))
+INFO:hotel_app.forms: - price: Decimal('200.00')
+INFO:hotel_app.forms: - amount_paid: Decimal('200.00')
+INFO:hotel_app.forms: - number_of_guests: 1
+INFO:hotel_app.forms: - start_of_stay: datetime.date(2025, 3, 28)
+INFO:hotel_app.forms: - length_of_stay: 2
+INFO:hotel_app.forms: - status_code: 'RE'
+INFO:hotel_app.forms: - notes: 'Conflicting reservation attempt'
+ERROR:django.request:Internal Server Error: /reservation/create/2
+Traceback (most recent call last):
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\contrib\auth\decorators.py", line 60, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\OneDrive\Documents\Assignment\Software Engineering\hotel_project2\hotel_project\hotel_app\views.py", line 517, in reservation_create_view
+    reservation = form.save()
+                  ^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\OneDrive\Documents\Assignment\Software Engineering\hotel_project2\hotel_project\hotel_app\forms.py", line 329, in save
+    instance.save()
+  File "C:\Users\aidan_1k98io6\OneDrive\Documents\Assignment\Software Engineering\hotel_project2\hotel_project\hotel_app\models.py", line 354, in save
+    self.full_clean()  # Call full_clean before saving to force validation
+    ^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\base.py", line 1651, in full_clean
+    raise ValidationError(errors)
+django.core.exceptions.ValidationError: {'__all__': ['This room is already booked for the entered dates.']}
+.E
+======================================================================
+ERROR: test_full_guest_lifecycle (hotel_app.test_system.MultipleReservationSystemTestCase.test_full_guest_lifecycle)
+Test complete guest lifecycle including multiple stays and history
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\aidan_1k98io6\OneDrive\Documents\Assignment\Software Engineering\hotel_project2\hotel_project\hotel_app\test_system.py", line 314, in test_full_guest_lifecycle
+    response = self.client.get(reverse('guest_detail', kwargs={'guest_id': guest.guest_id}))
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\urls\base.py", line 88, in reverse
+    return resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\urls\resolvers.py", line 831, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'guest_detail' not found. 'guest_detail' is not a valid view function or pattern name.
+
+======================================================================
+ERROR: test_room_lifecycle (hotel_app.test_system.RoomManagementSystemTestCase.test_room_lifecycle)
+Test complete room lifecycle including creation, updates, and status changes
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\aidan_1k98io6\OneDrive\Documents\Assignment\Software Engineering\hotel_project2\hotel_project\hotel_app\test_system.py", line 363, in test_room_lifecycle
+    'room_type': self.standard_room.id,
+                 ^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'RoomType' object has no attribute 'id'
+
+----------------------------------------------------------------------
+Ran 3 tests in 6.101s
+
+FAILED (errors=2)
+Destroying test database for alias 'default'...

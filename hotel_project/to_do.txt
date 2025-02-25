@@ -6,6 +6,7 @@
 prompt:
 - now actually apply the changes like you did previously
 - make sure form validation is consistent across the codebase
+- [cline claude 3.7] improve the project, (making sure any changes to the code implementation are reflected in the tests)
 
 to do:
 - remove firecrawl-mcp-server
@@ -58,6 +59,8 @@ Then that data can be used to write tests for the reservations
 
 --
 
+do next:
+
 Try to create a double booking for a room, make sure it prevents it
 Maybe some stress tests?
 Have a routine that creates 1000 guests (random names and details will be fine)
@@ -69,8 +72,10 @@ I don’t think there’s any need to stress test Rooms or Room Types as they wo
 
 other tests:
 - unit tests (done)
-- integration tests
+- integration tests (done)
 - system tests
-- performance tests
+- performance tests (load, stress, scalability, stability)
+- usability tests
+- compatibility tests
 - security tests
 - acceptance tests
