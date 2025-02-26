@@ -23,6 +23,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib import messages
 from django.utils import timezone
+from django.http import Http404
 from datetime import datetime, date, timedelta
 from rest_framework import generics
 from .serialisers import GuestSerialiser, ReservationSerialiser, RoomSerialiser, RoomTypeSerialiser
@@ -30,6 +31,7 @@ from . models import Guest, Reservation, Room, RoomType
 from . filters import AvailableRoomFilter, GuestFilter, ReservationFilter, RoomFilter
 from . forms import LoginForm, GuestForm, ReservationForm, RoomForm, RoomTypeForm
 import logging
+import re
 
 # Configure logging to write INFO level messages or higher to the terminal
 # This provides detailed operation tracking for debugging and monitoring

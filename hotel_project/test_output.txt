@@ -1841,3 +1841,2262 @@ Ran 3 tests in 6.101s
 
 FAILED (errors=2)
 Destroying test database for alias 'default'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-------------------------------------------------
+
+
+test_performance.py:
+
+ python manage.py test hotel_app.test_performance
+
+ Ran 8 tests in 14.117s
+
+OK
+Destroying test database for alias 'default'...
+
+PS C:\Users\aidan_1k98io6\OneDrive\Documents\Assignment\Software Engineering\hotel_project2\hotel_project> python manage.py test hotel_app.test_performance
+Found 8 test(s).
+Creating test database for alias 'default'...
+System check identified no issues (0 silenced).
+.INFO:hotel_app.views:Available rooms search initiated by user: testuser
+INFO:hotel_app.views:Using provided start date: 2025-02-25
+INFO:hotel_app.views:Using provided length of stay: 1
+INFO:hotel_app.views:Using provided room type filter: STD
+INFO:hotel_app.views:Search criteria persisted to session
+INFO:hotel_app.views:Total rooms before filtering: 21
+INFO:hotel_app.filters:Filtering available rooms based on search criteria.
+INFO:hotel_app.filters:Filtering rooms for start date: 2025-02-25 and length of stay: 1
+INFO:hotel_app.filters:Excluding reserved rooms: []
+INFO:hotel_app.filters:Filtering rooms by room type: STD
+INFO:hotel_app.views:Available rooms after filtering: 21
+INFO:hotel_app.models:RoomType __str__ called: Standard Room
+..INFO:hotel_app.views:Available rooms search initiated by user: testuser
+INFO:hotel_app.views:Using provided start date: 2025-02-25
+INFO:hotel_app.views:Using provided length of stay: 1
+INFO:hotel_app.views:Using default/session room type: all types
+INFO:hotel_app.views:Search criteria persisted to session
+INFO:hotel_app.views:Total rooms before filtering: 1
+INFO:hotel_app.filters:Filtering available rooms based on search criteria.
+INFO:hotel_app.filters:Filtering rooms for start date: 2025-02-25 and length of stay: 1
+INFO:hotel_app.filters:Excluding reserved rooms: []
+INFO:hotel_app.views:Available rooms after filtering: 1
+INFO:hotel_app.models:RoomType __str__ called: Standard Room
+INFO:hotel_app.views:Available rooms search initiated by user: testuser
+INFO:hotel_app.views:Using provided start date: 2025-02-25
+INFO:hotel_app.views:Using provided length of stay: 1
+INFO:hotel_app.views:Using default/session room type: all types
+INFO:hotel_app.views:Search criteria persisted to session
+INFO:hotel_app.views:Total rooms before filtering: 1
+INFO:hotel_app.filters:Filtering available rooms based on search criteria.
+INFO:hotel_app.filters:Filtering rooms for start date: 2025-02-25 and length of stay: 1
+INFO:hotel_app.filters:Excluding reserved rooms: []
+INFO:hotel_app.views:Available rooms after filtering: 1
+INFO:hotel_app.models:RoomType __str__ called: Standard Room
+FINFO:hotel_app.views:Guest creation initiated in list mode by user: testuser
+INFO:hotel_app.forms:Validating guest form data for Test Guest
+INFO:hotel_app.models:Guest display_name property called: Mr T. Guest
+INFO:hotel_app.views:New guest created - ID: 2, Name: Mr T. Guest
+INFO:hotel_app.views:Redirecting to guest list after creating guest 2
+.E.INFO:hotel_app.views:Room list view accessed by user: testuser
+INFO:hotel_app.views:Retrieved 1 rooms after filtering
+.
+======================================================================
+ERROR: test_reservation_creation_performance (hotel_app.test_performance.FormSubmissionPerformanceTest.test_reservation_creation_performance)
+Test reservation creation form submission performance.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\aidan_1k98io6\OneDrive\Documents\Assignment\Software Engineering\hotel_project2\hotel_project\hotel_app\test_performance.py", line 188, in test_reservation_creation_performance
+    execution_time = self.measure_execution_time(create_reservation)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\OneDrive\Documents\Assignment\Software Engineering\hotel_project2\hotel_project\hotel_app\test_performance.py", line 88, in measure_execution_time
+    func()
+  File "C:\Users\aidan_1k98io6\OneDrive\Documents\Assignment\Software Engineering\hotel_project2\hotel_project\hotel_app\test_performance.py", line 186, in create_reservation
+    return self.client.post(reverse('reservation_create'), reservation_data)
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\urls\base.py", line 88, in reverse
+    return resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\urls\resolvers.py", line 831, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'reservation_create' with no arguments not found. 1 pattern(s) tried: ['reservation/create/(?P<guest_id>[0-9]+)\\Z']
+
+======================================================================
+FAIL: test_room_availability_query_performance (hotel_app.test_performance.DatabaseQueryPerformanceTest.test_room_availability_query_performance)
+Test room availability search query performance.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\aidan_1k98io6\OneDrive\Documents\Assignment\Software Engineering\hotel_project2\hotel_project\hotel_app\test_performance.py", line 123, in test_room_availability_query_performance
+    self.assertLess(query_count, 10,
+AssertionError: 11 not less than 10 : Room availability check making too many queries: 11
+
+----------------------------------------------------------------------
+Ran 8 tests in 14.414s
+
+FAILED (failures=1, errors=1)
+Destroying test database for alias 'default'...
+
+
+
+
+
+
+
+
+
+
+----------------------------------
+
+test_stress.py:
+
+python manage.py test hotel_app.test_stress
+
+
+--
+
+System check identified no issues (0 silenced).
+INFO:hotel_app.views:Available rooms search initiated by user: testuser
+INFO:hotel_app.views:Using provided start date: 2025-02-26
+INFO:hotel_app.views:Using provided length of stay: 1
+INFO:hotel_app.views:Using default/session room type: all types
+INFO:hotel_app.views:Search criteria persisted to session
+INFO:hotel_app.views:Available rooms search initiated by user: testuser
+INFO:hotel_app.views:Total rooms before filtering: 50
+INFO:hotel_app.views:Using provided start date: 2025-02-26
+INFO:hotel_app.views:Using provided length of stay: 1
+INFO:hotel_app.views:Using default/session room type: all types
+INFO:hotel_app.views:Search criteria persisted to session
+INFO:hotel_app.views:Total rooms before filtering: 50
+INFO:hotel_app.filters:Filtering available rooms based on search criteria.
+INFO:hotel_app.filters:Filtering rooms for start date: 2025-02-26 and length of stay: 1
+INFO:hotel_app.filters:Filtering available rooms based on search criteria.
+INFO:hotel_app.filters:Filtering rooms for start date: 2025-02-26 and length of stay: 1
+Exception in thread Thread-5 (simulate_user_actions):
+Exception in thread Thread-10 (simulate_user_actions):
+Traceback (most recent call last):
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+Traceback (most recent call last):
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\backends\sqlite3\base.py", line 354, in execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\backends\sqlite3\base.py", line 354, in execute
+INFO:hotel_app.views:Available rooms search initiated by user: testuser
+    return super().execute(query, params)
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.OperationalError: database table is locked: django_session
+
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+The above exception was the direct cause of the following exception:
+
+sqlite3.OperationalError: database table is locked
+
+Traceback (most recent call last):
+The above exception was the direct cause of the following exception:
+  File "C:\Users\aidan_1k98io6\AppData\Local\Programs\Python\Python312\Lib\threading.py", line 1075, in _bootstrap_inner
+
+Traceback (most recent call last):
+INFO:hotel_app.filters:Excluding reserved rooms: []
+  File "C:\Users\aidan_1k98io6\AppData\Local\Programs\Python\Python312\Lib\threading.py", line 1075, in _bootstrap_inner     
+    self.run()
+  File "C:\Users\aidan_1k98io6\AppData\Local\Programs\Python\Python312\Lib\threading.py", line 1012, in run
+INFO:hotel_app.filters:Excluding reserved rooms: []
+INFO:hotel_app.views:Room list view accessed by user: testuser
+    self._target(*self._args, **self._kwargs)
+    self.run()
+  File "C:\Users\aidan_1k98io6\OneDrive\Documents\Assignment\Software Engineering\hotel_project2\hotel_project\hotel_app\test_stress.py", line 110, in simulate_user_actions
+  File "C:\Users\aidan_1k98io6\AppData\Local\Programs\Python\Python312\Lib\threading.py", line 1012, in run
+INFO:hotel_app.views:Room list view accessed by user: testuser
+    client.login(username='testuser', password='testpass123')
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\test\client.py", line 840, in login
+INFO:hotel_app.views:Using provided start date: 2025-02-26
+    self._login(user)
+    self._target(*self._args, **self._kwargs)
+INFO:hotel_app.views:Available rooms after filtering: 50
+  File "C:\Users\aidan_1k98io6\OneDrive\Documents\Assignment\Software Engineering\hotel_project2\hotel_project\hotel_app\test_stress.py", line 110, in simulate_user_actions
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\test\client.py", line 879, in _login
+INFO:hotel_app.views:Retrieved 50 rooms after filtering
+    client.login(username='testuser', password='testpass123')
+INFO:hotel_app.views:Available rooms after filtering: 50
+    if self.session:
+       ^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\test\client.py", line 840, in login
+INFO:hotel_app.views:Retrieved 50 rooms after filtering
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\test\client.py", line 815, in session
+    session.save()
+INFO:hotel_app.views:Using provided length of stay: 1
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\contrib\sessions\backends\db.py", line 121, in save
+INFO:hotel_app.models:RoomType __str__ called: Standard Room
+INFO:hotel_app.models:RoomType __str__ called: Standard Room
+    self._login(user)
+    return self.create()
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\test\client.py", line 884, in _login
+INFO:hotel_app.views:Using default/session room type: all types
+           ^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\contrib\sessions\backends\db.py", line 70, in create
+    login(request, user, backend)
+INFO:hotel_app.views:Search criteria persisted to session
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\contrib\auth\__init__.py", line 152, in login
+    self._session_key = self._get_new_session_key()
+INFO:hotel_app.views:Room list view accessed by user: testuser
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\contrib\sessions\backends\base.py", line 196, in _get_new_session_key
+INFO:hotel_app.views:Total rooms before filtering: 50
+    user_logged_in.send(sender=user.__class__, request=request, user=user)
+INFO:hotel_app.views:Retrieved 50 rooms after filtering
+    if not self.exists(session_key):
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\dispatch\dispatcher.py", line 189, in send
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\contrib\sessions\backends\db.py", line 63, in exists
+INFO:hotel_app.filters:Filtering available rooms based on search criteria.
+INFO:hotel_app.filters:Filtering rooms for start date: 2025-02-26 and length of stay: 1
+    return self.model.objects.filter(session_key=session_key).exists()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\query.py", line 1288, in exists
+INFO:hotel_app.filters:Excluding reserved rooms: []
+    response = receiver(signal=self, sender=sender, **named)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    return self.query.has_results(using=self.db)
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\contrib\auth\models.py", line 24, in update_last_login
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\sql\query.py", line 660, in has_results
+    user.save(update_fields=["last_login"])
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\contrib\auth\base_user.py", line 62, in save
+    return compiler.has_results()
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\sql\compiler.py", line 1542, in has_results
+INFO:hotel_app.views:Room list view accessed by user: testuser
+    super().save(*args, **kwargs)
+    return bool(self.execute_sql(SINGLE))
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\base.py", line 892, in save
+INFO:hotel_app.views:Available rooms after filtering: 50
+                ^^^^^^^^^^^^^^^^^^^^^^^^
+INFO:hotel_app.views:Room list view accessed by user: testuser
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\sql\compiler.py", line 1574, in execute_sql
+    self.save_base(
+INFO:hotel_app.views:Retrieved 50 rooms after filtering
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\base.py", line 998, in save_base
+    cursor.execute(sql, params)
+INFO:hotel_app.models:RoomType __str__ called: Standard Room
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+INFO:hotel_app.views:Retrieved 50 rooms after filtering
+INFO:hotel_app.views:Available rooms search initiated by user: testuser
+    return self._execute_with_wrappers(
+INFO:hotel_app.views:Using provided start date: 2025-02-26
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    updated = self._save_table(
+INFO:hotel_app.views:Using provided length of stay: 1
+              ^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\base.py", line 1130, in _save_table
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+INFO:hotel_app.views:Using default/session room type: all types
+    updated = self._do_update(
+              ^^^^^^^^^^^^^^^^
+    return executor(sql, params, many, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\base.py", line 1195, in _do_update
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+INFO:hotel_app.views:Search criteria persisted to session
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+INFO:hotel_app.views:Total rooms before filtering: 50
+    return filtered._update(values) > 0
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\query.py", line 1278, in _update
+INFO:hotel_app.views:Room list view accessed by user: testuser
+INFO:hotel_app.filters:Filtering available rooms based on search criteria.
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\backends\sqlite3\base.py", line 354, in execute
+    return query.get_compiler(self.db).execute_sql(CURSOR)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    return super().execute(query, params)
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\sql\compiler.py", line 2003, in execute_sql
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: database table is locked: django_session
+    cursor = super().execute_sql(result_type)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\sql\compiler.py", line 1574, in execute_sql
+    cursor.execute(sql, params)
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\backends\sqlite3\base.py", line 354, in execute
+    return super().execute(query, params)
+WARNING:django.request:The request's session was deleted before the request completed. The user may have logged out in a concurrent request, for example.: /available-rooms/
+Traceback (most recent call last):
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\backends\sqlite3\base.py", line 354, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.OperationalError: database table is locked: django_session
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\contrib\sessions\backends\db.py", line 127, in save
+    obj.save(
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\base.py", line 892, in save
+    self.save_base(
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\base.py", line 998, in save_base
+    updated = self._save_table(
+              ^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\base.py", line 1130, in _save_table
+    updated = self._do_update(
+              ^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\base.py", line 1195, in _do_update
+    return filtered._update(values) > 0
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\query.py", line 1278, in _update
+    return query.get_compiler(self.db).execute_sql(CURSOR)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\sql\compiler.py", line 2003, in execute_sql
+    cursor = super().execute_sql(result_type)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\sql\compiler.py", line 1574, in execute_sql
+    cursor.execute(sql, params)
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\backends\sqlite3\base.py", line 354, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: database table is locked: django_session
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\contrib\sessions\middleware.py", line 59, in process_response
+    request.session.save()
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\contrib\sessions\backends\db.py", line 136, in save
+    raise UpdateError
+django.contrib.sessions.backends.base.UpdateError
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\utils\deprecation.py", line 131, in __call__
+    response = self.process_response(request, response)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\contrib\sessions\middleware.py", line 61, in process_response
+    raise SessionInterrupted(
+django.contrib.sessions.exceptions.SessionInterrupted: The request's session was deleted before the request completed. The user may have logged out in a concurrent request, for example.
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: database table is locked
+Exception in thread Thread-8 (simulate_user_actions):
+Traceback (most recent call last):
+INFO:hotel_app.views:Retrieved 50 rooms after filtering
+  File "C:\Users\aidan_1k98io6\AppData\Local\Programs\Python\Python312\Lib\threading.py", line 1075, in _bootstrap_inner     
+INFO:hotel_app.filters:Filtering rooms for start date: 2025-02-26 and length of stay: 1
+INFO:hotel_app.views:Room list view accessed by user: testuser
+INFO:hotel_app.views:Available rooms search initiated by user: testuser
+    self.run()
+INFO:hotel_app.views:Available rooms search initiated by user: testuser
+  File "C:\Users\aidan_1k98io6\AppData\Local\Programs\Python\Python312\Lib\threading.py", line 1012, in run
+INFO:hotel_app.views:Using provided start date: 2025-02-26
+INFO:hotel_app.filters:Excluding reserved rooms: []
+INFO:hotel_app.views:Retrieved 50 rooms after filtering
+    self._target(*self._args, **self._kwargs)
+INFO:hotel_app.views:Using provided start date: 2025-02-26
+  File "C:\Users\aidan_1k98io6\OneDrive\Documents\Assignment\Software Engineering\hotel_project2\hotel_project\hotel_app\test_stress.py", line 128, in simulate_user_actions
+INFO:hotel_app.views:Available rooms search initiated by user: testuser
+INFO:hotel_app.views:Using provided length of stay: 1
+INFO:hotel_app.views:Using provided length of stay: 1
+    self.assertEqual(response.status_code, 200)
+  File "C:\Users\aidan_1k98io6\AppData\Local\Programs\Python\Python312\Lib\unittest\case.py", line 885, in assertEqual
+INFO:hotel_app.views:Using provided start date: 2025-02-26
+    assertion_func(first, second, msg=msg)
+  File "C:\Users\aidan_1k98io6\AppData\Local\Programs\Python\Python312\Lib\unittest\case.py", line 878, in _baseAssertEqual
+INFO:hotel_app.views:Available rooms after filtering: 50
+INFO:hotel_app.views:Using default/session room type: all types
+INFO:hotel_app.views:Using default/session room type: all types
+INFO:hotel_app.views:Using provided length of stay: 1
+    raise self.failureException(msg)
+INFO:hotel_app.models:RoomType __str__ called: Standard Room
+AssertionError: 400 != 200
+INFO:hotel_app.views:Search criteria persisted to session
+INFO:hotel_app.views:Search criteria persisted to session
+INFO:hotel_app.views:Using default/session room type: all types
+INFO:hotel_app.views:Total rooms before filtering: 50
+INFO:hotel_app.views:Total rooms before filtering: 50
+INFO:hotel_app.views:Search criteria persisted to session
+INFO:hotel_app.filters:Filtering available rooms based on search criteria.
+INFO:hotel_app.filters:Filtering available rooms based on search criteria.
+INFO:hotel_app.views:Room list view accessed by user: testuser
+INFO:hotel_app.filters:Filtering rooms for start date: 2025-02-26 and length of stay: 1
+INFO:hotel_app.views:Total rooms before filtering: 50
+INFO:hotel_app.filters:Filtering rooms for start date: 2025-02-26 and length of stay: 1
+INFO:hotel_app.views:Retrieved 50 rooms after filtering
+INFO:hotel_app.filters:Filtering available rooms based on search criteria.
+INFO:hotel_app.filters:Excluding reserved rooms: []
+INFO:hotel_app.filters:Filtering rooms for start date: 2025-02-26 and length of stay: 1
+INFO:hotel_app.filters:Excluding reserved rooms: []
+INFO:hotel_app.filters:Excluding reserved rooms: []
+INFO:hotel_app.views:Available rooms after filtering: 50
+INFO:hotel_app.models:RoomType __str__ called: Standard Room
+INFO:hotel_app.views:Available rooms after filtering: 50
+INFO:hotel_app.models:RoomType __str__ called: Standard Room
+INFO:hotel_app.views:Available rooms search initiated by user: testuser
+INFO:hotel_app.views:Using provided start date: 2025-02-26
+INFO:hotel_app.views:Using provided length of stay: 1
+INFO:hotel_app.views:Using default/session room type: all types
+INFO:hotel_app.views:Search criteria persisted to session
+INFO:hotel_app.views:Total rooms before filtering: 50
+INFO:hotel_app.views:Available rooms after filtering: 50
+INFO:hotel_app.filters:Filtering available rooms based on search criteria.
+INFO:hotel_app.filters:Filtering rooms for start date: 2025-02-26 and length of stay: 1
+INFO:hotel_app.models:RoomType __str__ called: Standard Room
+INFO:hotel_app.filters:Excluding reserved rooms: []
+INFO:hotel_app.views:Available rooms search initiated by user: testuser
+INFO:hotel_app.views:Using provided start date: 2025-02-26
+INFO:hotel_app.views:Using provided length of stay: 1
+INFO:hotel_app.views:Using default/session room type: all types
+INFO:hotel_app.views:Search criteria persisted to session
+INFO:hotel_app.views:Available rooms after filtering: 50
+INFO:hotel_app.views:Total rooms before filtering: 50
+INFO:hotel_app.filters:Filtering available rooms based on search criteria.
+INFO:hotel_app.filters:Filtering rooms for start date: 2025-02-26 and length of stay: 1
+INFO:hotel_app.filters:Excluding reserved rooms: []
+INFO:hotel_app.models:RoomType __str__ called: Standard Room
+INFO:hotel_app.views:Room list view accessed by user: testuser
+INFO:hotel_app.views:Retrieved 50 rooms after filtering
+INFO:hotel_app.views:Available rooms search initiated by user: testuser
+INFO:hotel_app.views:Using provided start date: 2025-02-26
+INFO:hotel_app.views:Using provided length of stay: 1
+INFO:hotel_app.views:Using default/session room type: all types
+INFO:hotel_app.views:Search criteria persisted to session
+INFO:hotel_app.views:Total rooms before filtering: 50
+INFO:hotel_app.filters:Filtering available rooms based on search criteria.
+INFO:hotel_app.filters:Filtering rooms for start date: 2025-02-26 and length of stay: 1
+INFO:hotel_app.filters:Excluding reserved rooms: []
+INFO:hotel_app.views:Available rooms after filtering: 50
+INFO:hotel_app.views:Available rooms search initiated by user: testuser
+INFO:hotel_app.views:Using provided start date: 2025-02-26
+INFO:hotel_app.views:Using provided length of stay: 1
+INFO:hotel_app.views:Using default/session room type: all types
+INFO:hotel_app.models:RoomType __str__ called: Standard Room
+INFO:hotel_app.views:Search criteria persisted to session
+INFO:hotel_app.views:Total rooms before filtering: 50
+INFO:hotel_app.filters:Filtering available rooms based on search criteria.
+INFO:hotel_app.filters:Filtering rooms for start date: 2025-02-26 and length of stay: 1
+INFO:hotel_app.filters:Excluding reserved rooms: []
+INFO:hotel_app.views:Available rooms after filtering: 50
+INFO:hotel_app.views:Room list view accessed by user: testuser
+INFO:hotel_app.views:Available rooms after filtering: 50
+INFO:hotel_app.views:Retrieved 50 rooms after filtering
+INFO:hotel_app.models:RoomType __str__ called: Standard Room
+INFO:hotel_app.views:Room list view accessed by user: testuser
+INFO:hotel_app.views:Retrieved 50 rooms after filtering
+INFO:hotel_app.models:RoomType __str__ called: Standard Room
+INFO:hotel_app.views:Available rooms search initiated by user: testuser
+INFO:hotel_app.views:Using provided start date: 2025-02-26
+INFO:hotel_app.views:Using provided length of stay: 1
+INFO:hotel_app.views:Using default/session room type: all types
+INFO:hotel_app.views:Search criteria persisted to session
+INFO:hotel_app.views:Total rooms before filtering: 50
+INFO:hotel_app.filters:Filtering available rooms based on search criteria.
+INFO:hotel_app.filters:Filtering rooms for start date: 2025-02-26 and length of stay: 1
+INFO:hotel_app.filters:Excluding reserved rooms: []
+INFO:hotel_app.views:Available rooms after filtering: 50
+INFO:hotel_app.models:RoomType __str__ called: Standard Room
+INFO:hotel_app.views:Available rooms search initiated by user: testuser
+INFO:hotel_app.views:Using provided start date: 2025-02-26
+INFO:hotel_app.views:Using provided length of stay: 1
+INFO:hotel_app.views:Using default/session room type: all types
+INFO:hotel_app.views:Search criteria persisted to session
+INFO:hotel_app.views:Total rooms before filtering: 50
+INFO:hotel_app.filters:Filtering available rooms based on search criteria.
+INFO:hotel_app.filters:Filtering rooms for start date: 2025-02-26 and length of stay: 1
+INFO:hotel_app.filters:Excluding reserved rooms: []
+INFO:hotel_app.views:Available rooms after filtering: 50
+INFO:hotel_app.models:RoomType __str__ called: Standard Room
+....INFO:hotel_app.views:Available rooms search initiated by user: testuser
+INFO:hotel_app.views:Using provided start date: 2025-03-28
+INFO:hotel_app.views:Using provided length of stay: 5
+INFO:hotel_app.views:Using default/session room type: all types
+INFO:hotel_app.views:Search criteria persisted to session
+INFO:hotel_app.views:Available rooms search initiated by user: testuser
+INFO:hotel_app.views:Total rooms before filtering: 50
+INFO:hotel_app.views:Using provided start date: 2025-03-25
+INFO:hotel_app.filters:Filtering available rooms based on search criteria.
+INFO:hotel_app.views:Using provided length of stay: 2
+INFO:hotel_app.filters:Filtering rooms for start date: 2025-03-28 and length of stay: 5
+INFO:hotel_app.views:Available rooms search initiated by user: testuser
+INFO:hotel_app.views:Available rooms search initiated by user: testuser
+INFO:hotel_app.views:Using provided start date: 2025-03-07
+INFO:hotel_app.views:Using provided length of stay: 4
+INFO:hotel_app.views:Using default/session room type: all types
+INFO:hotel_app.views:Available rooms search initiated by user: testuser
+INFO:hotel_app.views:Available rooms search initiated by user: testuser
+INFO:hotel_app.views:Using provided start date: 2025-02-26
+INFO:hotel_app.views:Available rooms search initiated by user: testuser
+INFO:hotel_app.views:Using provided start date: 2025-02-26
+INFO:hotel_app.views:Available rooms search initiated by user: testuser
+INFO:hotel_app.views:Available rooms search initiated by user: testuser
+INFO:hotel_app.views:Search criteria persisted to session
+INFO:hotel_app.filters:Excluding reserved rooms: [128, 129, 106, 107, 108, 109]
+INFO:hotel_app.views:Using provided start date: 2025-03-16
+INFO:hotel_app.views:Using provided length of stay: 4
+INFO:hotel_app.views:Using default/session room type: all types
+INFO:hotel_app.views:Using provided length of stay: 4
+INFO:hotel_app.views:Using default/session room type: all types
+INFO:hotel_app.views:Using provided length of stay: 5
+INFO:hotel_app.views:Using provided start date: 2025-03-10
+INFO:hotel_app.views:Using provided start date: 2025-03-03
+INFO:hotel_app.views:Total rooms before filtering: 50
+INFO:hotel_app.views:Available rooms after filtering: 44
+INFO:hotel_app.views:Search criteria persisted to session
+INFO:hotel_app.views:Available rooms search initiated by user: testuser
+INFO:hotel_app.views:Using provided start date: 2025-03-27
+INFO:hotel_app.views:Using provided length of stay: 5
+INFO:hotel_app.views:Search criteria persisted to session
+INFO:hotel_app.views:Using default/session room type: all types
+INFO:hotel_app.views:Search criteria persisted to session
+INFO:hotel_app.views:Using provided length of stay: 2
+INFO:hotel_app.views:Using default/session room type: all types
+INFO:hotel_app.views:Search criteria persisted to session
+INFO:hotel_app.filters:Filtering available rooms based on search criteria.
+INFO:hotel_app.filters:Filtering rooms for start date: 2025-03-07 and length of stay: 4
+INFO:hotel_app.views:Using default/session room type: all types
+INFO:hotel_app.views:Search criteria persisted to session
+INFO:hotel_app.views:Total rooms before filtering: 50
+INFO:hotel_app.views:Using provided length of stay: 2
+INFO:hotel_app.views:Total rooms before filtering: 50
+INFO:hotel_app.models:RoomType __str__ called: Standard Room
+INFO:hotel_app.views:Total rooms before filtering: 50
+INFO:hotel_app.views:Total rooms before filtering: 50
+INFO:hotel_app.views:Using provided start date: 2025-03-14
+INFO:hotel_app.filters:Excluding reserved rooms: [106, 107, 109, 110, 111, 112, 136, 137, 138, 139, 140, 141, 142, 118, 119, 120, 121, 122, 146, 147, 148, 149]
+INFO:hotel_app.views:Using default/session room type: all types
+INFO:hotel_app.filters:Filtering available rooms based on search criteria.
+INFO:hotel_app.views:Total rooms before filtering: 50
+INFO:hotel_app.views:Using default/session room type: all types
+INFO:hotel_app.filters:Filtering available rooms based on search criteria.
+INFO:hotel_app.filters:Filtering available rooms based on search criteria.
+INFO:hotel_app.filters:Filtering available rooms based on search criteria.
+INFO:hotel_app.filters:Filtering rooms for start date: 2025-03-16 and length of stay: 4
+INFO:hotel_app.views:Search criteria persisted to session
+INFO:hotel_app.filters:Filtering rooms for start date: 2025-03-25 and length of stay: 2
+INFO:hotel_app.filters:Filtering available rooms based on search criteria.
+INFO:hotel_app.views:Search criteria persisted to session
+INFO:hotel_app.filters:Filtering rooms for start date: 2025-02-26 and length of stay: 5
+INFO:hotel_app.views:Available rooms after filtering: 28
+INFO:hotel_app.filters:Filtering rooms for start date: 2025-03-03 and length of stay: 2
+INFO:hotel_app.views:Using provided length of stay: 3
+INFO:hotel_app.filters:Excluding reserved rooms: [116, 117, 118, 119, 120, 121, 145, 146, 147, 148, 149, 100, 101, 127, 128, 129, 130, 131]
+INFO:hotel_app.views:Total rooms before filtering: 50
+INFO:hotel_app.filters:Excluding reserved rooms: [125, 126, 127, 128, 106, 107, 108, 136, 137, 138]
+INFO:hotel_app.filters:Filtering rooms for start date: 2025-02-26 and length of stay: 4
+INFO:hotel_app.views:Total rooms before filtering: 50
+INFO:hotel_app.filters:Excluding reserved rooms: [100, 101, 102, 103, 104, 130, 131, 132, 133, 134, 110, 111, 112, 113, 114, 140, 141, 142, 143, 144]
+INFO:hotel_app.views:Using default/session room type: all types
+INFO:hotel_app.filters:Filtering available rooms based on search criteria.
+INFO:hotel_app.models:RoomType __str__ called: Standard Room
+INFO:hotel_app.filters:Excluding reserved rooms: [103, 104, 105, 106, 134, 135, 136, 112, 113, 114, 115, 116, 141, 142, 143, 144, 145, 146]
+INFO:hotel_app.views:Available rooms after filtering: 32
+INFO:hotel_app.views:Available rooms after filtering: 32
+INFO:hotel_app.views:Available rooms after filtering: 40
+INFO:hotel_app.filters:Filtering available rooms based on search criteria.
+INFO:hotel_app.views:Available rooms after filtering: 30
+INFO:hotel_app.views:Search criteria persisted to session
+INFO:hotel_app.filters:Filtering rooms for start date: 2025-03-27 and length of stay: 5
+INFO:hotel_app.filters:Excluding reserved rooms: [100, 101, 102, 103, 130, 131, 132, 133, 110, 111, 112, 113, 140, 141, 142, 143]
+INFO:hotel_app.models:RoomType __str__ called: Standard Room
+INFO:hotel_app.models:RoomType __str__ called: Standard Room
+INFO:hotel_app.filters:Filtering rooms for start date: 2025-03-10 and length of stay: 2
+INFO:hotel_app.models:RoomType __str__ called: Standard Room
+INFO:hotel_app.models:RoomType __str__ called: Standard Room
+INFO:hotel_app.filters:Excluding reserved rooms: [126, 128, 129, 106, 107, 108, 109, 136, 138, 139]
+INFO:hotel_app.views:Total rooms before filtering: 50
+INFO:hotel_app.filters:Filtering available rooms based on search criteria.
+INFO:hotel_app.filters:Filtering rooms for start date: 2025-03-14 and length of stay: 3
+INFO:hotel_app.filters:Excluding reserved rooms: [110, 111, 112, 113, 141, 142, 143, 121, 122, 123, 148]
+INFO:hotel_app.views:Available rooms after filtering: 34
+INFO:hotel_app.models:RoomType __str__ called: Standard Room
+INFO:hotel_app.views:Available rooms after filtering: 39
+INFO:hotel_app.filters:Excluding reserved rooms: [113, 115, 116, 117, 118, 142, 144, 145, 146, 147, 148, 125, 126, 127, 128]
+INFO:hotel_app.models:RoomType __str__ called: Standard Room
+INFO:hotel_app.views:Available rooms after filtering: 40
+INFO:hotel_app.models:RoomType __str__ called: Standard Room
+INFO:hotel_app.views:Available rooms after filtering: 35
+INFO:hotel_app.models:RoomType __str__ called: Standard Room
+..
+----------------------------------------------------------------------
+Ran 6 tests in 17.563s
+
+OK
+Destroying test database for alias 'default'...
+
+
+  File "C:\Users\aidan_1k98io6\AppData\Local\Programs\Python\Python312\Lib\threading.py", line 1012, in run
+    self._target(*self._args, **self._kwargs)
+  File "C:\Users\aidan_1k98io6\OneDrive\Documents\Assignment\Software Engineering\hotel_project2\hotel_project\hotel_app\test_stress.py", line 107, in simulate_user_actions
+    response = action()
+               ^^^^^^^^
+  File "C:\Users\aidan_1k98io6\OneDrive\Documents\Assignment\Software Engineering\hotel_project2\hotel_project\hotel_app\test_stress.py", line 94, in <lambda>
+    lambda: client.get(reverse('home')),
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\test\client.py", line 1129, in get
+    response = super().get(
+               ^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\test\client.py", line 479, in get
+    return self.generic(
+           ^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\test\client.py", line 676, in generic
+    return self.request(**r)
+           ^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\test\client.py", line 1092, in request
+    self.check_exception(response)
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\test\client.py", line 805, in check_exception
+    raise exc_value
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\contrib\auth\decorators.py", line 57, in _view_wrapper
+    test_pass = test_func(request.user)
+                ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\contrib\auth\decorators.py", line 80, in <lambda>
+    lambda u: u.is_authenticated,
+              ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\utils\functional.py", line 251, in inner
+    self._setup()
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\utils\functional.py", line 404, in _setup
+    self._wrapped = self._setupfunc()
+                    ^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\contrib\auth\middleware.py", line 37, in <lambda>
+    request.user = SimpleLazyObject(lambda: get_user(request))
+                                            ^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\contrib\auth\middleware.py", line 17, in get_user
+    request._cached_user = auth.get_user(request)
+                           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\contrib\auth\__init__.py", line 216, in get_user
+    user = backend.get_user(user_id)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\contrib\auth\backends.py", line 157, in get_user
+    user = UserModel._default_manager.get(pk=user_id)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\query.py", line 645, in get
+    num = len(clone)
+          ^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\query.py", line 382, in __len__
+    self._fetch_all()
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\query.py", line 1928, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\query.py", line 91, in __iter__
+    results = compiler.execute_sql(
+              ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\sql\compiler.py", line 1574, in execute_sql
+    cursor.execute(sql, params)
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\backends\sqlite3\base.py", line 354, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: database table is locked
+          ^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\query.py", line 382, in __len__
+Exception in thread Thread-6 (simulate_user_actions):
+Traceback (most recent call last):
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    self._fetch_all()
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\query.py", line 1928, in _fetch_all
+INFO:hotel_app.views:Retrieved 50 rooms after filtering
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+INFO:hotel_app.views:Using default/session room type: all types
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\backends\sqlite3\base.py", line 354, in execute
+INFO:hotel_app.views:Search criteria persisted to session
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.OperationalError: database table is locked
+
+    self._result_cache = list(self._iterable_class(self))
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\query.py", line 91, in __iter__
+INFO:hotel_app.views:Available rooms search initiated by user: testuser
+    results = compiler.execute_sql(
+              ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\sql\compiler.py", line 1574, in execute_sql
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\aidan_1k98io6\AppData\Local\Programs\Python\Python312\Lib\threading.py", line 1075, in _bootstrap_inner     
+INFO:hotel_app.views:Room list view accessed by user: testuser
+    cursor.execute(sql, params)
+INFO:hotel_app.views:Available rooms search initiated by user: testuser
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    self.run()
+INFO:hotel_app.views:Total rooms before filtering: 50
+  File "C:\Users\aidan_1k98io6\AppData\Local\Programs\Python\Python312\Lib\threading.py", line 1012, in run
+    return self._execute_with_wrappers(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    self._target(*self._args, **self._kwargs)
+  File "C:\Users\aidan_1k98io6\OneDrive\Documents\Assignment\Software Engineering\hotel_project2\hotel_project\hotel_app\test_stress.py", line 107, in simulate_user_actions
+INFO:hotel_app.views:Using provided start date: 2025-02-26
+Exception in thread Thread-1 (simulate_user_actions):
+    response = action()
+Traceback (most recent call last):
+               ^^^^^^^^
+  File "C:\Users\aidan_1k98io6\OneDrive\Documents\Assignment\Software Engineering\hotel_project2\hotel_project\hotel_app\test_stress.py", line 97, in <lambda>
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return executor(sql, params, many, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    return self.cursor.execute(sql, params)
+INFO:hotel_app.views:Using provided length of stay: 1
+    lambda: client.get(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\backends\sqlite3\base.py", line 354, in execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    return super().execute(query, params)
+INFO:hotel_app.views:Using default/session room type: all types
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.OperationalError: database table is locked
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+            ^^^^^^^^^^^
+INFO:hotel_app.filters:Filtering available rooms based on search criteria.
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+INFO:hotel_app.views:Retrieved 50 rooms after filtering
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\test\client.py", line 1129, in get
+
+The above exception was the direct cause of the following exception:
+    response = super().get(
+INFO:hotel_app.views:Using provided start date: 2025-02-26
+    return self.cursor.execute(sql, params)
+               ^^^^^^^^^^^^
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+INFO:hotel_app.views:Search criteria persisted to session
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\test\client.py", line 479, in get
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\backends\sqlite3\base.py", line 354, in execute
+    return self.generic(
+           ^^^^^^^^^^^^^
+INFO:hotel_app.filters:Filtering rooms for start date: 2025-02-26 and length of stay: 1
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\test\client.py", line 676, in generic
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Traceback (most recent call last):
+INFO:hotel_app.views:Using provided length of stay: 1
+    return self.request(**r)
+django.db.utils.OperationalError: database table is locked
+  File "C:\Users\aidan_1k98io6\AppData\Local\Programs\Python\Python312\Lib\threading.py", line 1075, in _bootstrap_inner
+           ^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\test\client.py", line 1092, in request
+INFO:hotel_app.views:Total rooms before filtering: 50
+INFO:hotel_app.filters:Excluding reserved rooms: []
+    self.run()
+  File "C:\Users\aidan_1k98io6\AppData\Local\Programs\Python\Python312\Lib\threading.py", line 1012, in run
+    self.check_exception(response)
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\test\client.py", line 805, in check_exception
+    self._target(*self._args, **self._kwargs)
+INFO:hotel_app.views:Using default/session room type: all types
+  File "C:\Users\aidan_1k98io6\OneDrive\Documents\Assignment\Software Engineering\hotel_project2\hotel_project\hotel_app\test_stress.py", line 107, in simulate_user_actions
+    raise exc_value
+    response = action()
+  File "C:\Users\aidan_1k98io6\AppData\Local\Programs\Python\Python312\Lib\threading.py", line 1075, in _bootstrap_inner     
+               ^^^^^^^^
+INFO:hotel_app.filters:Filtering available rooms based on search criteria.
+  File "C:\Users\aidan_1k98io6\OneDrive\Documents\Assignment\Software Engineering\hotel_project2\hotel_project\hotel_app\test_stress.py", line 96, in <lambda>
+    self.run()
+INFO:hotel_app.views:Available rooms after filtering: 50
+  File "C:\Users\aidan_1k98io6\AppData\Local\Programs\Python\Python312\Lib\threading.py", line 1012, in run
+    lambda: client.get(reverse('room_list')),
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\test\client.py", line 1129, in get
+INFO:hotel_app.views:Room list view accessed by user: testuser
+    self._target(*self._args, **self._kwargs)
+    response = super().get(
+               ^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\test\client.py", line 479, in get
+INFO:hotel_app.views:Search criteria persisted to session
+    return self.generic(
+           ^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\test\client.py", line 676, in generic
+  File "C:\Users\aidan_1k98io6\OneDrive\Documents\Assignment\Software Engineering\hotel_project2\hotel_project\hotel_app\test_stress.py", line 107, in simulate_user_actions
+    return self.request(**r)
+           ^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\test\client.py", line 1092, in request
+    response = action()
+               ^^^^^^^^
+  File "C:\Users\aidan_1k98io6\OneDrive\Documents\Assignment\Software Engineering\hotel_project2\hotel_project\hotel_app\test_stress.py", line 94, in <lambda>
+    lambda: client.get(reverse('home')),
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\test\client.py", line 1129, in get
+INFO:hotel_app.views:Total rooms before filtering: 50
+    response = super().get(
+               ^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\test\client.py", line 479, in get
+    return self.generic(
+           ^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\test\client.py", line 676, in generic
+    return self.request(**r)
+           ^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\test\client.py", line 1092, in request
+    self.check_exception(response)
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\test\client.py", line 805, in check_exception
+    self.check_exception(response)
+INFO:hotel_app.models:RoomType __str__ called: Standard Room
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\test\client.py", line 805, in check_exception
+    raise exc_value
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    raise exc_value
+  File "C:\Users\aidan_1k98io6\AppData\Local\Programs\Python\Python312\Lib\threading.py", line 1075, in _bootstrap_inner     
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    self.run()
+  File "C:\Users\aidan_1k98io6\AppData\Local\Programs\Python\Python312\Lib\threading.py", line 1012, in run
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\contrib\auth\decorators.py", line 57, in _view_wrapper
+INFO:hotel_app.views:Retrieved 50 rooms after filtering
+    test_pass = test_func(request.user)
+                ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\contrib\auth\decorators.py", line 80, in <lambda>
+    self._target(*self._args, **self._kwargs)
+INFO:hotel_app.filters:Filtering rooms for start date: 2025-02-26 and length of stay: 1
+  File "C:\Users\aidan_1k98io6\OneDrive\Documents\Assignment\Software Engineering\hotel_project2\hotel_project\hotel_app\test_stress.py", line 107, in simulate_user_actions
+    lambda u: u.is_authenticated,
+    response = action()
+              ^^^^^^^^^^^^^^^^^^
+               ^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\utils\functional.py", line 251, in inner
+  File "C:\Users\aidan_1k98io6\OneDrive\Documents\Assignment\Software Engineering\hotel_project2\hotel_project\hotel_app\test_stress.py", line 97, in <lambda>
+    self._setup()
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\utils\functional.py", line 404, in _setup
+INFO:hotel_app.filters:Filtering available rooms based on search criteria.
+    lambda: client.get(
+            ^^^^^^^^^^^
+INFO:hotel_app.filters:Excluding reserved rooms: []
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\test\client.py", line 1129, in get
+    self._wrapped = self._setupfunc()
+Exception in thread Thread-5 (simulate_user_actions):
+                    ^^^^^^^^^^^^^^^^^
+Traceback (most recent call last):
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\contrib\auth\middleware.py", line 37, in <lambda>
+    response = super().get(
+    return self.cursor.execute(sql, params)
+               ^^^^^^^^^^^^
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\backends\sqlite3\base.py", line 354, in execute
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\test\client.py", line 479, in get
+INFO:hotel_app.filters:Filtering rooms for start date: 2025-02-26 and length of stay: 1
+    request.user = SimpleLazyObject(lambda: get_user(request))
+    return super().execute(query, params)
+                                            ^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\contrib\auth\middleware.py", line 17, in get_user
+    return self.generic(
+           ^^^^^^^^^^^^^
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.OperationalError: database table is locked
+
+    request._cached_user = auth.get_user(request)
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\test\client.py", line 676, in generic
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+                           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\AppData\Local\Programs\Python\Python312\Lib\threading.py", line 1075, in _bootstrap_inner     
+INFO:hotel_app.filters:Excluding reserved rooms: []
+    return self.request(**r)
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\contrib\auth\__init__.py", line 216, in get_user
+    self.run()
+           ^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\test\client.py", line 1092, in request
+  File "C:\Users\aidan_1k98io6\AppData\Local\Programs\Python\Python312\Lib\threading.py", line 1012, in run
+INFO:hotel_app.views:Available rooms after filtering: 50
+    user = backend.get_user(user_id)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+    self.check_exception(response)
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\contrib\auth\backends.py", line 157, in get_user
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\test\client.py", line 805, in check_exception
+    self._target(*self._args, **self._kwargs)
+  File "C:\Users\aidan_1k98io6\OneDrive\Documents\Assignment\Software Engineering\hotel_project2\hotel_project\hotel_app\test_stress.py", line 107, in simulate_user_actions
+    user = UserModel._default_manager.get(pk=user_id)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    response = action()
+INFO:hotel_app.views:Available rooms after filtering: 50
+    raise exc_value
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+               ^^^^^^^^
+  File "C:\Users\aidan_1k98io6\OneDrive\Documents\Assignment\Software Engineering\hotel_project2\hotel_project\hotel_app\test_stress.py", line 97, in <lambda>
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "C:\Users\aidan_1k98io6\AppData\Local\Programs\Python\Python312\Lib\threading.py", line 1075, in _bootstrap_inner     
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\query.py", line 645, in get
+    lambda: client.get(
+            ^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\test\client.py", line 1129, in get
+    self.run()
+  File "C:\Users\aidan_1k98io6\AppData\Local\Programs\Python\Python312\Lib\threading.py", line 1012, in run
+    num = len(clone)
+    response = super().get(
+          ^^^^^^^^^^
+               ^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\query.py", line 382, in __len__
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\test\client.py", line 479, in get
+    self._target(*self._args, **self._kwargs)
+INFO:hotel_app.models:RoomType __str__ called: Standard Room
+  File "C:\Users\aidan_1k98io6\OneDrive\Documents\Assignment\Software Engineering\hotel_project2\hotel_project\hotel_app\test_stress.py", line 107, in simulate_user_actions
+    self._fetch_all()
+    return self.generic(
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\query.py", line 1928, in _fetch_all
+           ^^^^^^^^^^^^^
+INFO:hotel_app.models:RoomType __str__ called: Standard Room
+    response = action()
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\test\client.py", line 676, in generic
+               ^^^^^^^^
+    self._result_cache = list(self._iterable_class(self))
+  File "C:\Users\aidan_1k98io6\OneDrive\Documents\Assignment\Software Engineering\hotel_project2\hotel_project\hotel_app\test_stress.py", line 94, in <lambda>
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    return self.request(**r)
+    lambda: client.get(reverse('home')),
+INFO:hotel_app.views:Room list view accessed by user: testuser
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\query.py", line 91, in __iter__
+           ^^^^^^^^^^^^^^^^^
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\test\client.py", line 1092, in request
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\test\client.py", line 1129, in get
+    results = compiler.execute_sql(
+    self.check_exception(response)
+              ^^^^^^^^^^^^^^^^^^^^^
+    response = super().get(
+INFO:hotel_app.views:Retrieved 50 rooms after filtering
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\test\client.py", line 805, in check_exception
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\sql\compiler.py", line 1574, in execute_sql
+               ^^^^^^^^^^^^
+    raise exc_value
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\test\client.py", line 479, in get
+  File "C:\Users\aidan_1k98io6\AppData\Local\Programs\Python\Python312\Lib\threading.py", line 1075, in _bootstrap_inner     
+    cursor.execute(sql, params)
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    self.run()
+    return self.generic(
+  File "C:\Users\aidan_1k98io6\AppData\Local\Programs\Python\Python312\Lib\threading.py", line 1012, in run
+           ^^^^^^^^^^^^^
+    return self._execute_with_wrappers(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\test\client.py", line 676, in generic
+    self._target(*self._args, **self._kwargs)
+  File "C:\Users\aidan_1k98io6\OneDrive\Documents\Assignment\Software Engineering\hotel_project2\hotel_project\hotel_app\test_stress.py", line 107, in simulate_user_actions
+    return executor(sql, params, many, context)
+    return self.request(**r)
+    response = action()
+           ^^^^^^^^^^^^^^^^^
+               ^^^^^^^^
+  File "C:\Users\aidan_1k98io6\OneDrive\Documents\Assignment\Software Engineering\hotel_project2\hotel_project\hotel_app\test_stress.py", line 96, in <lambda>
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\test\client.py", line 1092, in request
+    lambda: client.get(reverse('room_list')),
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\test\client.py", line 1129, in get
+    with self.db.wrap_database_errors:
+    response = super().get(
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+               ^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\test\client.py", line 479, in get
+    self.check_exception(response)
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\test\client.py", line 805, in check_exception
+    return self.generic(
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+           ^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\test\client.py", line 676, in generic
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\backends\sqlite3\base.py", line 354, in execute
+    raise exc_value
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    return self.request(**r)
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\test\client.py", line 1092, in request
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    response = get_response(request)
+django.db.utils.OperationalError: database table is locked
+    self.check_exception(response)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\test\client.py", line 805, in check_exception
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    raise exc_value
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\aidan_1k98io6\AppData\Local\Programs\Python\Python312\Lib\threading.py", line 1075, in _bootstrap_inner
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\contrib\auth\decorators.py", line 57, in _view_wrapper
+    self.run()
+  File "C:\Users\aidan_1k98io6\AppData\Local\Programs\Python\Python312\Lib\threading.py", line 1012, in run
+INFO:hotel_app.views:Room list view accessed by user: testuser
+    test_pass = test_func(request.user)
+                ^^^^^^^^^^^^^^^^^^^^^^^
+    self._target(*self._args, **self._kwargs)
+  File "C:\Users\aidan_1k98io6\OneDrive\Documents\Assignment\Software Engineering\hotel_project2\hotel_project\hotel_app\test_stress.py", line 107, in simulate_user_actions
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\contrib\auth\decorators.py", line 80, in <lambda>
+    response = action()
+               ^^^^^^^^
+    lambda u: u.is_authenticated,
+              ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\OneDrive\Documents\Assignment\Software Engineering\hotel_project2\hotel_project\hotel_app\test_stress.py", line 97, in <lambda>
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\utils\functional.py", line 251, in inner
+    lambda: client.get(
+            ^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\test\client.py", line 1129, in get
+    self._setup()
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\utils\functional.py", line 404, in _setup
+    response = super().get(
+               ^^^^^^^^^^^^
+    self._wrapped = self._setupfunc()
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\test\client.py", line 479, in get
+                    ^^^^^^^^^^^^^^^^^
+    return self.generic(
+           ^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\test\client.py", line 676, in generic
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\contrib\auth\middleware.py", line 37, in <lambda>
+    return self.request(**r)
+           ^^^^^^^^^^^^^^^^^
+INFO:hotel_app.views:Retrieved 50 rooms after filtering
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\test\client.py", line 1092, in request
+    request.user = SimpleLazyObject(lambda: get_user(request))
+                                            ^^^^^^^^^^^^^^^^^
+    self.check_exception(response)
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\contrib\auth\middleware.py", line 17, in get_user
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\test\client.py", line 805, in check_exception
+    request._cached_user = auth.get_user(request)
+                           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\contrib\auth\__init__.py", line 216, in get_user
+    raise exc_value
+  File "C:\Users\aidan_1k98io6\AppData\Local\Programs\Python\Python312\Lib\threading.py", line 1075, in _bootstrap_inner     
+    user = backend.get_user(user_id)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\contrib\auth\backends.py", line 157, in get_user
+    self.run()
+  File "C:\Users\aidan_1k98io6\AppData\Local\Programs\Python\Python312\Lib\threading.py", line 1012, in run
+    user = UserModel._default_manager.get(pk=user_id)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    self._target(*self._args, **self._kwargs)
+  File "C:\Users\aidan_1k98io6\OneDrive\Documents\Assignment\Software Engineering\hotel_project2\hotel_project\hotel_app\test_stress.py", line 107, in simulate_user_actions
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+    response = action()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+               ^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\query.py", line 645, in get
+  File "C:\Users\aidan_1k98io6\OneDrive\Documents\Assignment\Software Engineering\hotel_project2\hotel_project\hotel_app\test_stress.py", line 94, in <lambda>
+    lambda: client.get(reverse('home')),
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\test\client.py", line 1129, in get
+    num = len(clone)
+          ^^^^^^^^^^
+    response = super().get(
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\query.py", line 382, in __len__
+               ^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\test\client.py", line 479, in get
+    self._fetch_all()
+    return self.generic(
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\query.py", line 1928, in _fetch_all
+           ^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\test\client.py", line 676, in generic
+    return self.request(**r)
+           ^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\test\client.py", line 1092, in request
+    self._result_cache = list(self._iterable_class(self))
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\query.py", line 91, in __iter__
+    self.check_exception(response)
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\test\client.py", line 805, in check_exception
+    results = compiler.execute_sql(
+              ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\sql\compiler.py", line 1574, in execute_sql
+    raise exc_value
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    cursor.execute(sql, params)
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\contrib\auth\decorators.py", line 57, in _view_wrapper
+    return self._execute_with_wrappers(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    test_pass = test_func(request.user)
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+                ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\contrib\auth\decorators.py", line 80, in <lambda>
+    return executor(sql, params, many, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    lambda u: u.is_authenticated,
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+              ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\utils\functional.py", line 251, in inner
+    self._setup()
+INFO:hotel_app.views:Available rooms search initiated by user: testuser
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\utils\functional.py", line 404, in _setup
+INFO:hotel_app.views:Using provided start date: 2025-02-26
+    with self.db.wrap_database_errors:
+INFO:hotel_app.views:Using provided length of stay: 1
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    self._wrapped = self._setupfunc()
+                    ^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\contrib\auth\middleware.py", line 37, in <lambda>
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    request.user = SimpleLazyObject(lambda: get_user(request))
+                                            ^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\contrib\auth\middleware.py", line 17, in get_user
+INFO:hotel_app.views:Using default/session room type: all types
+    request._cached_user = auth.get_user(request)
+                           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\contrib\auth\__init__.py", line 216, in get_user
+INFO:hotel_app.views:Search criteria persisted to session
+    return self.cursor.execute(sql, params)
+    user = backend.get_user(user_id)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\backends\sqlite3\base.py", line 354, in execute
+INFO:hotel_app.views:Total rooms before filtering: 50
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\contrib\auth\backends.py", line 157, in get_user
+INFO:hotel_app.filters:Filtering available rooms based on search criteria.
+    user = UserModel._default_manager.get(pk=user_id)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\query.py", line 645, in get
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+INFO:hotel_app.filters:Filtering rooms for start date: 2025-02-26 and length of stay: 1
+django.db.utils.OperationalError: database table is locked
+    num = len(clone)
+INFO:hotel_app.filters:Excluding reserved rooms: []
+          ^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\query.py", line 382, in __len__
+INFO:hotel_app.views:Available rooms after filtering: 50
+    self._fetch_all()
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\query.py", line 1928, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\query.py", line 91, in __iter__
+INFO:hotel_app.models:RoomType __str__ called: Standard Room
+    results = compiler.execute_sql(
+              ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\sql\compiler.py", line 1574, in execute_sql
+    cursor.execute(sql, params)
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\backends\sqlite3\base.py", line 354, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: database table is locked
+INFO:hotel_app.views:Room list view accessed by user: testuser
+INFO:hotel_app.views:Retrieved 50 rooms after filtering
+...INFO:hotel_app.views:Available rooms search initiated by user: testuser
+INFO:hotel_app.views:Using provided start date: 2025-03-06
+INFO:hotel_app.views:Using provided length of stay: 1
+INFO:hotel_app.views:Using default/session room type: all types
+INFO:hotel_app.views:Search criteria persisted to session
+INFO:hotel_app.views:Available rooms search initiated by user: testuser
+INFO:hotel_app.views:Available rooms search initiated by user: testuser
+INFO:hotel_app.views:Using provided start date: 2025-03-07
+INFO:hotel_app.views:Available rooms search initiated by user: testuser
+INFO:hotel_app.views:Total rooms before filtering: 50
+INFO:hotel_app.views:Using provided start date: 2025-03-20
+INFO:hotel_app.views:Available rooms search initiated by user: testuser
+INFO:hotel_app.views:Using provided length of stay: 5
+INFO:hotel_app.views:Available rooms search initiated by user: testuser
+INFO:hotel_app.views:Using provided start date: 2025-03-06
+INFO:hotel_app.views:Available rooms search initiated by user: testuser
+INFO:hotel_app.filters:Filtering available rooms based on search criteria.
+INFO:hotel_app.views:Available rooms search initiated by user: testuser
+INFO:hotel_app.views:Using provided start date: 2025-03-24
+INFO:hotel_app.views:Using provided length of stay: 1
+INFO:hotel_app.views:Using default/session room type: all types
+INFO:hotel_app.views:Search criteria persisted to session
+INFO:hotel_app.views:Using provided length of stay: 4
+INFO:hotel_app.views:Using default/session room type: all types
+INFO:hotel_app.views:Using provided length of stay: 1
+INFO:hotel_app.views:Using default/session room type: all types
+INFO:hotel_app.filters:Filtering rooms for start date: 2025-03-06 and length of stay: 1
+INFO:hotel_app.views:Available rooms search initiated by user: testuser
+INFO:hotel_app.views:Available rooms search initiated by user: testuser
+INFO:hotel_app.views:Total rooms before filtering: 50
+INFO:hotel_app.views:Using provided start date: 2025-03-23
+INFO:hotel_app.views:Using default/session room type: all types
+INFO:hotel_app.views:Using provided start date: 2025-03-20
+INFO:hotel_app.views:Search criteria persisted to session
+INFO:hotel_app.views:Using provided start date: 2025-03-06
+INFO:hotel_app.views:Search criteria persisted to session
+INFO:hotel_app.filters:Excluding reserved rooms: [107, 108, 136, 137, 138, 116, 117, 118, 144, 148]
+INFO:hotel_app.views:Using provided start date: 2025-03-09
+INFO:hotel_app.views:Using provided length of stay: 4
+INFO:hotel_app.views:Using default/session room type: all types
+INFO:hotel_app.views:Using provided length of stay: 1
+INFO:hotel_app.views:Search criteria persisted to session
+INFO:hotel_app.views:Using provided length of stay: 3
+INFO:hotel_app.views:Total rooms before filtering: 50
+INFO:hotel_app.views:Using provided length of stay: 3
+INFO:hotel_app.views:Total rooms before filtering: 50
+INFO:hotel_app.views:Available rooms after filtering: 40
+INFO:hotel_app.views:Using provided start date: 2025-03-13
+INFO:hotel_app.views:Search criteria persisted to session
+INFO:hotel_app.filters:Filtering available rooms based on search criteria.
+INFO:hotel_app.views:Using default/session room type: all types
+INFO:hotel_app.views:Total rooms before filtering: 50
+INFO:hotel_app.views:Using default/session room type: all types
+INFO:hotel_app.filters:Filtering available rooms based on search criteria.
+INFO:hotel_app.views:Using default/session room type: all types
+INFO:hotel_app.filters:Filtering available rooms based on search criteria.
+INFO:hotel_app.views:Using provided length of stay: 3
+INFO:hotel_app.models:RoomType __str__ called: Standard Room
+INFO:hotel_app.views:Total rooms before filtering: 50
+INFO:hotel_app.filters:Filtering rooms for start date: 2025-03-24 and length of stay: 1
+INFO:hotel_app.views:Search criteria persisted to session
+INFO:hotel_app.filters:Filtering available rooms based on search criteria.
+INFO:hotel_app.views:Search criteria persisted to session
+INFO:hotel_app.filters:Filtering rooms for start date: 2025-03-20 and length of stay: 4
+INFO:hotel_app.views:Search criteria persisted to session
+INFO:hotel_app.filters:Filtering rooms for start date: 2025-03-06 and length of stay: 1
+INFO:hotel_app.views:Using default/session room type: all types
+INFO:hotel_app.filters:Filtering available rooms based on search criteria.
+INFO:hotel_app.views:Total rooms before filtering: 50
+INFO:hotel_app.filters:Filtering rooms for start date: 2025-03-07 and length of stay: 5
+INFO:hotel_app.filters:Excluding reserved rooms: [126, 105, 106, 133, 136]
+INFO:hotel_app.views:Total rooms before filtering: 50
+INFO:hotel_app.views:Search criteria persisted to session
+INFO:hotel_app.filters:Filtering rooms for start date: 2025-03-09 and length of stay: 4
+INFO:hotel_app.views:Total rooms before filtering: 50
+INFO:hotel_app.filters:Filtering available rooms based on search criteria.
+INFO:hotel_app.filters:Filtering rooms for start date: 2025-03-23 and length of stay: 1
+INFO:hotel_app.filters:Excluding reserved rooms: [122, 123, 124, 125, 148, 100, 101, 102, 103, 104, 105, 132, 133, 134, 135] 
+INFO:hotel_app.filters:Filtering available rooms based on search criteria.
+INFO:hotel_app.filters:Excluding reserved rooms: [108, 109, 110, 111, 112, 113, 137, 138, 139, 140, 141, 142, 143, 116, 117, 118, 119, 120, 121, 122, 123, 148, 149]
+INFO:hotel_app.views:Available rooms after filtering: 45
+INFO:hotel_app.views:Total rooms before filtering: 50
+INFO:hotel_app.filters:Excluding reserved rooms: [109, 110, 111, 112, 113, 114, 137, 140, 141, 142, 143, 144, 118, 120, 121, 122, 123, 124, 148, 149]
+INFO:hotel_app.filters:Filtering available rooms based on search criteria.
+INFO:hotel_app.filters:Excluding reserved rooms: [107, 108, 136, 137, 138, 116, 117, 118, 144, 148]
+INFO:hotel_app.filters:Excluding reserved rooms: [123, 124, 125, 101, 104, 105, 133, 134, 135]
+INFO:hotel_app.filters:Filtering rooms for start date: 2025-03-20 and length of stay: 3
+INFO:hotel_app.views:Available rooms after filtering: 35
+INFO:hotel_app.views:Available rooms after filtering: 27
+INFO:hotel_app.filters:Filtering available rooms based on search criteria.
+INFO:hotel_app.filters:Filtering rooms for start date: 2025-03-06 and length of stay: 3
+INFO:hotel_app.models:RoomType __str__ called: Standard Room
+INFO:hotel_app.views:Available rooms after filtering: 30
+INFO:hotel_app.views:Available rooms after filtering: 40
+INFO:hotel_app.views:Available rooms after filtering: 41
+INFO:hotel_app.filters:Excluding reserved rooms: [122, 123, 124, 148, 100, 101, 102, 103, 104, 132, 133, 134]
+INFO:hotel_app.filters:Filtering rooms for start date: 2025-03-13 and length of stay: 3
+INFO:hotel_app.filters:Excluding reserved rooms: [113, 114, 115, 116, 117, 141, 142, 143, 144, 145, 146, 147, 123, 125, 126, 127]
+INFO:hotel_app.models:RoomType __str__ called: Standard Room
+INFO:hotel_app.filters:Excluding reserved rooms: [107, 108, 109, 110, 136, 137, 138, 139, 140, 116, 117, 118, 119, 120, 144, 148, 149]
+INFO:hotel_app.models:RoomType __str__ called: Standard Room
+INFO:hotel_app.models:RoomType __str__ called: Standard Room
+INFO:hotel_app.models:RoomType __str__ called: Standard Room
+INFO:hotel_app.views:Available rooms after filtering: 38
+INFO:hotel_app.models:RoomType __str__ called: Standard Room
+INFO:hotel_app.models:RoomType __str__ called: Standard Room
+INFO:hotel_app.views:Available rooms after filtering: 34
+INFO:hotel_app.views:Available rooms after filtering: 33
+INFO:hotel_app.models:RoomType __str__ called: Standard Room
+INFO:hotel_app.models:RoomType __str__ called: Standard Room
+WARNING:django.request:The request's session was deleted before the request completed. The user may have logged out in a concurrent request, for example.: /available-rooms/
+Traceback (most recent call last):
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\backends\sqlite3\base.py", line 354, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.OperationalError: database table is locked
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\contrib\sessions\backends\db.py", line 127, in save
+    obj.save(
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\base.py", line 892, in save
+    self.save_base(
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\base.py", line 998, in save_base
+    updated = self._save_table(
+              ^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\base.py", line 1130, in _save_table
+    updated = self._do_update(
+              ^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\base.py", line 1195, in _do_update
+    return filtered._update(values) > 0
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\query.py", line 1278, in _update
+    return query.get_compiler(self.db).execute_sql(CURSOR)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\sql\compiler.py", line 2003, in execute_sql
+    cursor = super().execute_sql(result_type)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\sql\compiler.py", line 1574, in execute_sql
+    cursor.execute(sql, params)
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\backends\sqlite3\base.py", line 354, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: database table is locked
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\contrib\sessions\middleware.py", line 59, in process_response
+    request.session.save()
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\contrib\sessions\backends\db.py", line 136, in save
+    raise UpdateError
+django.contrib.sessions.backends.base.UpdateError
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\utils\deprecation.py", line 131, in __call__
+    response = self.process_response(request, response)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\contrib\sessions\middleware.py", line 61, in process_response
+    raise SessionInterrupted(
+django.contrib.sessions.exceptions.SessionInterrupted: The request's session was deleted before the request completed. The user may have logged out in a concurrent request, for example.
+Exception in thread Thread-16 (search_availability):
+Traceback (most recent call last):
+  File "C:\Users\aidan_1k98io6\AppData\Local\Programs\Python\Python312\Lib\threading.py", line 1075, in _bootstrap_inner     
+    self.run()
+  File "C:\Users\aidan_1k98io6\AppData\Local\Programs\Python\Python312\Lib\threading.py", line 1012, in run
+    self._target(*self._args, **self._kwargs)
+  File "C:\Users\aidan_1k98io6\OneDrive\Documents\Assignment\Software Engineering\hotel_project2\hotel_project\hotel_app\test_stress.py", line 226, in search_availability
+    self.assertEqual(response.status_code, 200)
+  File "C:\Users\aidan_1k98io6\AppData\Local\Programs\Python\Python312\Lib\unittest\case.py", line 885, in assertEqual       
+    assertion_func(first, second, msg=msg)
+  File "C:\Users\aidan_1k98io6\AppData\Local\Programs\Python\Python312\Lib\unittest\case.py", line 878, in _baseAssertEqual  
+    raise self.failureException(msg)
+AssertionError: 400 != 200
+..
+----------------------------------------------------------------------
+Ran 5 tests in 15.196s
+
+OK
+Destroying test database for alias 'default'...
+
+
+
+--
+
+PS C:\Users\aidan_1k98io6\OneDrive\Documents\Assignment\Software Engineering\hotel_project2\hotel_project> python manage.py test hotel_app.test_stress
+>>
+Found 5 test(s).
+Creating test database for alias 'default'...
+System check identified no issues (0 silenced).
+Exception in thread Thread-9 (simulate_user_actions):
+Traceback (most recent call last):
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+Exception in thread Thread-7 (simulate_user_actions):
+Traceback (most recent call last):
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+INFO:hotel_app.views:Room list view accessed by user: testuser
+INFO:hotel_app.views:Retrieved 50 rooms after filtering
+    return self.cursor.execute(sql, params)
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\backends\sqlite3\base.py", line 354, in execute
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\backends\sqlite3\base.py", line 354, in execute
+    return super().execute(query, params)
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.OperationalError: database table is locked: django_session
+
+Exception in thread Thread-5 (simulate_user_actions):
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+Traceback (most recent call last):
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\contrib\sessions\backends\base.py", line 244, in _get_session
+INFO:hotel_app.views:Room list view accessed by user: testuser
+  File "C:\Users\aidan_1k98io6\AppData\Local\Programs\Python\Python312\Lib\threading.py", line 1075, in _bootstrap_inner     
+sqlite3.OperationalError: database table is locked: django_session
+
+The above exception was the direct cause of the following exception:
+    self.run()
+INFO:hotel_app.views:Retrieved 50 rooms after filtering
+  File "C:\Users\aidan_1k98io6\AppData\Local\Programs\Python\Python312\Lib\threading.py", line 1012, in run
+
+Traceback (most recent call last):
+  File "C:\Users\aidan_1k98io6\AppData\Local\Programs\Python\Python312\Lib\threading.py", line 1075, in _bootstrap_inner     
+    return self._session_cache
+    self._target(*self._args, **self._kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\OneDrive\Documents\Assignment\Software Engineering\hotel_project2\hotel_project\hotel_app\test_stress.py", line 90, in simulate_user_actions
+AttributeError: 'SessionStore' object has no attribute '_session_cache'
+
+During handling of the above exception, another exception occurred:
+    client.login(username='testuser', password='testpass123')
+
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\test\client.py", line 840, in login
+Traceback (most recent call last):
+    self.run()
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+  File "C:\Users\aidan_1k98io6\AppData\Local\Programs\Python\Python312\Lib\threading.py", line 1012, in run
+    return self.cursor.execute(sql, params)
+    self._login(user)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\test\client.py", line 879, in _login
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\backends\sqlite3\base.py", line 354, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.OperationalError: database table is locked: django_session
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\aidan_1k98io6\AppData\Local\Programs\Python\Python312\Lib\threading.py", line 1075, in _bootstrap_inner     
+    if self.session:
+       ^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\test\client.py", line 815, in session
+    self.run()
+  File "C:\Users\aidan_1k98io6\AppData\Local\Programs\Python\Python312\Lib\threading.py", line 1012, in run
+    session.save()
+    self._target(*self._args, **self._kwargs)
+  File "C:\Users\aidan_1k98io6\OneDrive\Documents\Assignment\Software Engineering\hotel_project2\hotel_project\hotel_app\test_stress.py", line 90, in simulate_user_actions
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\contrib\sessions\backends\db.py", line 121, in save
+    client.login(username='testuser', password='testpass123')
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\test\client.py", line 840, in login
+    self._login(user)
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\test\client.py", line 884, in _login
+    login(request, user, backend)
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\contrib\auth\__init__.py", line 114, in login
+    self._target(*self._args, **self._kwargs)
+  File "C:\Users\aidan_1k98io6\OneDrive\Documents\Assignment\Software Engineering\hotel_project2\hotel_project\hotel_app\test_stress.py", line 90, in simulate_user_actions
+    client.login(username='testuser', password='testpass123')
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\test\client.py", line 840, in login
+    if SESSION_KEY in request.session:
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\contrib\sessions\backends\base.py", line 52, in __contains__
+    self._login(user)
+    return self.create()
+    return key in self._session
+           ^^^^^^^^^^^^^
+                  ^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\contrib\sessions\backends\db.py", line 70, in create
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\contrib\sessions\backends\base.py", line 249, in _get_session
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\test\client.py", line 884, in _login
+INFO:hotel_app.views:Available rooms search initiated by user: testuser
+    self._session_cache = self.load()
+INFO:hotel_app.views:Using provided start date: 2025-02-26
+                          ^^^^^^^^^^^
+INFO:hotel_app.views:Using provided length of stay: 1
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\contrib\sessions\backends\db.py", line 55, in load
+    s = self._get_session_from_db()
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\contrib\sessions\backends\db.py", line 34, in _get_session_from_db
+    self._session_key = self._get_new_session_key()
+    return self.model.objects.get(
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\contrib\sessions\backends\base.py", line 196, in _get_new_session_key
+INFO:hotel_app.views:Using default/session room type: all types
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+INFO:hotel_app.views:Search criteria persisted to session
+    if not self.exists(session_key):
+INFO:hotel_app.views:Total rooms before filtering: 50
+    login(request, user, backend)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\contrib\sessions\backends\db.py", line 63, in exists
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\query.py", line 645, in get
+    return self.model.objects.filter(session_key=session_key).exists()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\query.py", line 1288, in exists
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\contrib\auth\__init__.py", line 126, in login
+INFO:hotel_app.filters:Filtering available rooms based on search criteria.
+INFO:hotel_app.filters:Filtering rooms for start date: 2025-02-26 and length of stay: 1
+    num = len(clone)
+          ^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\query.py", line 382, in __len__
+    self._fetch_all()
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\query.py", line 1928, in _fetch_all
+    return self.query.has_results(using=self.db)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\sql\query.py", line 660, in has_results
+    self._result_cache = list(self._iterable_class(self))
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\query.py", line 91, in __iter__
+    results = compiler.execute_sql(
+              ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\sql\compiler.py", line 1574, in execute_sql
+    request.session.cycle_key()
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\contrib\sessions\backends\base.py", line 435, in cycle_key
+    self.delete(key)
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\contrib\sessions\backends\db.py", line 175, in delete
+    return compiler.has_results()
+    self.model.objects.get(session_key=session_key).delete()
+           ^^^^^^^^^^^^^^^^^^^^^^
+    cursor.execute(sql, params)
+INFO:hotel_app.views:Available rooms search initiated by user: testuser
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\sql\compiler.py", line 1542, in has_results
+INFO:hotel_app.views:Available rooms search initiated by user: testuser
+INFO:hotel_app.views:Using provided start date: 2025-02-26
+    return self._execute_with_wrappers(
+    return bool(self.execute_sql(SINGLE))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+INFO:hotel_app.views:Using provided start date: 2025-02-26
+                ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\sql\compiler.py", line 1574, in execute_sql
+INFO:hotel_app.views:Using provided length of stay: 1
+    return executor(sql, params, many, context)
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+INFO:hotel_app.views:Using provided length of stay: 1
+    cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\query.py", line 645, in get
+    with self.db.wrap_database_errors:
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    num = len(clone)
+          ^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\query.py", line 382, in __len__
+INFO:hotel_app.views:Using default/session room type: all types
+INFO:hotel_app.views:Search criteria persisted to session
+    self._fetch_all()
+    return self._execute_with_wrappers(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\query.py", line 1928, in _fetch_all
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+INFO:hotel_app.views:Using default/session room type: all types
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+    return executor(sql, params, many, context)
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+INFO:hotel_app.filters:Excluding reserved rooms: []
+    return self.cursor.execute(sql, params)
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\backends\sqlite3\base.py", line 354, in execute
+INFO:hotel_app.views:Total rooms before filtering: 50
+    with self.db.wrap_database_errors:
+    self._result_cache = list(self._iterable_class(self))
+    return super().execute(query, params)
+INFO:hotel_app.views:Room list view accessed by user: testuser
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\query.py", line 91, in __iter__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+django.db.utils.OperationalError: database table is locked: django_session
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    results = compiler.execute_sql(
+INFO:hotel_app.views:Search criteria persisted to session
+              ^^^^^^^^^^^^^^^^^^^^^
+    return self.cursor.execute(sql, params)
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\sql\compiler.py", line 1574, in execute_sql
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+INFO:hotel_app.views:Available rooms after filtering: 50
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\backends\sqlite3\base.py", line 354, in execute
+    return super().execute(query, params)
+INFO:hotel_app.filters:Filtering available rooms based on search criteria.
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+INFO:hotel_app.filters:Filtering rooms for start date: 2025-02-26 and length of stay: 1
+django.db.utils.OperationalError: database table is locked: django_session
+    cursor.execute(sql, params)
+INFO:hotel_app.views:Total rooms before filtering: 50
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+INFO:hotel_app.views:Retrieved 50 rooms after filtering
+    return self._execute_with_wrappers(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+INFO:hotel_app.filters:Excluding reserved rooms: []
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+INFO:hotel_app.filters:Filtering available rooms based on search criteria.
+    return executor(sql, params, many, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+INFO:hotel_app.models:RoomType __str__ called: Standard Room
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+INFO:hotel_app.views:Available rooms after filtering: 50
+INFO:hotel_app.filters:Filtering rooms for start date: 2025-02-26 and length of stay: 1
+    with self.db.wrap_database_errors:
+INFO:hotel_app.models:RoomType __str__ called: Standard Room
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+INFO:hotel_app.filters:Excluding reserved rooms: []
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+INFO:hotel_app.views:Available rooms search initiated by user: testuser
+INFO:hotel_app.views:Using provided start date: 2025-02-26
+INFO:hotel_app.views:Using provided length of stay: 1
+INFO:hotel_app.views:Using default/session room type: all types
+INFO:hotel_app.views:Search criteria persisted to session
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+INFO:hotel_app.views:Total rooms before filtering: 50
+INFO:hotel_app.views:Available rooms after filtering: 50
+    return self.cursor.execute(sql, params)
+INFO:hotel_app.filters:Filtering available rooms based on search criteria.
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\backends\sqlite3\base.py", line 354, in execute
+INFO:hotel_app.models:RoomType __str__ called: Standard Room
+INFO:hotel_app.filters:Filtering rooms for start date: 2025-02-26 and length of stay: 1
+INFO:hotel_app.filters:Excluding reserved rooms: []
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: database table is locked: django_session
+INFO:hotel_app.views:Available rooms after filtering: 50
+INFO:hotel_app.models:RoomType __str__ called: Standard Room
+INFO:hotel_app.views:Available rooms search initiated by user: testuser
+INFO:hotel_app.views:Using provided start date: 2025-02-26
+INFO:hotel_app.views:Using provided length of stay: 1
+INFO:hotel_app.views:Using default/session room type: all types
+INFO:hotel_app.views:Search criteria persisted to session
+INFO:hotel_app.views:Total rooms before filtering: 50
+INFO:hotel_app.filters:Filtering available rooms based on search criteria.
+INFO:hotel_app.filters:Filtering rooms for start date: 2025-02-26 and length of stay: 1
+INFO:hotel_app.filters:Excluding reserved rooms: []
+WARNING:django.request:The request's session was deleted before the request completed. The user may have logged out in a concurrent request, for example.: /available-rooms/
+Traceback (most recent call last):
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\backends\sqlite3\base.py", line 354, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.OperationalError: database table is locked: django_session
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\contrib\sessions\backends\db.py", line 127, in save
+    obj.save(
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\base.py", line 892, in save
+    self.save_base(
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\base.py", line 998, in save_base
+    updated = self._save_table(
+              ^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\base.py", line 1130, in _save_table
+    updated = self._do_update(
+              ^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\base.py", line 1195, in _do_update
+    return filtered._update(values) > 0
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\query.py", line 1278, in _update
+    return query.get_compiler(self.db).execute_sql(CURSOR)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\sql\compiler.py", line 2003, in execute_sql
+    cursor = super().execute_sql(result_type)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\sql\compiler.py", line 1574, in execute_sql
+    cursor.execute(sql, params)
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\backends\sqlite3\base.py", line 354, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: database table is locked: django_session
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\contrib\sessions\middleware.py", line 59, in process_response
+    request.session.save()
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\contrib\sessions\backends\db.py", line 136, in save
+    raise UpdateError
+django.contrib.sessions.backends.base.UpdateError
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\utils\deprecation.py", line 131, in __call__
+    response = self.process_response(request, response)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\contrib\sessions\middleware.py", line 61, in process_response
+    raise SessionInterrupted(
+django.contrib.sessions.exceptions.SessionInterrupted: The request's session was deleted before the request completed. The user may have logged out in a concurrent request, for example.
+Exception in thread Thread-6 (simulate_user_actions):
+INFO:hotel_app.views:Room list view accessed by user: testuser
+Traceback (most recent call last):
+  File "C:\Users\aidan_1k98io6\AppData\Local\Programs\Python\Python312\Lib\threading.py", line 1075, in _bootstrap_inner     
+INFO:hotel_app.views:Room list view accessed by user: testuser
+INFO:hotel_app.views:Available rooms after filtering: 50
+INFO:hotel_app.views:Retrieved 50 rooms after filtering
+INFO:hotel_app.views:Retrieved 50 rooms after filtering
+    self.run()
+INFO:hotel_app.models:RoomType __str__ called: Standard Room
+  File "C:\Users\aidan_1k98io6\AppData\Local\Programs\Python\Python312\Lib\threading.py", line 1012, in run
+    self._target(*self._args, **self._kwargs)
+  File "C:\Users\aidan_1k98io6\OneDrive\Documents\Assignment\Software Engineering\hotel_project2\hotel_project\hotel_app\test_stress.py", line 108, in simulate_user_actions
+    self.assertEqual(response.status_code, 200)
+  File "C:\Users\aidan_1k98io6\AppData\Local\Programs\Python\Python312\Lib\unittest\case.py", line 885, in assertEqual       
+    assertion_func(first, second, msg=msg)
+  File "C:\Users\aidan_1k98io6\AppData\Local\Programs\Python\Python312\Lib\unittest\case.py", line 878, in _baseAssertEqual
+    raise self.failureException(msg)
+AssertionError: 400 != 200
+INFO:hotel_app.views:Available rooms search initiated by user: testuser
+INFO:hotel_app.views:Using provided start date: 2025-02-26
+INFO:hotel_app.views:Using provided length of stay: 1
+INFO:hotel_app.views:Using default/session room type: all types
+INFO:hotel_app.views:Search criteria persisted to session
+INFO:hotel_app.views:Total rooms before filtering: 50
+INFO:hotel_app.filters:Filtering available rooms based on search criteria.
+INFO:hotel_app.filters:Filtering rooms for start date: 2025-02-26 and length of stay: 1
+INFO:hotel_app.filters:Excluding reserved rooms: []
+INFO:hotel_app.views:Available rooms after filtering: 50
+INFO:hotel_app.models:RoomType __str__ called: Standard Room
+..FINFO:hotel_app.views:Available rooms search initiated by user: testuser
+INFO:hotel_app.views:Using provided start date: 2025-02-26
+INFO:hotel_app.views:Available rooms search initiated by user: testuser
+INFO:hotel_app.views:Using provided length of stay: 2
+INFO:hotel_app.views:Using provided start date: 2025-03-16
+INFO:hotel_app.views:Available rooms search initiated by user: testuser
+INFO:hotel_app.views:Using default/session room type: all types
+INFO:hotel_app.views:Using provided length of stay: 1
+INFO:hotel_app.views:Available rooms search initiated by user: testuser
+INFO:hotel_app.views:Using provided start date: 2025-03-28
+INFO:hotel_app.views:Search criteria persisted to session
+INFO:hotel_app.views:Available rooms search initiated by user: testuser
+INFO:hotel_app.views:Using default/session room type: all types
+INFO:hotel_app.views:Available rooms search initiated by user: testuser
+INFO:hotel_app.views:Available rooms search initiated by user: testuser
+INFO:hotel_app.views:Using provided start date: 2025-03-10
+INFO:hotel_app.views:Available rooms search initiated by user: testuser
+INFO:hotel_app.views:Available rooms search initiated by user: testuser
+INFO:hotel_app.views:Available rooms search initiated by user: testuser
+INFO:hotel_app.views:Using provided length of stay: 3
+INFO:hotel_app.views:Total rooms before filtering: 50
+INFO:hotel_app.views:Using provided start date: 2025-03-11
+INFO:hotel_app.views:Search criteria persisted to session
+INFO:hotel_app.views:Using provided start date: 2025-03-12
+INFO:hotel_app.views:Using provided start date: 2025-03-09
+INFO:hotel_app.views:Using provided length of stay: 1
+INFO:hotel_app.views:Using provided start date: 2025-03-04
+INFO:hotel_app.views:Using provided length of stay: 4
+INFO:hotel_app.views:Using provided start date: 2025-03-19
+INFO:hotel_app.views:Using default/session room type: all types
+INFO:hotel_app.views:Search criteria persisted to session
+INFO:hotel_app.views:Using provided length of stay: 2
+INFO:hotel_app.views:Total rooms before filtering: 50
+INFO:hotel_app.views:Using provided length of stay: 2
+INFO:hotel_app.views:Using provided length of stay: 1
+INFO:hotel_app.views:Using default/session room type: all types
+INFO:hotel_app.views:Using provided start date: 2025-03-25
+INFO:hotel_app.views:Using default/session room type: all types
+INFO:hotel_app.views:Using provided length of stay: 3
+INFO:hotel_app.filters:Filtering available rooms based on search criteria.
+INFO:hotel_app.views:Using default/session room type: all types
+INFO:hotel_app.views:Total rooms before filtering: 50
+INFO:hotel_app.filters:Filtering available rooms based on search criteria.
+INFO:hotel_app.views:Using default/session room type: all types
+INFO:hotel_app.views:Using default/session room type: all types
+INFO:hotel_app.views:Search criteria persisted to session
+INFO:hotel_app.views:Using provided length of stay: 1
+INFO:hotel_app.views:Search criteria persisted to session
+INFO:hotel_app.views:Using default/session room type: all types
+INFO:hotel_app.filters:Filtering rooms for start date: 2025-02-26 and length of stay: 2
+INFO:hotel_app.views:Search criteria persisted to session
+INFO:hotel_app.filters:Filtering available rooms based on search criteria.
+INFO:hotel_app.filters:Filtering rooms for start date: 2025-03-16 and length of stay: 1
+INFO:hotel_app.views:Search criteria persisted to session
+INFO:hotel_app.views:Search criteria persisted to session
+INFO:hotel_app.views:Total rooms before filtering: 50
+INFO:hotel_app.views:Using default/session room type: all types
+INFO:hotel_app.views:Total rooms before filtering: 50
+INFO:hotel_app.views:Search criteria persisted to session
+INFO:hotel_app.filters:Excluding reserved rooms: [100, 101, 130, 131, 110, 111, 140, 141]
+INFO:hotel_app.views:Total rooms before filtering: 50
+INFO:hotel_app.filters:Filtering rooms for start date: 2025-03-28 and length of stay: 3
+INFO:hotel_app.filters:Excluding reserved rooms: [115, 117, 118, 145, 147, 148, 125, 126, 127, 128]
+INFO:hotel_app.views:Total rooms before filtering: 50
+INFO:hotel_app.views:Total rooms before filtering: 50
+INFO:hotel_app.filters:Filtering available rooms based on search criteria.
+INFO:hotel_app.views:Search criteria persisted to session
+INFO:hotel_app.filters:Filtering available rooms based on search criteria.
+INFO:hotel_app.views:Total rooms before filtering: 50
+INFO:hotel_app.filters:Filtering available rooms based on search criteria.
+INFO:hotel_app.filters:Filtering rooms for start date: 2025-03-11 and length of stay: 2
+INFO:hotel_app.filters:Excluding reserved rooms: [128, 106, 108]
+INFO:hotel_app.views:Available rooms after filtering: 40
+INFO:hotel_app.filters:Filtering available rooms based on search criteria.
+INFO:hotel_app.filters:Filtering available rooms based on search criteria.
+INFO:hotel_app.filters:Filtering rooms for start date: 2025-03-10 and length of stay: 1
+INFO:hotel_app.views:Total rooms before filtering: 50
+INFO:hotel_app.filters:Filtering rooms for start date: 2025-03-04 and length of stay: 4
+INFO:hotel_app.filters:Filtering available rooms based on search criteria.
+INFO:hotel_app.filters:Filtering rooms for start date: 2025-03-19 and length of stay: 3
+INFO:hotel_app.filters:Excluding reserved rooms: [111, 112, 113, 114, 140, 141, 142, 143, 144, 122, 123, 124]
+INFO:hotel_app.views:Available rooms after filtering: 47
+INFO:hotel_app.filters:Filtering rooms for start date: 2025-03-12 and length of stay: 2
+INFO:hotel_app.models:RoomType __str__ called: Standard Room
+INFO:hotel_app.filters:Filtering rooms for start date: 2025-03-09 and length of stay: 1
+INFO:hotel_app.filters:Excluding reserved rooms: [111, 112, 139, 140, 141, 142, 121, 122]
+INFO:hotel_app.filters:Filtering available rooms based on search criteria.
+INFO:hotel_app.filters:Excluding reserved rooms: [103, 105, 106, 107, 108, 109, 132, 133, 134, 136, 137, 138, 139, 112, 114, 115, 116, 117, 118, 119, 142, 143, 144, 146, 147, 148, 149]
+INFO:hotel_app.views:Available rooms after filtering: 38
+INFO:hotel_app.filters:Excluding reserved rooms: [118, 119, 121, 122, 123, 148, 149, 100, 101, 102, 103, 128, 130, 131, 132, 133]
+INFO:hotel_app.models:RoomType __str__ called: Standard Room
+INFO:hotel_app.filters:Filtering rooms for start date: 2025-03-25 and length of stay: 1
+INFO:hotel_app.views:Available rooms after filtering: 42
+INFO:hotel_app.models:RoomType __str__ called: Standard Room
+INFO:hotel_app.views:Available rooms after filtering: 23
+INFO:hotel_app.filters:Excluding reserved rooms: [111, 112, 113, 114, 115, 141, 143, 144, 145, 122, 123, 124, 125]
+INFO:hotel_app.filters:Excluding reserved rooms: [111, 139, 140, 141, 119, 120, 121, 149]
+INFO:hotel_app.models:RoomType __str__ called: Standard Room
+INFO:hotel_app.views:Available rooms after filtering: 42
+INFO:hotel_app.models:RoomType __str__ called: Standard Room
+INFO:hotel_app.filters:Excluding reserved rooms: [125, 126, 127, 105, 106, 107, 134, 135, 136, 137]
+INFO:hotel_app.views:Available rooms after filtering: 42
+INFO:hotel_app.models:RoomType __str__ called: Standard Room
+INFO:hotel_app.models:RoomType __str__ called: Standard Room
+INFO:hotel_app.views:Available rooms after filtering: 34
+INFO:hotel_app.views:Available rooms after filtering: 37
+INFO:hotel_app.models:RoomType __str__ called: Standard Room
+INFO:hotel_app.models:RoomType __str__ called: Standard Room
+INFO:hotel_app.views:Available rooms after filtering: 40
+INFO:hotel_app.models:RoomType __str__ called: Standard Room
+WARNING:django.request:The request's session was deleted before the request completed. The user may have logged out in a concurrent request, for example.: /available-rooms/
+Traceback (most recent call last):
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\backends\sqlite3\base.py", line 354, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.OperationalError: database table is locked
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\contrib\sessions\backends\db.py", line 127, in save
+    obj.save(
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\base.py", line 892, in save
+    self.save_base(
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\base.py", line 998, in save_base
+    updated = self._save_table(
+              ^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\base.py", line 1130, in _save_table
+    updated = self._do_update(
+              ^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\base.py", line 1195, in _do_update
+    return filtered._update(values) > 0
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\query.py", line 1278, in _update
+    return query.get_compiler(self.db).execute_sql(CURSOR)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\sql\compiler.py", line 2003, in execute_sql
+    cursor = super().execute_sql(result_type)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\sql\compiler.py", line 1574, in execute_sql
+    cursor.execute(sql, params)
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\backends\sqlite3\base.py", line 354, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: database table is locked
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\contrib\sessions\middleware.py", line 59, in process_response
+    request.session.save()
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\contrib\sessions\backends\db.py", line 136, in save
+    raise UpdateError
+django.contrib.sessions.backends.base.UpdateError
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\utils\deprecation.py", line 131, in __call__
+    response = self.process_response(request, response)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\contrib\sessions\middleware.py", line 61, in process_response
+    raise SessionInterrupted(
+django.contrib.sessions.exceptions.SessionInterrupted: The request's session was deleted before the request completed. The user may have logged out in a concurrent request, for example.
+Exception in thread Thread-13 (search_availability):
+Traceback (most recent call last):
+  File "C:\Users\aidan_1k98io6\AppData\Local\Programs\Python\Python312\Lib\threading.py", line 1075, in _bootstrap_inner     
+    self.run()
+  File "C:\Users\aidan_1k98io6\AppData\Local\Programs\Python\Python312\Lib\threading.py", line 1012, in run
+    self._target(*self._args, **self._kwargs)
+  File "C:\Users\aidan_1k98io6\OneDrive\Documents\Assignment\Software Engineering\hotel_project2\hotel_project\hotel_app\test_stress.py", line 217, in search_availability
+    self.assertEqual(response.status_code, 200)
+  File "C:\Users\aidan_1k98io6\AppData\Local\Programs\Python\Python312\Lib\unittest\case.py", line 885, in assertEqual       
+    assertion_func(first, second, msg=msg)
+  File "C:\Users\aidan_1k98io6\AppData\Local\Programs\Python\Python312\Lib\unittest\case.py", line 878, in _baseAssertEqual  
+    raise self.failureException(msg)
+AssertionError: 400 != 200
+..
+======================================================================
+FAIL: test_bulk_reservation_creation (hotel_app.test_stress.HighVolumeDataStressTest.test_bulk_reservation_creation)
+Test creating many reservations simultaneously.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\aidan_1k98io6\OneDrive\Documents\Assignment\Software Engineering\hotel_project2\hotel_project\hotel_app\test_stress.py", line 152, in test_bulk_reservation_creation
+    with self.assertNumQueries(1):  # Should use single bulk insert
+         ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\test\testcases.py", line 128, in __exit__
+    self.test_case.assertEqual(
+AssertionError: 4 != 1 : 4 queries executed, 1 expected
+Captured queries were:
+1. BEGIN
+2. INSERT INTO "hotel_app_reservation" ("guest_id", "room_number_id", "reservation_date_time", "price", "amount_paid", "number_of_guests", "start_of_stay", "length_of_stay", "end_date", "status_code", "notes") VALUES (1003, 100, '2025-02-26 01:02:34.611520', '100.00', '0.00', 1, '2025-02-26', 1, NULL, 'RE', NULL), (1003, 101, '2025-02-26 01:03:34.611520', '100.00', '0.00', 1, '2025-02-27', 1, NULL, 'RE', NULL), (1003, 102, '2025-02-26 01:04:34.611520', '100.00', '0.00', 1, '2025-02-28', 1, NULL, 'RE', NULL), (1003, 103, '2025-02-26 01:05:34.611520', '100.00', '0.00', 1, '2025-03-01', 1, NULL, 'RE', NULL), (1003, 104, '2025-02-26 01:06:34.611520', '100.00', '0.00', 1, '2025-03-02', 1, NULL, 'RE', NULL), (1003, 105, '2025-02-26 01:07:34.611520', '100.00', '0.00', 1, '2025-03-03', 1, NULL, 'RE', NULL), (1003, 106, '2025-02-26 01:08:34.611520', '100.00', '0.00', 1, '2025-03-04', 1, NULL, 'RE', NULL), (1003, 107, '2025-02-26 01:09:34.611520', '100.00', '0.00', 1, '2025-03-05', 1, NULL, 'RE', NULL), (1003, 108, '2025-02-26 01:10:34.611520', '100.00', '0.00', 1, '2025-03-06', 1, NULL, 'RE', NULL), (1003, 109, '2025-02-26 01:11:34.611520', '100.00', '0.00', 1, '2025-03-07', 1, NULL, 'RE', NULL), (1003, 110, '2025-02-26 01:12:34.611520', '100.00', '0.00', 1, '2025-03-08', 1, NULL, 'RE', NULL), (1003, 111, '2025-02-26 01:13:34.611520', '100.00', '0.00', 1, '2025-03-09', 1, NULL, 'RE', NULL), (1003, 112, '2025-02-26 01:14:34.611520', '100.00', '0.00', 1, '2025-03-10', 1, NULL, 'RE', NULL), (1003, 113, '2025-02-26 01:15:34.611520', '100.00', '0.00', 1, '2025-03-11', 1, NULL, 'RE', NULL), (1003, 114, '2025-02-26 01:16:34.611520', '100.00', '0.00', 1, '2025-03-12', 1, NULL, 'RE', NULL), (1003, 115, '2025-02-26 01:17:34.611520', '100.00', '0.00', 1, '2025-03-13', 1, NULL, 'RE', NULL), (1003, 116, '2025-02-26 01:18:34.611520', '100.00', '0.00', 1, '2025-03-14', 1, NULL, 'RE', NULL), (1003, 117, '2025-02-26 01:19:34.611520', '100.00', '0.00', 1, '2025-03-15', 1, NULL, 'RE', NULL), (1003, 118, '2025-02-26 01:20:34.611520', '100.00', '0.00', 1, '2025-03-16', 1, NULL, 'RE', NULL), (1003, 119, '2025-02-26 01:21:34.611520', '100.00', '0.00', 1, '2025-03-17', 1, NULL, 'RE', NULL), (1003, 120, '2025-02-26 01:22:34.611520', '100.00', '0.00', 1, '2025-03-18', 1, NULL, 'RE', NULL), (1003, 121, '2025-02-26 01:23:34.611520', '100.00', '0.00', 1, '2025-03-19', 1, NULL, 'RE', NULL), (1003, 122, '2025-02-26 01:24:34.611520', '100.00', '0.00', 1, '2025-03-20', 1, NULL, 'RE', NULL), (1003, 123, '2025-02-26 01:25:34.611520', '100.00', '0.00', 1, '2025-03-21', 1, NULL, 'RE', NULL), (1003, 124, '2025-02-26 01:26:34.611520', '100.00', '0.00', 1, '2025-03-22', 1, NULL, 'RE', NULL), (1003, 125, '2025-02-26 01:27:34.611520', '100.00', '0.00', 1, '2025-03-23', 1, NULL, 'RE', NULL), (1003, 126, '2025-02-26 01:28:34.611520', '100.00', '0.00', 1, '2025-03-24', 1, NULL, 'RE', NULL), (1003, 127, '2025-02-26 01:29:34.611520', '100.00', '0.00', 1, '2025-03-25', 1, NULL, 'RE', NULL), (1003, 128, '2025-02-26 01:30:34.611520', '100.00', '0.00', 1, '2025-03-26', 1, NULL, 'RE', NULL), (1003, 129, '2025-02-26 01:31:34.611520', '100.00', '0.00', 1, '2025-03-27', 1, NULL, 'RE', NULL), (1003, 130, '2025-02-26 01:32:34.611520', '100.00', '0.00', 1, '2025-02-26', 1, NULL, 'RE', NULL), (1003, 131, '2025-02-26 01:33:34.611520', '100.00', '0.00', 1, '2025-02-27', 1, NULL, 'RE', NULL), (1003, 132, '2025-02-26 01:34:34.611520', '100.00', '0.00', 1, '2025-02-28', 1, NULL, 'RE', NULL), (1003, 133, '2025-02-26 01:35:34.611520', '100.00', '0.00', 1, '2025-03-01', 1, NULL, 'RE', NULL), (1003, 134, '2025-02-26 01:36:34.611520', '100.00', '0.00', 1, '2025-03-02', 1, NULL, 'RE', NULL), (1003, 135, '2025-02-26 01:37:34.611520', '100.00', '0.00', 1, '2025-03-03', 1, NULL, 'RE', NULL), (1003, 136, '2025-02-26 01:38:34.611520', '100.00', '0.00', 1, '2025-03-04', 1, NULL, 'RE', NULL), (1003, 137, '2025-02-26 01:39:34.611520', '100.00', '0.00', 1, '2025-03-05', 1, NULL, 'RE', NULL), (1003, 138, '2025-02-26 01:40:34.611520', '100.00', '0.00', 1, '2025-03-06', 1, NULL, 'RE', NULL), (1003, 139, '2025-02-26 01:41:34.611520', '100.00', '0.00', 1, '2025-03-07', 1, NULL, 'RE', NULL), (1003, 140, '2025-02-26 01:42:34.611520', '100.00', '0.00', 1, '2025-03-08', 1, NULL, 'RE', NULL), (1003, 141, '2025-02-26 01:43:34.611520', '100.00', '0.00', 1, '2025-03-09', 1, NULL, 'RE', NULL), (1003, 142, '2025-02-26 01:44:34.611520', '100.00', '0.00', 1, '2025-03-10', 1, NULL, 'RE', NULL), (1003, 143, '2025-02-26 01:45:34.611520', '100.00', '0.00', 1, '2025-03-11', 1, NULL, 'RE', NULL), (1003, 144, '2025-02-26 01:46:34.611520', '100.00', '0.00', 1, '2025-03-12', 1, NULL, 'RE', NULL), (1003, 145, '2025-02-26 01:47:34.611520', '100.00', '0.00', 1, '2025-03-13', 1, NULL, 'RE', NULL), (1003, 146, '2025-02-26 01:48:34.611520', '100.00', '0.00', 1, '2025-03-14', 1, NULL, 'RE', NULL), (1003, 147, '2025-02-26 01:49:34.611520', '100.00', '0.00', 1, '2025-03-15', 1, NULL, 'RE', NULL), (1003, 148, '2025-02-26 01:50:34.611520', '100.00', '0.00', 1, '2025-03-16', 1, NULL, 'RE', NULL), (1003, 149, '2025-02-26 01:51:34.611520', '100.00', '0.00', 1, '2025-03-17', 1, NULL, 'RE', NULL), (1003, 100, '2025-02-26 01:52:34.611520', '100.00', '0.00', 1, '2025-03-18', 1, NULL, 'RE', NULL), (1003, 101, '2025-02-26 01:53:34.611520', '100.00', '0.00', 1, '2025-03-19', 1, NULL, 'RE', NULL), (1003, 102, '2025-02-26 01:54:34.611520', '100.00', '0.00', 1, '2025-03-20', 1, NULL, 'RE', NULL), (1003, 103, '2025-02-26 01:55:34.611520', '100.00', '0.00', 1, '2025-03-21', 1, NULL, 'RE', NULL), (1003, 104, '2025-02-26 01:56:34.611520', '100.00', '0.00', 1, '2025-03-22', 1, NULL, 'RE', NULL), (1003, 105, '2025-02-26 01:57:34.611520', '100.00', '0.00', 1, '2025-03-23', 1, NULL, 'RE', NULL), (1003, 106, '2025-02-26 01:58:34.611520', '100.00', '0.00', 1, '2025-03-24', 1, NULL, 'RE', NULL), (1003, 107, '2025-02-26 01:59:34.611520', '100.00', '0.00', 1, '2025-03-25', 1, NULL, 'RE', NULL), (1003, 108, '2025-02-26 02:00:34.611520', '100.00', '0.00', 1, '2025-03-26', 1, NULL, 'RE', NULL), (1003, 109, '2025-02-26 02:01:34.611520', '100.00', '0.00', 1, '2025-03-27', 1, NULL, 'RE', NULL), (1003, 110, '2025-02-26 02:02:34.611520', '100.00', '0.00', 1, '2025-02-26', 1, NULL, 'RE', NULL), (1003, 111, '2025-02-26 02:03:34.611520', '100.00', '0.00', 1, '2025-02-27', 1, NULL, 'RE', NULL), (1003, 112, '2025-02-26 02:04:34.611520', '100.00', '0.00', 1, '2025-02-28', 1, NULL, 'RE', NULL), (1003, 113, '2025-02-26 02:05:34.611520', '100.00', '0.00', 1, '2025-03-01', 1, NULL, 'RE', NULL), (1003, 114, '2025-02-26 02:06:34.611520', '100.00', '0.00', 1, '2025-03-02', 1, NULL, 'RE', NULL), (1003, 115, '2025-02-26 02:07:34.611520', '100.00', '0.00', 1, '2025-03-03', 1, NULL, 'RE', NULL), (1003, 116, '2025-02-26 02:08:34.611520', '100.00', '0.00', 1, '2025-03-04', 1, NULL, 'RE', NULL), (1003, 117, '2025-02-26 02:09:34.611520', '100.00', '0.00', 1, '2025-03-05', 1, NULL, 'RE', NULL), (1003, 118, '2025-02-26 02:10:34.611520', '100.00', '0.00', 1, '2025-03-06', 1, NULL, 'RE', NULL), (1003, 119, '2025-02-26 02:11:34.611520', '100.00', '0.00', 1, '2025-03-07', 1, NULL, 'RE', NULL), (1003, 120, '2025-02-26 02:12:34.611520', '100.00', '0.00', 1, '2025-03-08', 1, NULL, 'RE', NULL), (1003, 121, '2025-02-26 02:13:34.611520', '100.00', '0.00', 1, '2025-03-09', 1, NULL, 'RE', NULL), (1003, 122, '2025-02-26 02:14:34.611520', '100.00', '0.00', 1, '2025-03-10', 1, NULL, 'RE', NULL), (1003, 123, '2025-02-26 02:15:34.611520', '100.00', '0.00', 1, '2025-03-11', 1, NULL, 'RE', NULL), (1003, 124, '2025-02-26 02:16:34.611520', '100.00', '0.00', 1, '2025-03-12', 1, NULL, 'RE', NULL), (1003, 125, '2025-02-26 02:17:34.611520', '100.00', '0.00', 1, '2025-03-13', 1, NULL, 'RE', NULL), (1003, 126, '2025-02-26 02:18:34.611520', '100.00', '0.00', 1, '2025-03-14', 1, NULL, 'RE', NULL), (1003, 127, '2025-02-26 02:19:34.611520', '100.00', '0.00', 1, '2025-03-15', 1, NULL, 'RE', NULL), (1003, 128, '2025-02-26 02:20:34.611520', '100.00', '0.00', 1, '2025-03-16', 1, NULL, 'RE', NULL), (1003, 129, '2025-02-26 02:21:34.611520', '100.00', '0.00', 1, '2025-03-17', 1, NULL, 'RE', NULL), (1003, 130, '2025-02-26 02:22:34.611520', '100.00', '0.00', 1, '2025-03-18', 1, NULL, 'RE', NULL), (1003, 131, '2025-02-26 02:23:34.611520', '100.00', '0.00', 1, '2025-03-19', 1, NULL, 'RE', NULL), (1003, 132, '2025-02-26 02:24:34.611520', '100.00', '0.00', 1, '2025-03-20', 1, NULL, 'RE', NULL), (1003, 133, '2025-02-26 02:25:34.611520', '100.00', '0.00', 1, '2025-03-21', 1, NULL, 'RE', NULL), (1003, 134, '2025-02-26 02:26:34.611520', '100.00', '0.00', 1, '2025-03-22', 1, NULL, 'RE', NULL), (1003, 135, '2025-02-26 02:27:34.611520', '100.00', '0.00', 1, '2025-03-23', 1, NULL, 'RE', NULL), (1003, 136, '2025-02-26 02:28:34.611520', '100.00', '0.00', 1, '2025-03-24', 1, NULL, 'RE', NULL), (1003, 137, '2025-02-26 02:29:34.611520', '100.00', '0.00', 1, '2025-03-25', 1, NULL, 'RE', NULL), (1003, 138, '2025-02-26 02:30:34.611520', '100.00', '0.00', 1, '2025-03-26', 1, NULL, 'RE', NULL), (1003, 139, '2025-02-26 02:31:34.611520', '100.00', '0.00', 1, '2025-03-27', 1, NULL, 'RE', NULL) RETURNING "hotel_app_reservation"."reservation_id"
+3. INSERT INTO "hotel_app_reservation" ("guest_id", "room_number_id", "reservation_date_time", "price", "amount_paid", "number_of_guests", "start_of_stay", "length_of_stay", "end_date", "status_code", "notes") VALUES (1003, 140, '2025-02-26 02:32:34.611520', '100.00', '0.00', 1, '2025-02-26', 1, NULL, 'RE', NULL), (1003, 141, '2025-02-26 02:33:34.611520', '100.00', '0.00', 1, '2025-02-27', 1, NULL, 'RE', NULL), (1003, 142, '2025-02-26 02:34:34.611520', '100.00', '0.00', 1, '2025-02-28', 1, NULL, 'RE', NULL), (1003, 143, '2025-02-26 02:35:34.611520', '100.00', '0.00', 1, '2025-03-01', 1, NULL, 'RE', NULL), (1003, 144, '2025-02-26 02:36:34.611520', '100.00', '0.00', 1, '2025-03-02', 1, NULL, 'RE', NULL), (1003, 145, '2025-02-26 02:37:34.611520', '100.00', '0.00', 1, '2025-03-03', 1, NULL, 'RE', NULL), (1003, 146, '2025-02-26 02:38:34.611520', '100.00', '0.00', 1, '2025-03-04', 1, NULL, 'RE', NULL), (1003, 147, '2025-02-26 02:39:34.611520', '100.00', '0.00', 1, '2025-03-05', 1, NULL, 'RE', NULL), (1003, 148, '2025-02-26 02:40:34.611520', '100.00', '0.00', 1, '2025-03-06', 1, NULL, 'RE', NULL), (1003, 149, '2025-02-26 02:41:34.611520', '100.00', '0.00', 1, '2025-03-07', 1, NULL, 'RE', NULL) RETURNING "hotel_app_reservation"."reservation_id"
+4. COMMIT
+
+----------------------------------------------------------------------
+Ran 5 tests in 15.396s
+
+FAILED (failures=1)
+Destroying test database for alias 'default'...
+
+
+
+
+
+
+
+
+
+
+-----------------------------------------
+
+test_load.py:
+
+python manage.py test hotel_app.test_load
+
+INFO:hotel_app.models:RoomType __str__ called: Suite
+INFO:hotel_app.models:RoomType __str__ called: Family Room
+INFO:hotel_app.views:Available rooms search initiated by user: staff4
+INFO:hotel_app.views:Using provided start date: 2025-03-28
+INFO:hotel_app.views:Using provided length of stay: 4
+INFO:hotel_app.views:Using default/session room type: all types
+INFO:hotel_app.views:Search criteria persisted to session
+INFO:hotel_app.views:Total rooms before filtering: 100
+INFO:hotel_app.filters:Filtering available rooms based on search criteria.
+INFO:hotel_app.filters:Filtering rooms for start date: 2025-03-28 and length of stay: 4
+INFO:hotel_app.filters:Excluding reserved rooms: []
+INFO:hotel_app.views:Available rooms after filtering: 100
+INFO:hotel_app.models:RoomType __str__ called: Standard Room
+INFO:hotel_app.models:RoomType __str__ called: Deluxe Room
+INFO:hotel_app.models:RoomType __str__ called: Suite
+INFO:hotel_app.models:RoomType __str__ called: Family Room
+Error in user session staff9: 302 != 200
+INFO:hotel_app.views:Available rooms search initiated by user: staff1
+INFO:hotel_app.views:Using provided start date: 2025-03-09
+INFO:hotel_app.views:Using provided length of stay: 4
+INFO:hotel_app.views:Using default/session room type: all types
+INFO:hotel_app.views:Search criteria persisted to session
+INFO:hotel_app.views:Total rooms before filtering: 100
+INFO:hotel_app.filters:Filtering available rooms based on search criteria.
+INFO:hotel_app.filters:Filtering rooms for start date: 2025-03-09 and length of stay: 4
+INFO:hotel_app.filters:Excluding reserved rooms: [325, 102]
+Error in user session staff6: 302 != 200
+INFO:hotel_app.views:Available rooms after filtering: 98
+INFO:hotel_app.models:RoomType __str__ called: Standard Room
+INFO:hotel_app.models:RoomType __str__ called: Deluxe Room
+INFO:hotel_app.views:Available rooms search initiated by user: staff2
+INFO:hotel_app.models:RoomType __str__ called: Suite
+INFO:hotel_app.views:Using provided start date: 2025-03-22
+INFO:hotel_app.models:RoomType __str__ called: Family Room
+INFO:hotel_app.views:Using provided length of stay: 1
+INFO:hotel_app.views:Using default/session room type: all types
+INFO:hotel_app.views:Search criteria persisted to session
+INFO:hotel_app.views:Total rooms before filtering: 100
+INFO:hotel_app.filters:Filtering available rooms based on search criteria.
+INFO:hotel_app.filters:Filtering rooms for start date: 2025-03-22 and length of stay: 1
+INFO:hotel_app.filters:Excluding reserved rooms: []
+INFO:hotel_app.views:Available rooms after filtering: 100
+INFO:hotel_app.models:RoomType __str__ called: Standard Room
+INFO:hotel_app.models:RoomType __str__ called: Deluxe Room
+INFO:hotel_app.models:RoomType __str__ called: Suite
+INFO:hotel_app.models:RoomType __str__ called: Family Room
+Error in user session staff5: 302 != 200
+Error in user session staff7: 302 != 200
+Error in user session staff8: 302 != 200
+Error in user session staff1: Reverse for 'reservation_detail' not found. 'reservation_detail' is not a valid view function or pattern name.
+INFO:hotel_app.views:Guest creation initiated in list mode by user: staff3
+WARNING:hotel_app.forms:Guest form validation failed
+INFO:hotel_app.forms:Form errors: <ul class="errorlist"><li>phone_number<ul class="errorlist"><li>Ensure this value has at most 11 characters (it has 13).</li></ul></li></ul>
+WARNING:hotel_app.views:Guest creation form validation failed
+INFO:hotel_app.views:Form errors: <ul class="errorlist"><li>phone_number<ul class="errorlist"><li>Ensure this value has at most 11 characters (it has 13).</li></ul></li><li>address_line1<ul class="errorlist"><li>Address can only contain letters, numbers, hyphens, apostrophes, commas, periods and spaces</li></ul></li></ul> 
+Error in user session staff9: 302 != 200
+Error in user session staff7: 302 != 200
+Error in user session staff6: 302 != 200
+Error in user session staff5: 302 != 200
+Error in user session staff8: 302 != 200
+INFO:hotel_app.views:Available rooms search initiated by user: staff0
+INFO:hotel_app.views:Using provided start date: 2025-03-20
+INFO:hotel_app.views:Using provided length of stay: 3
+INFO:hotel_app.views:Using default/session room type: all types
+INFO:hotel_app.views:Search criteria persisted to session
+INFO:hotel_app.views:Total rooms before filtering: 100
+INFO:hotel_app.filters:Filtering available rooms based on search criteria.
+INFO:hotel_app.filters:Filtering rooms for start date: 2025-03-20 and length of stay: 3
+INFO:hotel_app.filters:Excluding reserved rooms: []
+INFO:hotel_app.views:Available rooms after filtering: 100
+INFO:hotel_app.models:RoomType __str__ called: Standard Room
+INFO:hotel_app.models:RoomType __str__ called: Deluxe Room
+INFO:hotel_app.models:RoomType __str__ called: Suite
+INFO:hotel_app.models:RoomType __str__ called: Family Room
+INFO:hotel_app.views:Available rooms search initiated by user: staff3
+INFO:hotel_app.views:Using provided start date: 2025-02-26
+INFO:hotel_app.views:Using provided length of stay: 1
+INFO:hotel_app.views:Using default/session room type: all types
+INFO:hotel_app.views:Search criteria persisted to session
+INFO:hotel_app.views:Total rooms before filtering: 100
+INFO:hotel_app.filters:Filtering available rooms based on search criteria.
+INFO:hotel_app.filters:Filtering rooms for start date: 2025-02-26 and length of stay: 1
+INFO:hotel_app.filters:Excluding reserved rooms: [222, 225, 305, 103, 212, 111, 110, 409, 102, 411, 325, 307, 220, 215, 412, 306, 112, 213, 208, 217, 108, 117, 320]
+INFO:hotel_app.views:Available rooms after filtering: 77
+INFO:hotel_app.models:RoomType __str__ called: Standard Room
+INFO:hotel_app.models:RoomType __str__ called: Deluxe Room
+INFO:hotel_app.models:RoomType __str__ called: Suite
+INFO:hotel_app.models:RoomType __str__ called: Family Room
+Error in user session staff7: Reverse for 'reservation_detail' not found. 'reservation_detail' is not a valid view function or pattern name.
+Error in user session staff6: Reverse for 'reservation_detail' not found. 'reservation_detail' is not a valid view function or pattern name.
+Error in user session staff9: Reverse for 'reservation_detail' not found. 'reservation_detail' is not a valid view function or pattern name.
+Error in user session staff8: Reverse for 'reservation_detail' not found. 'reservation_detail' is not a valid view function or pattern name.
+Error in user session staff5: Reverse for 'reservation_detail' not found. 'reservation_detail' is not a valid view function or pattern name.
+Error in user session staff5: 302 != 200
+Error in user session staff4: Reverse for 'reservation_detail' not found. 'reservation_detail' is not a valid view function or pattern name.
+Error in user session staff7: 302 != 200
+Error in user session staff9: 302 != 200
+Error in user session staff6: 302 != 200
+Error in user session staff1: Reverse for 'reservation_detail' not found. 'reservation_detail' is not a valid view function or pattern name.
+Error in user session staff2: Reverse for 'reservation_detail' not found. 'reservation_detail' is not a valid view function or pattern name.
+Error in user session staff8: 302 != 200
+Error in user session staff5: 302 != 200
+Error in user session staff7: 302 != 200
+INFO:hotel_app.views:Available rooms search initiated by user: staff4
+INFO:hotel_app.views:Using provided start date: 2025-03-10
+INFO:hotel_app.views:Using provided length of stay: 1
+INFO:hotel_app.views:Using default/session room type: all types
+INFO:hotel_app.views:Search criteria persisted to session
+INFO:hotel_app.views:Total rooms before filtering: 100
+INFO:hotel_app.filters:Filtering available rooms based on search criteria.
+INFO:hotel_app.filters:Filtering rooms for start date: 2025-03-10 and length of stay: 1
+INFO:hotel_app.filters:Excluding reserved rooms: [325]
+INFO:hotel_app.views:Available rooms after filtering: 99
+INFO:hotel_app.models:RoomType __str__ called: Standard Room
+INFO:hotel_app.models:RoomType __str__ called: Deluxe Room
+INFO:hotel_app.models:RoomType __str__ called: Suite
+INFO:hotel_app.models:RoomType __str__ called: Family Room
+INFO:hotel_app.views:Guest creation initiated in list mode by user: staff3
+WARNING:hotel_app.forms:Guest form validation failed
+INFO:hotel_app.forms:Form errors: <ul class="errorlist"><li>phone_number<ul class="errorlist"><li>Ensure this value has at most 11 characters (it has 13).</li></ul></li></ul>
+WARNING:hotel_app.views:Guest creation form validation failed
+INFO:hotel_app.views:Form errors: <ul class="errorlist"><li>phone_number<ul class="errorlist"><li>Ensure this value has at most 11 characters (it has 13).</li></ul></li></ul>
+.
+----------------------------------------------------------------------
+Ran 4 tests in 659.500s
+
+OK
+Destroying test database for alias 'default'...
+
+System check identified no issues (0 silenced).
+.EEE
+======================================================================
+ERROR: test_mixed_workload_performance (hotel_app.test_load.MixedWorkloadTest.test_mixed_workload_performance)
+Test system performance under mixed read/write workload.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\aidan_1k98io6\OneDrive\Documents\Assignment\Software Engineering\hotel_project2\hotel_project\hotel_app\test_load.py", line 53, in setUp
+    self.create_initial_reservations()
+  File "C:\Users\aidan_1k98io6\OneDrive\Documents\Assignment\Software Engineering\hotel_project2\hotel_project\hotel_app\test_load.py", line 141, in create_initial_reservations
+    reservation = Reservation.objects.create(
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\query.py", line 679, in create
+    obj.save(force_insert=True, using=self.db)
+  File "C:\Users\aidan_1k98io6\OneDrive\Documents\Assignment\Software Engineering\hotel_project2\hotel_project\hotel_app\models.py", line 337, in save
+    self.full_clean()  # Call full_clean before saving to force validation
+    ^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\base.py", line 1651, in full_clean
+    raise ValidationError(errors)
+django.core.exceptions.ValidationError: {'__all__': ['This room is already booked for the entered dates.']} 
+
+======================================================================
+ERROR: test_peak_hour_performance (hotel_app.test_load.PeakLoadTest.test_peak_hour_performance)
+Test system performance during simulated peak hours.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\aidan_1k98io6\OneDrive\Documents\Assignment\Software Engineering\hotel_project2\hotel_project\hotel_app\test_load.py", line 263, in test_peak_hour_performance
+    self.create_initial_reservations()  # Add more reservations
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\OneDrive\Documents\Assignment\Software Engineering\hotel_project2\hotel_project\hotel_app\test_load.py", line 141, in create_initial_reservations
+    reservation = Reservation.objects.create(
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\query.py", line 679, in create
+    obj.save(force_insert=True, using=self.db)
+  File "C:\Users\aidan_1k98io6\OneDrive\Documents\Assignment\Software Engineering\hotel_project2\hotel_project\hotel_app\models.py", line 337, in save
+    self.full_clean()  # Call full_clean before saving to force validation
+    ^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\base.py", line 1651, in full_clean
+    raise ValidationError(errors)
+django.core.exceptions.ValidationError: {'__all__': ['This room is already booked for the entered dates.']} 
+
+======================================================================
+ERROR: test_sustained_concurrent_users (hotel_app.test_load.SustainedLoadTest.test_sustained_concurrent_users)
+Test system with sustained concurrent user sessions.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\aidan_1k98io6\OneDrive\Documents\Assignment\Software Engineering\hotel_project2\hotel_project\hotel_app\test_load.py", line 53, in setUp
+    self.create_initial_reservations()
+  File "C:\Users\aidan_1k98io6\OneDrive\Documents\Assignment\Software Engineering\hotel_project2\hotel_project\hotel_app\test_load.py", line 141, in create_initial_reservations
+    reservation = Reservation.objects.create(
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\query.py", line 679, in create
+    obj.save(force_insert=True, using=self.db)
+  File "C:\Users\aidan_1k98io6\OneDrive\Documents\Assignment\Software Engineering\hotel_project2\hotel_project\hotel_app\models.py", line 337, in save
+    self.full_clean()  # Call full_clean before saving to force validation
+    ^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\django\db\models\base.py", line 1651, in full_clean
+    raise ValidationError(errors)
+django.core.exceptions.ValidationError: {'__all__': ['This room is already booked for the entered dates.']} 
+
+----------------------------------------------------------------------
+Ran 4 tests in 21.279s
+
+FAILED (errors=3)
+Destroying test database for alias 'default'...

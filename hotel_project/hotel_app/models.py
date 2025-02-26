@@ -8,7 +8,7 @@ from django.core.exceptions import ValidationError
 from django.db import models
 
 def validate_title(value):
-    valid_titles = ['Mr', 'Mrs', 'Ms', 'Dr', 'Prof', 'Rev', 'Sir', 'Lady']
+    valid_titles = ['Mr', 'Mrs', 'Ms', 'Miss', 'Dr', 'Prof', 'Rev', 'Sir', 'Lady']
     if value not in valid_titles:
         raise ValidationError(
             f'{value} is not a valid title. Please use one of: {", ".join(valid_titles)}'
@@ -284,6 +284,7 @@ class Reservation(models.Model):
     length_of_stay = models.PositiveSmallIntegerField(
         help_text="Number of nights booked"
     )
+    end_date = models.DateField(null=True, blank=True) # this will be derived from start_of_stay and length_of_stay during save()
     status_code = models.CharField(
         max_length=2,
         choices=STATUS_CHOICES,
@@ -301,19 +302,6 @@ class Reservation(models.Model):
         ],
         help_text="Additional notes or special requests for the reservation"
     )
-
-    @property
-    def end_date(self):
-        """
-        Calculate and return the check-out date.
-
-        Returns:
-            datetime.date: The date when the guest is expected to check out,
-                         calculated as start_of_stay + length_of_stay days
-        """
-        end_date = self.start_of_stay + timedelta(days=self.length_of_stay)
-        logger.info(f"Reservation end_date property called: {end_date}")
-        return end_date
 
     def clean(self):
         """
@@ -334,23 +322,18 @@ class Reservation(models.Model):
 
         """ Prevent overlapping reservations for the same room. """
         overlapping_reservations = Reservation.objects.filter(
-            room_number=self.room_number # find other reservations using the same room
-        ).annotate(
-            # Calculate if the other reservation's end date is before or after this one's start date
-            # (uses /86400000000 to convert date to whole days as sqlite3 doesn't like the date+int arithmetic )
-            # if days_between < 0 then the other reservation will ended after this one starts and so is considered a
-            # potential overlapping reservation (other filters will need to be checked)
-            days_between=ExpressionWrapper(
-                ((F('start_of_stay') -self.start_of_stay)/86400000000)+ F('length_of_stay'), output_field=IntegerField() # convert to whole days
-            )
-        ).filter(
+            room_number=self.room_number, # find other reservations using the same room
             start_of_stay__lt=(self.start_of_stay + timedelta(days=self.length_of_stay)),  # Existing booking starts before this one ends
-            days_between__gt=0  # Existing booking ends after this one starts
+            end_date__gt=self.start_of_stay  # Existing booking ends after this one starts
         ).exclude(pk=self.pk)  # Exclude our own record in case we're updating our existing reservation
 
         if overlapping_reservations.exists():
             raise ValidationError("This room is already booked for the entered dates.")
     def save(self, *args, **kwargs):
+        #  Automatically calculate and store end_date before saving
+        if self.start_of_stay and self.length_of_stay:
+            self.end_date = self.start_of_stay + timedelta(days=self.length_of_stay)
+
         self.full_clean()  # Call full_clean before saving to force validation
         super().save(*args, **kwargs)
 
@@ -365,3 +348,6 @@ class Reservation(models.Model):
         reservation_str = f"Reservation {self.reservation_id} - {self.status_code}"
         logger.info(f"Reservation __str__ called: {reservation_str}")
         return reservation_str
+
+    
+  

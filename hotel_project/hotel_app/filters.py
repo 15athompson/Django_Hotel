@@ -8,7 +8,7 @@ from datetime import timedelta, datetime
 import django_filters
 from django import forms
 from django.db.models import F, ExpressionWrapper, IntegerField
-
+from django.utils import timezone
 from .models import Guest, Reservation, Room, RoomType
 
 # Configure logging
@@ -116,9 +116,9 @@ class ReservationFilter(django_filters.FilterSet):
         max_value=9999  # Adjust based on your hotel's maximum room number
     )
     start_date = django_filters.DateFilter(
-        field_name="start_of_stay",
+        field_name="end_date",
+        lookup_expr="gte",
         label="Start Date",
-        method="filter_start_including_stay_length",  # noqa: F841
         widget=forms.DateInput(attrs={"type": "date"}),
     )
     end_date = django_filters.DateFilter(
@@ -127,51 +127,6 @@ class ReservationFilter(django_filters.FilterSet):
         widget=forms.DateInput(attrs={"type": "date"}),  
         label="End Date"
     )
-    
-    def filter_start_including_stay_length(self, queryset, _, value):
-        """
-        Custom filter method to include reservations that start before the entered date but are still occupying a room.
-
-        This method filters reservations where the number of days between start_of_stay and start_date
-        is greater than length_of_stay.
-
-        Args:
-            queryset: The initial queryset of reservations.
-            name: The name of the field being filtered.
-            value: The value entered for the start date filter.
-
-        Returns:
-            QuerySet: The filtered queryset.
-        """
-        logger.info(f"Filtering reservations starting before {value} but still occupying a room.")
-        # calculate days_between in the database
-        # - it calculates the difference between the start of the stay and the entered filter start date
-        # - divides by 86400000000 to convert that value into days
-        #       (Note: other day extraction options didn't seem to work with sqlite3 database)
-        # - adds the length_of_stay to base the filter on the end of the stay rather than the start
-        queryset = queryset.annotate(
-            days_between=ExpressionWrapper(
-                ((F('start_of_stay') -value)/86400000000)+ F('length_of_stay'), output_field=IntegerField() # convert to whole days
-            )
-        )
-
-        # Debug code to discover if days_between is being calculated correctly
-        #for reservation in queryset.values('reservation_id', 'start_of_stay', 'length_of_stay', 'days_between'):
-        #    print(f"Reservation ID: {reservation['reservation_id']}, "
-        #                 f"Start of Stay: {reservation['start_of_stay']}, "
-        #                 f"Length of Stay: {reservation['length_of_stay']}, "
-        #                 f"Days Between: {reservation['days_between']}")
-
-        # if days_between >= 0 then the reservation will have ended before the filter start date and so the reservation can be excluded
-        filtered_queryset = queryset
-
-        # Log filtered counts
-        available_rooms = Room.objects.exclude(room_number__in=filtered_queryset.values_list('room_number', flat=True))
-        logger.info(f"Filtered available rooms count: {available_rooms.count()}")
-        logger.info(f"Filtered reservations count: {filtered_queryset.count()}")
-
-        return filtered_queryset
-
 
     def validate_last_name(self, queryset, name, value):
         """
@@ -282,15 +237,18 @@ class AvailableRoomFilter(django_filters.FilterSet):
         # filter by date range
         if start_date and length_of_stay:
             logger.info(f"Filtering rooms for start date: {start_date} and length of stay: {length_of_stay}")
-            start_date = datetime.strptime(start_date, '%Y-%m-%d')
+            # Convert `start_date` from string to timezone-aware datetime
+            start_date_for_filter = timezone.make_aware(datetime.strptime(start_date, "%Y-%m-%d"))
             length_of_stay = int(length_of_stay)
-            end_date = start_date + timedelta(days=length_of_stay)
+            end_date_for_filter = start_date_for_filter + timedelta(days=length_of_stay)
 
+            # find any rooms that are reserved at any point between the start_date and the end_date of the filter
             reserved_rooms = Reservation.objects.filter(
-                start_of_stay__lt=end_date,
-                start_of_stay__gte=start_date
+                start_of_stay__lt=end_date_for_filter,
+                end_date__gt=start_date_for_filter
             ).values_list("room_number", flat=True)
 
+            # exclude those rooms
             logger.info(f"Excluding reserved rooms: {list(reserved_rooms)}")
             queryset = queryset.exclude(room_number__in=reserved_rooms)
 

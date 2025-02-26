@@ -6,6 +6,7 @@
 prompt:
 - now actually apply the changes like you did previously
 - make sure form validation is consistent across the codebase
+- create X tests that must be compatible with the rest of the codebase.  make sure to read all the relevant CODE files first (ignore .txt files) to make sure the tests align with the actual code i have already
 - [cline claude 3.7] improve the project, (making sure any changes to the code implementation are reflected in the tests)
 
 to do:
@@ -62,8 +63,10 @@ Then that data can be used to write tests for the reservations
 do next:
 
 Try to create a double booking for a room, make sure it prevents it
+
 Maybe some stress tests?
 Have a routine that creates 1000 guests (random names and details will be fine)
+
 Make sure the UI still works
 I have a feeling we may have to limit the List views to only show the first 100 results from a filter to keep it performant
 Same for Reservations
@@ -71,11 +74,16 @@ I don’t think there’s any need to stress test Rooms or Room Types as they wo
  
 
 other tests:
-- unit tests (done)
-- integration tests (done)
+- unit tests
+- integration tests
 - system tests
+
 - performance tests (load, stress, scalability, stability)
+
 - usability tests
 - compatibility tests
 - security tests
 - acceptance tests
+
+
+now perform load testing 

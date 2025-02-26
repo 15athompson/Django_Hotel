@@ -12,6 +12,7 @@ from django import forms
 from django.contrib.auth.forms import AuthenticationForm
 from .models import Guest, Room, RoomType, Reservation
 from django.contrib.auth import authenticate
+from django.core.exceptions import ValidationError
 
 
 # create a Logger for use anywhere in this code and configure it to write info messages (or higher) to the terminal

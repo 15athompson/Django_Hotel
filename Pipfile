@@ -9,11 +9,12 @@ pyopengl = "*"
 numpy = "*"
 django = "*"
 django-crispy-forms = "*"
-django-filter = "*"
 crispy-bootstrap5 = "*"
 django-widget-tweaks = "*"
 gunicorn = "*"
 djangorestframework = "*"
+faker = "*"
+django-filter = "*"
 
 [dev-packages]
 
