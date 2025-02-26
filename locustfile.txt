@@ -1,0 +1,699 @@
+from locust import HttpUser, task, between
+from datetime import datetime, timedelta
+import random
+import json
+
+class HotelUser(HttpUser):
+    wait_time = between(1, 3)  # Random wait between tasks
+    
+    def on_start(self):
+        """Initialize user session."""
+        # Login
+        self.client.post("/login/", {
+            "username": f"test_user_{random.randint(1, 1000)}",
+            "password": "testpass123"
+        })
+        
+        # Store some test data
+        self.test_dates = [
+            (datetime.now() + timedelta(days=i)).strftime('%Y-%m-%d')
+            for i in range(1, 30)
+        ]
+        # Using proper room type codes
+        self.room_types = ["SGL", "DBL", "SUT"]  # Single, Double, Suite
+
+    @task(3)
+    def view_homepage(self):
+        """Simulate viewing the homepage."""
+        self.client.get("/")
+
+    @task(2)
+    def search_rooms(self):
+        """Simulate searching for available rooms."""
+        check_in = random.choice(self.test_dates)
+        check_out = (datetime.strptime(check_in, '%Y-%m-%d') + timedelta(days=random.randint(1, 7))).strftime('%Y-%m-%d')
+        
+        self.client.get(f"/available-rooms/?check_in={check_in}&check_out={check_out}&guests={random.randint(1, 4)}")
+
+    @task(1)
+    def make_reservation(self):
+        """Simulate making a reservation."""
+        # First search for available rooms
+        check_in = random.choice(self.test_dates)
+        check_out = (datetime.strptime(check_in, '%Y-%m-%d') + timedelta(days=random.randint(1, 7))).strftime('%Y-%m-%d')
+        guests = random.randint(1, 4)
+        
+        # Get available rooms
+        response = self.client.get(f"/available-rooms/?check_in={check_in}&check_out={check_out}&guests={guests}")
+        
+        if response.status_code == 200:
+            # Try to make a reservation
+            reservation_data = {
+                "check_in": check_in,
+                "check_out": check_out,
+                "guests": guests,
+                "room_type": random.choice(self.room_types),
+                "special_requests": "No special requests"
+            }
+            
+            self.client.post("/api/reservation/", json=reservation_data)
+
+    @task(2)
+    def view_room_details(self):
+        """Simulate viewing room details."""
+        room_type = random.choice(self.room_types)
+        self.client.get(f"/room-types/{room_type}/")
+
+    @task(1)
+    def check_reservation_status(self):
+        """Simulate checking reservation status."""
+        # Assuming there's an endpoint to check reservations
+        self.client.get("/api/reservation/")
+
+
+
+
+
+
+
+
+
+
+
+--------------------------------------------------
+
+
+
+from locust import HttpUser, task, between
+import json
+import random
+import re
+
+class HotelUser(HttpUser):
+    wait_time = between(1, 3)
+    
+    def on_start(self):
+        """Login at the start of each user simulation"""
+        self.client.headers = {'Content-Type': 'application/x-www-form-urlencoded'}
+        self.login()
+        self.guest_id = None
+        self.room_number = None
+        self.reservation_id = None
+        self.room_type_code = None
+    
+    def login(self):
+        """Simulate user login with proper CSRF handling"""
+        # Get the login page first to get the CSRF token
+        response = self.client.get("/login/")
+        if response.status_code == 200:
+            # Extract CSRF token from the response
+            csrf_token = None
+            if 'csrftoken' in response.cookies:
+                csrf_token = response.cookies['csrftoken']
+            elif 'Set-Cookie' in response.headers:
+                match = re.search(r'csrftoken=([^;]+)', response.headers['Set-Cookie'])
+                if match:
+                    csrf_token = match.group(1)
+            
+            if csrf_token:
+                # Set CSRF token in headers and cookies
+                self.client.headers['X-CSRFToken'] = csrf_token
+                self.client.cookies['csrftoken'] = csrf_token
+                
+                # Perform login
+                login_data = {
+                    "username": "admin",  # Update with valid credentials
+                    "password": "Pa$$1234",  # Update with valid credentials
+                    "csrfmiddlewaretoken": csrf_token
+                }
+                return self.client.post("/login/", data=login_data)
+
+    @task(2)
+    def view_home(self):
+        """View home page"""
+        self.client.get("/")
+
+    @task(3)
+    def browse_available_rooms(self):
+        """Browse available rooms"""
+        self.client.get("/available-rooms/")
+
+    # Guest Operations
+    @task(2)
+    def guest_operations(self):
+        """Perform guest CRUD operations"""
+        # List guests
+        self.client.get("/api/guest/")
+        
+        # Create guest
+        guest_data = {
+            "first_name": f"Test{random.randint(1, 1000)}",
+            "last_name": f"User{random.randint(1, 1000)}",
+            "email": f"test{random.randint(1, 1000)}@example.com",
+            "phone_number": f"+1{random.randint(1000000000, 9999999999)}"  # Updated field name
+        }
+        
+        # Set JSON content type for API requests
+        self.client.headers['Content-Type'] = 'application/json'
+        response = self.client.post("/api/guest/", 
+                                  json=guest_data)
+        
+        if response.status_code == 201:
+            self.guest_id = response.json().get("id")
+            
+            # Update guest
+            if self.guest_id:
+                guest_data["first_name"] = f"Updated{random.randint(1, 1000)}"
+                self.client.put(f"/api/guest/{self.guest_id}/",  # Added trailing slash
+                              json=guest_data)
+
+    # Room Operations
+    @task(2)
+    def room_operations(self):
+        """Perform room CRUD operations"""
+        # List rooms
+        self.client.get("/api/room/")
+        
+        # Create room
+        room_data = {
+            "number": str(random.randint(100, 999)),  # Updated field name and made string
+            "floor": str(random.randint(1, 10)),  # Made string
+            "room_type": 1  # Using ID instead of code
+        }
+        
+        self.client.headers['Content-Type'] = 'application/json'
+        response = self.client.post("/api/room/",
+                                  json=room_data)
+        
+        if response.status_code == 201:
+            self.room_number = response.json().get("number")
+            
+            # Update room
+            if self.room_number:
+                room_data["floor"] = str(random.randint(1, 10))
+                self.client.put(f"/api/room/{self.room_number}/",  # Added trailing slash
+                              json=room_data)
+
+    # Room Type Operations
+    @task(1)
+    def room_type_operations(self):
+        """Perform room type CRUD operations"""
+        # List room types
+        self.client.get("/api/room-type/")
+        
+        # Create room type
+        room_type_data = {
+            "name": f"Test Room Type {random.randint(1, 99)}",
+            "description": "Test description",
+            "price": str(random.randint(100, 500))  # Updated field name and made string
+        }
+        
+        self.client.headers['Content-Type'] = 'application/json'
+        response = self.client.post("/api/room-type/",
+                                  json=room_type_data)
+        
+        if response.status_code == 201:
+            self.room_type_id = response.json().get("id")
+            
+            # Update room type
+            if self.room_type_id:
+                room_type_data["price"] = str(random.randint(100, 500))
+                self.client.put(f"/api/room-type/{self.room_type_id}/",  # Added trailing slash
+                              json=room_type_data)
+
+    def on_stop(self):
+        """Cleanup after user simulation"""
+        # Delete created resources
+        if self.reservation_id:
+            self.client.delete(f"/api/reservation/{self.reservation_id}/")
+        if self.guest_id:
+            self.client.delete(f"/api/guest/{self.guest_id}/")
+        if self.room_number:
+            self.client.delete(f"/api/room/{self.room_number}/")
+        if self.room_type_id:
+            self.client.delete(f"/api/room-type/{self.room_type_id}/")
+        self.client.get("/logout/")
+
+
+
+-----------------------------
+
+
+from locust import HttpUser, task, between
+import json
+import random
+import time
+from datetime import datetime, timedelta
+
+class HotelUser(HttpUser):
+    wait_time = between(3, 7)  # Increased wait time to reduce server load
+    host = "http://localhost:8007"  # Set default host
+    
+    def on_start(self):
+        """Login at the start of each user simulation"""
+        self.client.headers = {'Content-Type': 'application/x-www-form-urlencoded'}
+        self.client.timeout = 30.0  # Increase timeout
+        self.client.max_retries = 3  # Add retries
+
+        # Initialize session
+        self.guest_id = None
+        self.room_number = None
+        self.reservation_id = None
+        self.room_type_code = None
+
+        # Try login with retries
+        retry_count = 0
+        while retry_count < 3:
+            try:
+                if self.login():
+                    break
+                retry_count += 1
+            except Exception as e:
+                print(f"Login attempt {retry_count + 1} failed: {e}")
+                retry_count += 1
+    
+    def login(self):
+        """Simulate user login with proper CSRF handling and retries"""
+        try:
+            # Get the login page first to get the CSRF token
+            response = self.client.get("/login/", timeout=10)
+            if response.status_code == 200:
+                # Extract CSRF token from response cookies
+                csrf_token = response.cookies.get('csrftoken')
+                if not csrf_token:
+                    print("No CSRF token found in response")
+                    return False
+
+                # Set CSRF token in headers and cookies
+                self.client.headers.update({
+                    'X-CSRFToken': csrf_token,
+                    'Referer': f"{self.host}/login/"  # Add Referer header
+                })
+                self.client.cookies['csrftoken'] = csrf_token
+
+                # Perform login with different test users to avoid rate limiting
+                user_num = random.randint(1, 5)  # Use multiple test users
+                login_data = {
+                    "username": f"testuser{user_num}",
+                    "password": "TestPass123!",  # Use a common test password
+                    "csrfmiddlewaretoken": csrf_token
+                }
+
+                login_response = self.client.post("/login/",
+                                                data=login_data,
+                                                timeout=10,
+                                                allow_redirects=True)
+
+                # Check if login was successful (should redirect to home)
+                if login_response.status_code in [200, 302]:
+                    return True
+                else:
+                    print(f"Login failed with status {login_response.status_code}")
+                    return False
+
+            print(f"Failed to get login page: {response.status_code}")
+            return False
+
+        except Exception as e:
+            print(f"Login exception: {e}")
+            return False
+
+    @task(2)
+    def view_home(self):
+        """View home page"""
+        self.client.get("/")
+
+    @task(3)
+    def browse_available_rooms(self):
+        """Browse available rooms"""
+        self.client.get("/available-rooms/")
+
+    # Guest Operations
+    def _make_request_with_retry(self, method, url, data=None, max_retries=3):
+        """Helper method to make requests with retry logic"""
+        for i in range(max_retries):
+            try:
+                # Refresh CSRF token before POST requests
+                if method == "POST":
+                    csrf_response = self.client.get("/login/")
+                    if csrf_response.status_code == 200:
+                        csrf_token = csrf_response.cookies.get('csrftoken')
+                        if csrf_token:
+                            self.client.headers['X-CSRFToken'] = csrf_token
+
+                response = self.client.request(
+                    method,
+                    url,
+                    data=data,
+                    timeout=20,
+                    allow_redirects=True
+                )
+
+                if response.status_code in [200, 201, 302]:
+                    return response
+                elif response.status_code == 403:
+                    print(f"Authorization failed for {url}, retrying...")
+                    self.login()  # Try to login again
+                else:
+                    print(f"Request failed with status {response.status_code}")
+
+            except Exception as e:
+                print(f"Request failed: {e}")
+
+            if i < max_retries - 1:  # Don't sleep on the last iteration
+                time.sleep(2 ** i)  # Exponential backoff
+
+        return None
+
+    @task(2)
+    def guest_operations(self):
+        """Perform guest CRUD operations"""
+        # List guests
+        self._make_request_with_retry("GET", "/guest/")
+
+        # Create guest
+        guest_data = {
+            "title": "Mr",
+            "first_name": f"Test{random.randint(1, 1000)}",
+            "last_name": f"User{random.randint(1, 1000)}",
+            "phone_number": f"07{random.randint(100000000, 999999999)}",
+            "email": f"test{random.randint(1, 1000)}@example.com",
+            "address_line1": f"{random.randint(1, 100)} Test Street",
+            "city": "London",
+            "county": "Greater London",
+            "postcode": "SW1A 1AA"
+        }
+
+        # Set form content type for POST
+        self.client.headers['Content-Type'] = 'application/x-www-form-urlencoded'
+        response = self.client.post("/guest/create/", data=guest_data)
+        
+        if response.status_code == 302:  # Successful redirect after creation
+            # Get guest ID from redirect URL or list
+            # Get guest ID from redirect URL
+            location = response.headers.get('Location', '')
+            if location:
+                # Extract guest ID from the redirect URL (e.g., /guest/123/)
+                try:
+                    self.guest_id = int(location.strip('/').split('/')[-1])
+                except (ValueError, IndexError):
+                    self.guest_id = None
+                
+                # Update guest
+                if self.guest_id:
+                    guest_data["first_name"] = f"Updated{random.randint(1, 1000)}"
+                    self.client.post(f"/guest/{self.guest_id}/update/", data=guest_data)
+
+    # Room Operations
+    @task(2)
+    def room_operations(self):
+        """Perform room CRUD operations"""
+        # List rooms
+        self.client.get("/room/")
+
+        # Create room
+        room_data = {
+            "room_number": str(random.randint(100, 999)),
+            "room_type": "STD"  # Using standard room type code
+        }
+
+        self.client.headers['Content-Type'] = 'application/x-www-form-urlencoded'
+        response = self.client.post("/room/create/", data=room_data)
+        
+        if response.status_code == 302:  # Successful redirect after creation
+            self.room_number = room_data["room_number"]
+            
+            # Update room
+            if self.room_number:
+                room_data["room_type"] = "DLX"  # Change to deluxe
+                self.client.post(f"/room/{self.room_number}/update/", data=room_data)
+
+    # Room Type Operations
+    @task(1)
+    def room_type_operations(self):
+        """Perform room type CRUD operations"""
+        # List room types
+        self.client.get("/room-types/")
+
+        # Create room type
+        room_type_data = {
+            "room_type_code": f"T{random.randint(1, 99)}",
+            "room_type_name": f"Test Room Type {random.randint(1, 99)}",
+            "price": str(random.randint(100, 500)),
+            "deluxe": "true",
+            "bath": "true",
+            "separate_shower": "true",
+            "maximum_guests": "2"
+        }
+
+        self.client.headers['Content-Type'] = 'application/x-www-form-urlencoded'
+        response = self.client.post("/room-types/create/", data=room_type_data)
+        
+        if response.status_code == 302:  # Successful redirect after creation
+            self.room_type_code = room_type_data["room_type_code"]
+            
+            # Update room type
+            if self.room_type_code:
+                room_type_data["price"] = str(random.randint(100, 500))
+                self.client.post(f"/room-types/{self.room_type_code}/update/", data=room_type_data)
+
+    # Reservation Operations
+    @task(3)
+    def reservation_operations(self):
+        """Perform reservation CRUD operations"""
+        if self.guest_id and self.room_number:
+            # Create reservation
+            start_date = datetime.now().date()
+            reservation_data = {
+                "guest": str(self.guest_id),
+                "room_number": str(self.room_number),
+                "reservation_date_time": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                "price": "200.00",
+                "amount_paid": "200.00",
+                "number_of_guests": "2",
+                "start_of_stay": start_date.strftime("%Y-%m-%d"),
+                "length_of_stay": "3",
+                "status_code": "RE",
+                "notes": "Test reservation"
+            }
+            
+            self.client.headers['Content-Type'] = 'application/x-www-form-urlencoded'
+            response = self.client.post("/reservation/create/", data=reservation_data)
+            
+            if response.status_code == 302:  # Successful redirect after creation
+                # Get reservation ID from redirect URL
+                location = response.headers.get('Location', '')
+                if location:
+                    # Extract reservation ID from the redirect URL (e.g., /reservation/123/)
+                    try:
+                        self.reservation_id = int(location.strip('/').split('/')[-1])
+                    except (ValueError, IndexError):
+                        self.reservation_id = None
+                    
+                    # Update reservation
+                    if self.reservation_id:
+                        reservation_data["length_of_stay"] = "4"
+                        self.client.post(f"/reservation/{self.reservation_id}/update/", data=reservation_data)
+
+    def on_stop(self):
+        """Cleanup after user simulation"""
+        try:
+            # Delete created resources
+            if hasattr(self, 'reservation_id') and self.reservation_id:
+                self.client.post(f"/reservation/{self.reservation_id}/delete/")
+            if hasattr(self, 'guest_id') and self.guest_id:
+                self.client.post(f"/guest/{self.guest_id}/delete/")
+            if hasattr(self, 'room_number') and self.room_number:
+                self.client.post(f"/room/{self.room_number}/delete/")
+            if hasattr(self, 'room_type_code') and self.room_type_code:
+                self.client.post(f"/room-types/{self.room_type_code}/delete/")
+            self.client.get("/logout/")
+        except Exception as e:
+            print(f"Error during cleanup: {e}")
+
+
+-------------------------------
+
+from locust import HttpUser, task, between
+import json
+import random
+from datetime import datetime, timedelta
+
+class HotelUser(HttpUser):
+    wait_time = between(1, 3)
+    
+    def on_start(self):
+        """Login at the start of each user simulation"""
+        self.client.headers = {'Content-Type': 'application/x-www-form-urlencoded'}
+        self.login()
+        self.guest_id = None
+        self.room_number = None
+        self.reservation_id = None
+        self.room_type_code = None
+    
+    def login(self):
+        """Simulate user login with proper CSRF handling"""
+        # Get the login page first to get the CSRF token
+        response = self.client.get("/login/")
+        if response.status_code == 200:
+            # Extract CSRF token from response cookies
+            csrf_token = response.cookies.get('csrftoken')
+            if csrf_token:
+                # Set CSRF token in headers and cookies
+                self.client.headers['X-CSRFToken'] = csrf_token
+                self.client.cookies['csrftoken'] = csrf_token
+                
+                # Perform login
+                login_data = {
+                    "username": "admin",  # Update with valid credentials
+                    "password": "Pa$$1234",  # Update with valid credentials
+                    "csrfmiddlewaretoken": csrf_token
+                }
+                return self.client.post("/login/", data=login_data)
+
+    @task(2)
+    def view_home(self):
+        """View home page"""
+        self.client.get("/")
+
+    @task(3)
+    def browse_available_rooms(self):
+        """Browse available rooms"""
+        self.client.get("/available-rooms/")
+
+    # Guest Operations
+    @task(2)
+    def guest_operations(self):
+        """Perform guest CRUD operations"""
+        # List guests
+        self.client.get("/guest/")
+
+        # Create guest
+        guest_data = {
+            "title": "Mr",
+            "first_name": f"Test{random.randint(1, 1000)}",
+            "last_name": f"User{random.randint(1, 1000)}",
+            "phone_number": f"07{random.randint(100000000, 999999999)}",
+            "email": f"test{random.randint(1, 1000)}@example.com",
+            "address_line1": f"{random.randint(1, 100)} Test Street",
+            "city": "London",
+            "county": "Greater London",
+            "postcode": "SW1A 1AA"
+        }
+
+        # Set form content type for POST
+        self.client.headers['Content-Type'] = 'application/x-www-form-urlencoded'
+        response = self.client.post("/guest/create/", data=guest_data)
+        
+        if response.status_code == 302:  # Successful redirect after creation
+            # Get guest ID from redirect URL or list
+            guest_list_response = self.client.get("/guest/list/")
+            if guest_list_response.status_code == 200:
+                # Here we would parse the response to get the latest guest ID
+                self.guest_id = 1  # Placeholder - adjust based on actual response
+                
+                # Update guest
+                if self.guest_id:
+                    guest_data["first_name"] = f"Updated{random.randint(1, 1000)}"
+                    self.client.post(f"/guest/{self.guest_id}/update/", data=guest_data)
+
+    # Room Operations
+    @task(2)
+    def room_operations(self):
+        """Perform room CRUD operations"""
+        # List rooms
+        self.client.get("/room/")
+
+        # Create room
+        room_data = {
+            "room_number": str(random.randint(100, 999)),
+            "room_type": "STD"  # Using standard room type code
+        }
+
+        self.client.headers['Content-Type'] = 'application/x-www-form-urlencoded'
+        response = self.client.post("/room/create/", data=room_data)
+        
+        if response.status_code == 302:  # Successful redirect after creation
+            self.room_number = room_data["room_number"]
+            
+            # Update room
+            if self.room_number:
+                room_data["room_type"] = "DLX"  # Change to deluxe
+                self.client.post(f"/room/{self.room_number}/update/", data=room_data)
+
+    # Room Type Operations
+    @task(1)
+    def room_type_operations(self):
+        """Perform room type CRUD operations"""
+        # List room types
+        self.client.get("/room-types/")
+
+        # Create room type
+        room_type_data = {
+            "room_type_code": f"T{random.randint(1, 99)}",
+            "room_type_name": f"Test Room Type {random.randint(1, 99)}",
+            "price": str(random.randint(100, 500)),
+            "deluxe": "true",
+            "bath": "true",
+            "separate_shower": "true",
+            "maximum_guests": "2"
+        }
+
+        self.client.headers['Content-Type'] = 'application/x-www-form-urlencoded'
+        response = self.client.post("/room-types/create/", data=room_type_data)
+        
+        if response.status_code == 302:  # Successful redirect after creation
+            self.room_type_code = room_type_data["room_type_code"]
+            
+            # Update room type
+            if self.room_type_code:
+                room_type_data["price"] = str(random.randint(100, 500))
+                self.client.post(f"/room-types/{self.room_type_code}/update/", data=room_type_data)
+
+    # Reservation Operations
+    @task(3)
+    def reservation_operations(self):
+        """Perform reservation CRUD operations"""
+        if self.guest_id and self.room_number:
+            # Create reservation
+            start_date = datetime.now().date()
+            reservation_data = {
+                "guest": str(self.guest_id),
+                "room_number": str(self.room_number),
+                "reservation_date_time": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                "price": "200.00",
+                "amount_paid": "200.00",
+                "number_of_guests": "2",
+                "start_of_stay": start_date.strftime("%Y-%m-%d"),
+                "length_of_stay": "3",
+                "status_code": "RE",
+                "notes": "Test reservation"
+            }
+            
+            self.client.headers['Content-Type'] = 'application/x-www-form-urlencoded'
+            response = self.client.post("/reservation/create/", data=reservation_data)
+            
+            if response.status_code == 302:  # Successful redirect after creation
+                # Get reservation ID from redirect URL or list
+                reservation_list_response = self.client.get("/reservation/list/")
+                if reservation_list_response.status_code == 200:
+                    # Here we would parse the response to get the latest reservation ID
+                    self.reservation_id = 1  # Placeholder - adjust based on actual response
+                    
+                    # Update reservation
+                    if self.reservation_id:
+                        reservation_data["length_of_stay"] = "4"
+                        self.client.post(f"/reservation/{self.reservation_id}/update/", data=reservation_data)
+
+    def on_stop(self):
+        """Cleanup after user simulation"""
+        # Delete created resources
+        if self.reservation_id:
+            self.client.post(f"/reservation/{self.reservation_id}/delete/")
+        if self.guest_id:
+            self.client.post(f"/guest/{self.guest_id}/delete/")
+        if self.room_number:
+            self.client.post(f"/room/{self.room_number}/delete/")
+        if self.room_type_code:
+            self.client.post(f"/room-types/{self.room_type_code}/delete/")
+        self.client.get("/logout/")

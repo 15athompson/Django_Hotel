@@ -4100,3 +4100,74 @@ Ran 4 tests in 21.279s
 
 FAILED (errors=3)
 Destroying test database for alias 'default'...
+
+
+
+
+
+
+-----
+
+Locust:
+
+[2025-02-26 16:38:30,049] AAT/INFO/locust.runners: Ramping to 50 users at a rate of 10.00 per second        
+[2025-02-26 16:38:34,100] AAT/INFO/locust.runners: All users spawned: {"HotelUser": 50} (50 total users)
+
+
+
+PS C:\Users\aidan_1k98io6\OneDrive\Documents\Assignment\Software Engineering\hotel_project2> locust         
+[2025-02-26 20:40:31,395] AAT/INFO/locust.main: Starting Locust 2.33.0
+[2025-02-26 20:40:31,396] AAT/INFO/locust.main: Starting web interface at http://localhost:8089, press enter to open your default browser.
+[2025-02-26 20:41:22,982] AAT/INFO/locust.runners: Ramping to 1 users at a rate of 1.00 per second
+[2025-02-26 20:41:22,983] AAT/INFO/locust.runners: All users spawned: {"HotelUser": 1} (1 total users)
+Traceback (most recent call last):
+  File "C:\Users\aidan_1k98io6\.virtualenvs\hotel_project2-YmGfoupx\Lib\site-packages\gevent\_ffi\loop.py", line 270, in python_check_callback
+    def python_check_callback(self, watcher_ptr): # pylint:disable=unused-argument
+
+KeyboardInterrupt
+2025-02-26T20:46:19Z
+[2025-02-26 20:46:19,367] AAT/INFO/locust.main: Shutting down (exit code 1)
+Type     Name                      # reqs      # fails |    Avg     Min     Max    Med |   req/s  failures/s
+--------|------------------------|-------|-------------|-------|-------|-------|-------|--------|-----------
+GET      /                             22     0(0.00%) |     17       9     105     11 |    0.07        0.00
+GET      /api/guest/                   17     0(0.00%) |      8       6      12      8 |    0.06        0.00
+POST     /api/guest/                   17  17(100.00%) |      7       5      20      7 |    0.06        0.06
+GET      /api/room-type/                9     0(0.00%) |      8       7      10      8 |    0.03        0.00
+POST     /api/room-type/                9   9(100.00%) |      6       5       7      6 |    0.03        0.03
+GET      /api/room/                    24     0(0.00%) |     10       6      78      8 |    0.08        0.00
+POST     /api/room/                    24  24(100.00%) |     10       7      20     10 |    0.08        0.08
+GET      /available-rooms/             34     0(0.00%) |     13       9      25     12 |    0.11        0.00
+GET      /login/                        1     0(0.00%) |   2144    2144    2144   2144 |    0.00        0.00
+POST     /login/                        1   1(100.00%) |     25      25      25     25 |    0.00        0.00
+GET      /logout/                       1     0(0.00%) |   2052    2052    2052   2052 |    0.00        0.00
+--------|------------------------|-------|-------------|-------|-------|-------|-------|--------|-----------
+         Aggregated                   159   51(32.08%) |     37       5    2144     10 |    0.53        0.17
+
+Response time percentiles (approximated)
+Type     Name                              50%    66%    75%    80%    90%    95%    98%    99%  99.9% 99.99%   100% # reqs
+--------|----------------------------|--------|------|------|------|------|------|------|------|------|------|------|------
+GET      /                                  12     13     13     14     23     35    110    110    110    110    110     22
+GET      /api/guest/                         8      9      9      9     11     13     13     13     13     13     13     17
+POST     /api/guest/                         7      8      8      8     12     21     21     21     21     21     21     17
+GET      /api/room-type/                     8      8      8      8     11     11     11     11     11     11     11      9
+POST     /api/room-type/                     6      7      7      7      7      7      7      7      7      7      7      9
+GET      /api/room/                          8      8      9      9     10     12     79     79     79     79     79     24
+POST     /api/room/                         10     11     11     11     18     18     20     20     20     20     20     24
+GET      /available-rooms/                  13     14     14     15     17     19     26     26     26     26     26     34
+GET      /login/                          2100   2100   2100   2100   2100   2100   2100   2100   2100   2100   2100      1
+POST     /login/                            25     25     25     25     25     25     25     25     25     25     25      1
+GET      /logout/                         2100   2100   2100   2100   2100   2100   2100   2100   2100   2100   2100      1
+--------|----------------------------|--------|------|------|------|------|------|------|------|------|------|------|------
+         Aggregated                         10     11     12     13     17     23     79   2100   2100   2100   2100    159
+
+Error report
+# occurrences      Error                                                                                    
+
+------------------|-----------------------------------------------------------------------------------------
+1                  POST /login/: HTTPError('403 Client Error: Forbidden for url: /login/')                  
+
+24                 POST /api/room/: HTTPError('400 Client Error: Bad Request for url: /api/room/')          
+
+9                  POST /api/room-type/: HTTPError('400 Client Error: Bad Request for url: /api/room-type/')
+
+17                 POST /api/guest/: HTTPError('400 Client Error: Bad Request for url: /api/guest/')  

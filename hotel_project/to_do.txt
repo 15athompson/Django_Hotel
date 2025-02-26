@@ -78,7 +78,9 @@ other tests:
 - integration tests
 - system tests
 
-- performance tests (load, stress, scalability, stability)
+- performance tests (load, stress, 
+
+scalability, stability)
 
 - usability tests
 - compatibility tests
@@ -87,3 +89,5 @@ other tests:
 
 
 now perform load testing 
+
+add search feature 
