@@ -4110,6 +4110,8 @@ Destroying test database for alias 'default'...
 
 Locust:
 
+locust
+
 [2025-02-26 16:38:30,049] AAT/INFO/locust.runners: Ramping to 50 users at a rate of 10.00 per second        
 [2025-02-26 16:38:34,100] AAT/INFO/locust.runners: All users spawned: {"HotelUser": 50} (50 total users)
 

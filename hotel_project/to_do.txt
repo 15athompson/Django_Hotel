@@ -91,3 +91,19 @@ scalability, stability)
 now perform load testing 
 
 add search feature 
+
+"modify code in locustfile.py to ENSURE it can handle 1000 users at 10 users started per second"
+
+
+
+----------
+
+
+Acceptance tests.
+API tests.
+Integration tests.
+Regression tests.
+Smoke tests.
+System tests.
+Unit tests.
+User interface (UI) tests
