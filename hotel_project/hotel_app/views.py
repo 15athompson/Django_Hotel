@@ -22,10 +22,17 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib import messages
+from django.core.exceptions import ValidationError
 from django.utils import timezone
+from django.urls import reverse
 from django.http import Http404
 from datetime import datetime, date, timedelta
 from rest_framework import generics
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
+from .permissions import IsManager  # customised permissions
 from .serialisers import GuestSerialiser, ReservationSerialiser, RoomSerialiser, RoomTypeSerialiser
 from . models import Guest, Reservation, Room, RoomType
 from . filters import AvailableRoomFilter, GuestFilter, ReservationFilter, RoomFilter
@@ -153,15 +160,19 @@ def guest_create_view(request):
     if request.method == 'POST':
         form = GuestForm(request.POST)
         if form.is_valid():
-            guest = form.save()
-            logger.info(f"New guest created - ID: {guest.guest_id}, Name: {guest.display_name}")
-            # Redirect based on operation mode
-            if mode == 'selection':
-                logger.info(f"Redirecting to guest selection after creating guest {guest.guest_id}")
-                return redirect('available_rooms_guest_selection')
-            else:
-                logger.info(f"Redirecting to guest list after creating guest {guest.guest_id}")
-                return redirect('guest_list')
+            try:
+                guest = form.save()
+                logger.info(f"New guest created - ID: {guest.guest_id}, Name: {guest.display_name}")
+                # Redirect based on operation mode
+                if mode == 'selection':
+                    logger.info(f"Redirecting to guest selection after creating guest {guest.guest_id}")
+                    return redirect('available_rooms_guest_selection')
+                else:
+                    logger.info(f"Redirecting to guest list after creating guest {guest.guest_id}")
+                    return redirect('guest_list')
+            except ValidationError as e:
+                logger.info(f"Validation error caught and added to the form")
+                form.add_error(None, e)  # Attach model-level errors to the form
         else:
             logger.warning("Guest creation form validation failed")
             logger.info(f"Form errors: {form.errors}")
@@ -245,9 +256,13 @@ def guest_update_view(request, guest_id):
         if request.method == "POST":
             form = GuestForm(request.POST, instance=guest)
             if form.is_valid():
-                updated_guest = form.save()
-                logger.info(f"Successfully updated guest - ID: {updated_guest.guest_id}, Name: {updated_guest.display_name}")
-                return redirect('guest_list')
+                try:
+                    updated_guest = form.save()
+                    logger.info(f"Successfully updated guest - ID: {updated_guest.guest_id}, Name: {updated_guest.display_name}")
+                    return redirect('guest_list')
+                except ValidationError as e:
+                    logger.info(f"Validation error caught and added to the form")
+                    form.add_error(None, e)  # Attach model-level errors to the form
             else:
                 logger.warning(f"Guest update form validation failed for guest_id: {guest_id}")
                 logger.info(f"Form errors: {form.errors}")
@@ -515,12 +530,16 @@ def reservation_create_view(request, guest_id):
             logger.info("Processing reservation form submission")
             form = ReservationForm(request.POST, initial=initial_data)
             if form.is_valid():
-                logger.info("Reservation form validation successful")
-                reservation = form.save()
-                logger.info(f"Created new reservation - ID: {reservation.reservation_id}")
-                logger.info(f"Redirecting to confirmation page for reservation {reservation.reservation_id}")
-                return redirect('reservation_confirmed',
-                              reservation_id=reservation.reservation_id)
+                try:
+                    logger.info("Reservation form validation successful")
+                    reservation = form.save()
+                    logger.info(f"Created new reservation - ID: {reservation.reservation_id}")
+                    logger.info(f"Redirecting to confirmation page for reservation {reservation.reservation_id}")
+                    return redirect('reservation_confirmed',
+                                reservation_id=reservation.reservation_id)
+                except ValidationError as e:
+                    logger.info(f"Validation error caught and added to the form")
+                    form.add_error(None, e)  # Attach model-level errors to the form
             else:
                 logger.warning("Reservation form validation failed")
                 logger.info(f"Form errors: {form.errors}")
@@ -741,9 +760,13 @@ def reservation_update_view(request, reservation_id):
         logger.info(f"Processing reservation update: {request.POST}")
         form = ReservationForm(request.POST, instance=reservation)
         if form.is_valid():
-            form.save()
-            logger.info("Reservation updated successfully")
-            return redirect('reservation_list')
+            try:
+                form.save()
+                logger.info("Reservation updated successfully")
+                return redirect('reservation_list')
+            except ValidationError as e:
+                logger.info(f"Validation error caught and added to the form")
+                form.add_error(None, e)  # Attach model-level errors to the form
         else:
             logger.warning("Reservation update form validation failed")
             logger.info(f"Form errors: {form.errors}")
@@ -816,10 +839,14 @@ def room_create_view(request):
     if request.method == 'POST':
         form = RoomForm(request.POST)
         if form.is_valid():
-            room = form.save()
-            logger.info(f"New room created - Number: {room.room_number}")
-            messages.success(request, "Room created successfully.")
-            return redirect('room_list')
+            try:
+                room = form.save()
+                logger.info(f"New room created - Number: {room.room_number}")
+                messages.success(request, "Room created successfully.")
+                return redirect('room_list')
+            except ValidationError as e:
+                logger.info(f"Validation error caught and added to the form")
+                form.add_error(None, e)  # Attach model-level errors to the form
         else:
             logger.warning("Room creation form validation failed")
             logger.info(f"Form errors: {form.errors}")
@@ -880,7 +907,6 @@ def room_update_view(request, room_number):
 
     This view handles modifications to room configurations, including:
     - Room type assignment
-    - Room status updates
     - Other room-specific settings
 
     Args:
@@ -907,12 +933,15 @@ def room_update_view(request, room_number):
             logger.info("Processing room update form submission")
             form = RoomForm(request.POST, instance=room)
             if form.is_valid():
-                updated_room = form.save()
-                logger.info(f"Successfully updated room {room_number}")
-                logger.info(f"New room type: {updated_room.room_type.room_type_name}, "
-                          f"Status: {updated_room.status}")
-                messages.success(request, "Room updated successfully.")
-                return redirect('room_list')
+                try:
+                    updated_room = form.save()
+                    logger.info(f"Successfully updated room {room_number}")
+                    logger.info(f"New room type: {updated_room.room_type.room_type_name}")
+                    messages.success(request, "Room updated successfully.")
+                    return redirect('room_list')
+                except ValidationError as e:
+                    logger.info(f"Validation error caught and added to the form")
+                    form.add_error(None, e)  # Attach model-level errors to the form
             else:
                 logger.warning(f"Room update form validation failed")
                 logger.info(f"Form errors: {form.errors}")
@@ -1006,11 +1035,15 @@ def room_type_create_view(request):
     if request.method == 'POST':
         form = RoomTypeForm(request.POST)
         if form.is_valid():
-            room_type = form.save()
-            logger.info(f"Created new room type: {room_type.room_type_name}, "
-                       f"Price: {room_type.price}")
-            messages.success(request, "Room type created successfully.")
-            return redirect('room_type_list')
+            try:
+                room_type = form.save()
+                logger.info(f"Created new room type: {room_type.room_type_name}, "
+                        f"Price: {room_type.price}")
+                messages.success(request, "Room type created successfully.")
+                return redirect('room_type_list')
+            except ValidationError as e:
+                logger.info(f"Validation error caught and added to the form")
+                form.add_error(None, e)  # Attach model-level errors to the form
         else:
             logger.warning("Room type creation form validation failed")
             logger.info(f"Form errors: {form.errors}")
@@ -1099,11 +1132,15 @@ def room_type_update_view(request, room_type_code):
             logger.info("Processing room type update form submission")
             form = RoomTypeForm(request.POST, instance=room_type)
             if form.is_valid():
-                updated_type = form.save()
-                logger.info(f"Successfully updated room type: {updated_type.room_type_name}")
-                logger.info(f"New price: {updated_type.price}, Max guests: {updated_type.maximum_guests}")
-                messages.success(request, "Room type updated successfully.")
-                return redirect('room_type_list')
+                try:
+                    updated_type = form.save()
+                    logger.info(f"Successfully updated room type: {updated_type.room_type_name}")
+                    logger.info(f"New price: {updated_type.price}, Max guests: {updated_type.maximum_guests}")
+                    messages.success(request, "Room type updated successfully.")
+                    return redirect('room_type_list')
+                except ValidationError as e:
+                    logger.info(f"Validation error caught and added to the form")
+                    form.add_error(None, e)  # Attach model-level errors to the form
             else:
                 logger.warning(f"Room type update form validation failed")
                 logger.info(f"Form errors: {form.errors}")
@@ -1171,47 +1208,83 @@ def room_type_delete_view(request, room_type_code):
 #
 # Rest API suppport for each of the models
 #
+@api_view(['GET'])
+def api_root(request, format=None):
+    print("api_root was called!")  # Debugging line
+    return Response({
+        'guest': request.build_absolute_uri(reverse('api_guest_list_create')),
+        'reservation': request.build_absolute_uri(reverse('api_reservation_list_create')),
+        'room': request.build_absolute_uri(reverse('api_room_list_create')),
+        'room-type': request.build_absolute_uri(reverse('api_room_type_list_create')),
+    })
 
 # Guest - list & create
-class GuestListCreate(generics.ListCreateAPIView):
+class APIGuestListCreate(generics.ListCreateAPIView):
+    # set style of authentication, requires either a logged in session (via admin tool or web site)
+    # or the username & password sent in the request header
+    authentication_classes = [SessionAuthentication, BasicAuthentication] 
+    permission_classes = [IsAuthenticated]
     queryset = Guest.objects.all()
     serializer_class = GuestSerialiser
 
 # Guest - retrieve, update, destroy
-class GuestRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Room.objects.all()
+class APIGuestRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
+    authentication_classes = [SessionAuthentication, BasicAuthentication]
+    permission_classes = [IsAuthenticated]
+    queryset = Guest.objects.all()
     serializer_class = GuestSerialiser
     lookup_field = 'pk' # accessed via primary key
 
 # Reservation - list & create
-class ReservationListCreate(generics.ListCreateAPIView):
+class APIReservationListCreate(generics.ListCreateAPIView):
+    authentication_classes = [SessionAuthentication, BasicAuthentication]
+    permission_classes = [IsAuthenticated]
     queryset = Reservation.objects.all()
     serializer_class = ReservationSerialiser
 
 # Reservation - retrieve, update, destroy
-class ReservationRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
+class APIReservationRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
+    authentication_classes = [SessionAuthentication, BasicAuthentication]
+    permission_classes = [IsAuthenticated]
     queryset = Reservation.objects.all()
     serializer_class = ReservationSerialiser
     lookup_field = 'pk' # accessed via primary key
 
 # Room - list & create
-class RoomListCreate(generics.ListCreateAPIView):
+class APIRoomListCreate(generics.ListCreateAPIView):
+    authentication_classes = [SessionAuthentication, BasicAuthentication]
+    permission_classes = [IsAuthenticated, IsManager]  # Must be authenticated and have Manager access level
     queryset = Room.objects.all()
     serializer_class = RoomSerialiser
 
 # Room - retrieve, update, destroy
-class RoomRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
+class APIRoomRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
+    authentication_classes = [SessionAuthentication, BasicAuthentication]
+    permission_classes = [IsAuthenticated, IsManager]  # Must be authenticated and have Manager access level
     queryset = Room.objects.all()
     serializer_class = RoomSerialiser
     lookup_field = 'pk' # accessed via primary key
 
 # Room type - list & create
-class RoomTypeListCreate(generics.ListCreateAPIView):
+class APIRoomTypeListCreate(generics.ListCreateAPIView):
+    authentication_classes = [SessionAuthentication, BasicAuthentication]
+    permission_classes = [IsAuthenticated, IsManager]  # Must be authenticated and have Manager access level
     queryset = RoomType.objects.all()
     serializer_class = RoomTypeSerialiser
 
+### as an example adding support for a price filter ###
+
+    def get_queryset(self):
+        queryset = RoomType.objects.all()
+        price = self.request.query_params.get('price', None)
+        if price is not None:
+            queryset = queryset.filter(price=float(price))
+        return queryset
+
 # Room type - retrieve, update, destroy
-class RoomTypeRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
+class APIRoomTypeRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
+    authentication_classes = [SessionAuthentication, BasicAuthentication]
+    permission_classes = [IsAuthenticated, IsManager]  # Must be authenticated and have Manager access level
     queryset = RoomType.objects.all()
     serializer_class = RoomTypeSerialiser
     lookup_field = 'pk' # accessed via primary key
